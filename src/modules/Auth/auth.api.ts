@@ -20,3 +20,26 @@ export const verifyOtp = async (phone: string, otp: string) => {
   return res.json();
 };
 
+export const checkUserExists = async (phone: string): Promise<boolean> => {
+  const res = await fetch(`http://localhost:5000/users?phone=${phone}`);
+  const data = await res.json();
+  return data.length > 0;
+};
+
+export const signupUser = async ({
+  phone,
+  name,
+  email,
+}: {
+  phone: string;
+  name: string;
+  email: string;
+}) => {
+  const res = await fetch("http://localhost:5000/users", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ phone, name, email }),
+  });
+  if (!res.ok) throw new Error("Signup failed");
+  return res.json();
+};

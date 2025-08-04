@@ -15,7 +15,6 @@ const RestaurantMenuPage = () => {
       card.card?.card?.["@type"] ===
       "type.googleapis.com/swiggy.presentation.food.v2.Restaurant"
   )?.card?.card?.info;
-  // console.log("restaurantInfo", restaurantInfo);
 
   const regularCards =
     data?.data?.cards?.find((card) => card.groupedCard)?.groupedCard
@@ -38,25 +37,34 @@ const RestaurantMenuPage = () => {
   return (
     <div className="p-4 max-w-6xl mx-auto">
       {restaurantInfo && (
-        <div className="bg-white shadow rounded-xl p-6 mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <h2 className="text-2xl font-bold">{restaurantInfo.name}</h2>
-            <p className="text-sm text-gray-600">
+        <div className="bg-white shadow rounded-xl p-6 mb-6 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+          <div className="space-y-2">
+            <h2 className="text-2xl font-bold text-gray-900">
+              {restaurantInfo.name}
+            </h2>
+
+            <div className="flex items-center gap-4 text-sm text-gray-700">
+              <span className="text-green-600 font-semibold flex items-center gap-1">
+                {restaurantInfo.avgRatingString}
+                <Icon name="star" size={12} />
+              </span>
+              <span className="text-gray-700 font-bold">
+                ({restaurantInfo.totalRatingsString})
+              </span>
+              <span className="text-gray-700 font-bold">
+                {restaurantInfo.costForTwoMessage}
+              </span>
+            </div>
+
+            <p className="text-sm text-orange-500 font-bold">
               {restaurantInfo.cuisines?.join(", ")}
             </p>
-            <p className="text-sm text-gray-500">
-              {restaurantInfo.locality}, {restaurantInfo.areaName}
+            <p className="text-sm text-gray-700 font-bold">
+              Outlet: {restaurantInfo.locality}, {restaurantInfo.areaName}
             </p>
-          </div>
-          <div className="flex flex-col sm:items-end text-sm text-gray-700">
-            <div className="flex items-center gap-2">
-              <span className="text-green-600 font-semibold">
-                {restaurantInfo.avgRatingString} <Icon name="star" size={10}/>
-              </span>
-              <span>({restaurantInfo.totalRatingsString})</span>
-            </div>
-            <div>{restaurantInfo.costForTwoMessage}</div>
-            <div>{restaurantInfo.sla.slaString}</div>
+            <span className="text-gray-700 font-bold">
+              {restaurantInfo.sla.slaString}
+            </span>
           </div>
         </div>
       )}

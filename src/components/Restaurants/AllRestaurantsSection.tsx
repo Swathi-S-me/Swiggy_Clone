@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useAllRestaurants } from "../Queries/useAllRestaurants";
 import { Link } from "@tanstack/react-router";
 import Icon from "../Icons/Icon";
+import FilterModal from "../FilterModal";
 
 const AllRestaurantsSection: React.FC = () => {
   const { data: restaurants = [], isLoading } = useAllRestaurants();
   const [filter, setFilter] = useState<any>([]);
   const [ratingFilters, setRatingFilters] = useState<any[]>([]);
-  const[veg,setVeg]=useState<any[]>([]);
+  const [veg, setVeg] = useState<any[]>([]);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   // console.log("all restaurant", restaurants);
 
@@ -52,11 +54,36 @@ const AllRestaurantsSection: React.FC = () => {
 
   return (
     <div className="p-4">
+      <div className="p-4">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-semibold">All Restaurants</h2>
+        </div>
+
+        {/* Your restaurants list goes here */}
+
+        <FilterModal
+          isOpen={isFilterOpen}
+          onClose={() => setIsFilterOpen(false)}
+          ratingFilters={ratingFilters}
+          vegOptions={veg}
+          sortOptions={filter.map(({ key, title }: any) => ({
+            id: key,
+            label: title,
+          }))}
+        ></FilterModal>
+      </div>
       <h2 className="text-xl font-bold mb-4">
         Restaurants with online food delivery in Madurai
       </h2>
+      <div className="flex flex-wrap items-center gap-3">
+        <button
+          onClick={() => setIsFilterOpen(true)}
+          className="border border-gray-300 px-3 py-1 rounded-full text-sm hover:bg-gray-100 transition"
+        >
+          Filter
+        </button>
 
-      <div className="flex flex-wrap gap-2 mb-6">
+        {/* <div className="flex flex-wrap gap-2 mb-6"> */}
         {filter.map((item: any) => (
           <button
             key={item.key}
@@ -80,7 +107,7 @@ const AllRestaurantsSection: React.FC = () => {
         ))}
       </div>
 
-<div className="flex flex-wrap gap-2 mb-4">
+      <div className="flex flex-wrap gap-2 mb-4">
         {veg.map((filter) => (
           <button
             key={filter.id}
@@ -89,8 +116,7 @@ const AllRestaurantsSection: React.FC = () => {
             {filter.label}
           </button>
         ))}
-      </div> 
-
+      </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {restaurants.map((rest: any) => (

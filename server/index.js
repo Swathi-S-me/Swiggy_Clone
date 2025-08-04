@@ -115,6 +115,24 @@ app.get("/api/restaurant-menu", async (req, res) => {
   }
 });
 
+// Add this route below otp routes
+const users = []; // Temporary in-memory users
+
+app.get("/users", (req, res) => {
+  const { phone } = req.query;
+  const found = users.find(u => u.phone === phone);
+  res.json(found ? [found] : []);
+});
+
+app.post("/users", (req, res) => {
+  const { phone, name, email } = req.body;
+  const exists = users.find(u => u.phone === phone);
+  if (exists) return res.status(400).json({ error: "User already exists" });
+
+  const newUser = { phone, name, email };
+  users.push(newUser);
+  res.status(201).json(newUser);
+});
 
 
 

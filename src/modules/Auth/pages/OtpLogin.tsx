@@ -1,48 +1,286 @@
+// import { useState } from "react";
+// import PhoneInput from "../components/PhoneInput";
+// import OtpVerify from "./OtpVerify";
+// import { useMutation } from "@tanstack/react-query";
+// import { sendOtp } from "../auth.api";
+// import Button from "../../../components/Button/Button";
+// import Signup from "./Signup";
+
+// type Mode =  "signup" | "login";
+
+// const OtpLogin = ({ onClose }: { onClose: () => void }) => {
+//   const [phone, setPhone] = useState("");
+//   const [otpSent, setOtpSent] = useState(false);
+
+//   const { mutate: triggerOtp, isPending } = useMutation({
+//     mutationFn: sendOtp,
+//     onSuccess: () => {
+//       setOtpSent(true);
+//     },
+//     onError: (error) => {
+//       console.error("OTP sending failed", error);
+//     },
+//   });
+
+//   const handleSendOtp = () => {
+//     if (phone.trim().length === 10) {
+//       triggerOtp(phone);
+//     } else {
+//       alert("Enter valid 10-digit number");
+//     }
+//   };
+
+//   return (
+//     <div className="max-w-sm mx-auto mt-10 space-y-4">
+//       {otpSent ? (
+//         <OtpVerify phone={phone} onSuccess={onClose}/>
+//       ) : (
+//         <>
+//         <h1>Login</h1>
+//           <PhoneInput phone={phone} setPhone={setPhone} />
+//           <Button onClick={handleSendOtp} disabled={isPending} className="flex flex-row bg-green-600 hover:bg-green-700 text-white px-2 py-2 rounded">
+//             {isPending ? "Sending otp..." : "Login"}
+//           </Button>
+//           <p>By clicking on Login, I accept the Terms & Conditions & Privacy Policy</p>
+//         </>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default OtpLogin;
+
+// import { useState } from "react";
+// import Button from "../../../components/Button/Button";
+// import PhoneInput from "../components/PhoneInput";
+// import OtpVerify from "./OtpVerify";
+// import { sendOtp, checkUserExists, signupUser } from "../auth.api";
+// import { useMutation } from "@tanstack/react-query";
+
+// type Mode = "initial" | "login" | "signup";
+
+// const AuthFlow = ({ onClose }: { onClose: () => void }) => {
+//   const [mode, setMode] = useState<Mode>("initial");
+//   const [phone, setPhone] = useState("");
+//   const [name, setName] = useState("");
+//   const [email, setEmail] = useState("");
+//   const [otpSent, setOtpSent] = useState(false);
+
+//   const { mutate: triggerOtp, isPending: otpLoading } = useMutation({
+//     mutationFn: sendOtp,
+//     onSuccess: () => setOtpSent(true),
+//     onError: () => alert("Failed to send OTP"),
+//   });
+
+//   const { mutate: signup, isPending: signupLoading } = useMutation({
+//     mutationFn: signupUser,
+//     onSuccess: () => triggerOtp(phone),
+//     onError: () => alert("Signup failed"),
+//   });
+
+//   const handleLogin = async () => {
+//     if (phone.length !== 10) return alert("Enter valid phone");
+//     const exists = await checkUserExists(phone);
+//     if (exists) triggerOtp(phone);
+//     else alert("Phone not registered. Please create an account.");
+//   };
+
+//   const handleSignup = () => {
+//     if (!name || !email || phone.length !== 10) {
+//       alert("Fill all fields correctly");
+//       return;
+//     }
+//     signup({ phone, name, email });
+//   };
+
+//   return (
+//     <div className="max-w-sm mx-auto mt-10 space-y-4">
+//       {mode === "initial" && (
+//         <>
+//           <h2 className="text-xl font-bold mb-4">Welcome</h2>
+//           <Button className="w-full bg-green-600 text-white" onClick={() => setMode("login")}>Sign In</Button>
+//           <Button className="w-full border" onClick={() => setMode("signup")}>Create Account</Button>
+//         </>
+//       )}
+
+//       {(mode === "login" || mode === "signup") && (
+//         <>
+//           <div className="flex justify-between items-center">
+//             <h1 className="text-2xl font-bold">{mode === "login" ? "Login" : "Create Account"}</h1>
+//             <button
+//               onClick={() => setMode(mode === "login" ? "signup" : "login")}
+//               className="text-sm text-orange-600 underline"
+//             >
+//               {mode === "login" ? "Create an account" : "Login to account"}
+//             </button>
+//           </div>
+
+//           {otpSent ? (
+//             <OtpVerify phone={phone} onSuccess={onClose} />
+//           ) : (
+//             <>
+//               <PhoneInput phone={phone} setPhone={setPhone} />
+
+//               {mode === "signup" && (
+//                 <>
+//                   <input
+//                     type="text"
+//                     placeholder="Name"
+//                     value={name}
+//                     onChange={(e) => setName(e.target.value)}
+//                     className="w-full border p-2 rounded"
+//                   />
+//                   <input
+//                     type="email"
+//                     placeholder="Email"
+//                     value={email}
+//                     onChange={(e) => setEmail(e.target.value)}
+//                     className="w-full border p-2 rounded"
+//                   />
+//                 </>
+//               )}
+
+//               <Button
+//                 onClick={mode === "login" ? handleLogin : handleSignup}
+//                 disabled={otpLoading || signupLoading}
+//                 className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
+//               >
+//                 {otpLoading || signupLoading
+//                   ? "Please wait..."
+//                   : mode === "login"
+//                   ? "Login"
+//                   : "Signup"}
+//               </Button>
+
+//               <p className="text-xs text-gray-500">
+//                 By continuing, you agree to our Terms & Conditions & Privacy Policy.
+//               </p>
+//             </>
+//           )}
+//         </>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default AuthFlow;
+
 import { useState } from "react";
 import PhoneInput from "../components/PhoneInput";
 import OtpVerify from "./OtpVerify";
+import { sendOtp, checkUserExists, signupUser } from "../auth.api";
 import { useMutation } from "@tanstack/react-query";
-import { sendOtp } from "../auth.api";
-import Button from "../../../components/Button/Button";
+import logo from "../../../assets/swiggy_logo.webp";
 
-const OtpLogin = () => {
+type Mode = "login" | "signup";
+
+const AuthFlow = ({ onClose }: { onClose: () => void }) => {
+  const [mode, setMode] = useState<Mode>("login");
   const [phone, setPhone] = useState("");
-  const [otpSent, setOtpSent] = useState(false); 
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [otpSent, setOtpSent] = useState(false);
 
-  const { mutate: triggerOtp, isPending } = useMutation({
+  const { mutate: triggerOtp, isPending: otpLoading } = useMutation({
     mutationFn: sendOtp,
-    onSuccess: () => {
-      setOtpSent(true); 
-    },
-    onError: (error) => {
-      console.error("OTP sending failed", error);
-    },
+    onSuccess: () => setOtpSent(true),
+    onError: () => alert("Failed to send OTP"),
   });
 
-  const handleSendOtp = () => {
-    if (phone.trim().length === 10) {
-      triggerOtp(phone);
-    } else {
-      alert("Enter valid 10-digit number");
+  const { mutate: signup, isPending: signupLoading } = useMutation({
+    mutationFn: signupUser,
+    onSuccess: () => triggerOtp(phone),
+    onError: () => alert("Signup failed"),
+  });
+
+  const handleLogin = async () => {
+    if (phone.length !== 10) return alert("Enter valid phone");
+    const exists = await checkUserExists(phone);
+    if (exists) triggerOtp(phone);
+    else alert("Phone not registered. Please create an account.");
+  };
+
+  const handleSignup = () => {
+    if (!name || !email || phone.length !== 10) {
+      alert("Fill all fields correctly");
+      return;
     }
+    signup({ phone, name, email });
   };
 
   return (
-    <div className="max-w-sm mx-auto mt-10 space-y-4">
+    <div className="w-full max-w-md p-6 bg-white  mx-auto">
+      <div className="flex justify-between items-start">
+        <div className="flex-1 space-y-2">
+          <h2 className="text-3xl font-bold">
+            {mode === "login" ? "Login" : "Sign up"}
+          </h2>
+          <button
+            onClick={() => setMode(mode === "login" ? "signup" : "login")}
+            className="text-sm text-orange-600 font-bold"
+          >
+            {mode === "login"
+              ? "or create an account"
+              : "or login to your account"}
+          </button>
+        </div>
+        <img
+          src={logo} // your wrap image path
+          alt="wrap"
+          className="w-20 h-20 object-contain rounded-full"
+        />
+      </div>
+
       {otpSent ? (
-        <OtpVerify phone={phone} />
+        <OtpVerify phone={phone} onSuccess={onClose} />
       ) : (
-        <>
-        <h1>Login</h1>
+        <div className="space-y-4 mt-6">
           <PhoneInput phone={phone} setPhone={setPhone} />
-          <Button onClick={handleSendOtp} disabled={isPending} className="flex flex-row bg-green-600 hover:bg-green-700 text-white px-2 py-2 rounded">
-            {isPending ? "Sending otp..." : "Login"}
-          </Button>
-          <p>By clicking on Login, I accept the Terms & Conditions & Privacy Policy</p>
-        </>
+
+          {mode === "signup" && (
+            <>
+              <input
+                type="text"
+                placeholder="Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full border p-3 rounded outline-none"
+              />
+              <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full border p-3 rounded outline-none"
+              />
+              
+            </>
+          )}
+
+          <button
+            onClick={mode === "login" ? handleLogin : handleSignup}
+            disabled={otpLoading || signupLoading}
+            className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded"
+          >
+            {mode === "login"
+              ? otpLoading
+                ? "Sending OTP..."
+                : "LOGIN"
+              : signupLoading
+              ? "Creating..."
+              : "CONTINUE"}
+          </button>
+
+          <p className="text-xs text-gray-600">
+            By {mode === "login" ? "clicking on Login" : "creating an account"},
+            I accept the{" "}
+            <span className="font-semibold">Terms & Conditions</span> &{" "}
+            <span className="font-semibold">Privacy Policy</span>
+          </p>
+        </div>
       )}
     </div>
   );
 };
 
-export default OtpLogin;
+export default AuthFlow;
