@@ -5,9 +5,15 @@ import TopRestaurantsCarousel from "../../../components/Restaurants/TopRestauran
 
 function Home() {
   return (
-    <div>
-      <FoodCategoryCarousel/>
+     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="mb-10  border-b border-gray-200">
+        <FoodCategoryCarousel />
+      </div>
+      <div className="mb-10  border-b border-gray-200">
+
       <TopRestaurantsCarousel/>
+      </div>
+
       <AllRestaurantsSection/>
 
   

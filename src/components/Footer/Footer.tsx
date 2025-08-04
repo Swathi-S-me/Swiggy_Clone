@@ -1,13 +1,12 @@
 import React from "react";
 import type { FooterProps } from "./footer.types";
-import logo from "../../assets/swiggy_logo.webp"
+import logo from "../../assets/swiggy_logo.webp";
 import Icon from "../Icons/Icon";
-
 
 const Footer: React.FC<FooterProps> = ({ cities }) => {
   const visibleCities = cities.slice(0, 6);
   const dropdownCities = cities.slice(6);
-console.log("Received cities:", cities);
+  // console.log("Received cities:", cities);
   return (
     <footer className="bg-gray-100 text-sm text-gray-800 py-10">
       {/* App download */}
@@ -15,18 +14,13 @@ console.log("Received cities:", cities);
         <h2 className="font-bold text-lg mb-4">
           For better experience, download the Swiggy app now
         </h2>
-        
       </div>
 
       {/* Grid Layout */}
       <div className="max-w-7xl mx-auto  px-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6 text-sm">
         {/* Logo */}
         <div>
-          <img
-            src={logo}
-            alt="Swiggy"
-            className="w-16 mb-2 ml-7"
-          />
+          <img src={logo} alt="Swiggy" className="w-16 mb-2 ml-7" />
           <p className="font-bold mb-2">2025 Swiggy Limited</p>
         </div>
 
@@ -63,9 +57,10 @@ console.log("Received cities:", cities);
           <ul className="space-y-1">
             {visibleCities.map((city, idx) => (
               <li key={idx}>
-                <a href={city.link} className="hover:underline">
+                {/* <a href={city.link} className="hover:underline">
                   {city.text}
-                </a>
+                </a> */}
+                 <span>{city.text}</span>
               </li>
             ))}
           </ul>
@@ -78,9 +73,10 @@ console.log("Received cities:", cities);
             >
               <option>+ {dropdownCities.length} cities</option>
               {dropdownCities.map((city, i) => (
-                <option key={i} value={city.link}>
-                  {city.text}
-                </option>
+                // <option key={i} value={city.link}>
+                //   {city.text}
+                // </option>
+                <option key={i}>{city.text}</option>
               ))}
             </select>
           )}
@@ -106,10 +102,10 @@ console.log("Received cities:", cities);
           </ul>
           <h4 className="font-bold mb-2">Social Links</h4>
           <div className="flex gap-3 text-xl">
-            <Icon name="facebook" size={18}/>
-            <Icon name="twitter" size={18}/>
-            <Icon name="instagram" size={18}/>
-            <Icon name="linkedin" size={18}/>
+            <Icon name="facebook" size={18} />
+            <Icon name="twitter" size={18} />
+            <Icon name="instagram" size={18} />
+            <Icon name="linkedin" size={18} />
           </div>
         </div>
       </div>

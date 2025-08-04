@@ -12,28 +12,31 @@ const TopRestaurantsCarousel: React.FC = () => {
       title="Top restaurant chains in Madurai"
       items={restaurants}
       loading={isLoading}
-      renderItem={(rest: any) => (
+      renderItem={(rest) => (
         <Link
           to={`/restaurant/${rest.info.id}`}
-          
-          className="min-w-[250px] flex-shrink-0 bg-white p-4 rounded-lg shadow hover:scale-105 transition-transform"
+          key={rest.info.id}
+          className="min-w-[300px] flex-shrink-0 bg-white p-4   hover:scale-105 transition-transform"
         >
           <img
             src={`https://media-assets.swiggy.com/swiggy/image/upload/${rest.info.cloudinaryImageId}`}
             alt={rest.info.name}
-            className="w-full h-40 object-cover rounded-md mb-2"
+            className="w-full h-40 object-cover rounded-2xl mb-2"
           />
 
-
-
+          <h3 className="text-lg font-bold">{rest.info.name}</h3>
           
-          <h3 className="text-lg font-semibold">{rest.info.name}</h3>
-          <p className="text-sm text-gray-500">{rest.info.cuisines.join(", ")}</p>
-          <p className="text-sm  flex items-center gap-1">
-                        {rest.info.avgRating} <Icon name="star" size={10}/>{rest.info.sla?.slaString}
-                      </p>
-          <p className="text-sm text-green-600">{rest.info.costForTwo}</p>
-          <p className="text-sm">{rest.info.locality} - {rest.info.areaName}</p>
+          <p className="text-sm font-bold flex items-center gap-1">
+            {rest.info.avgRating} <Icon name="star" size={10} />
+            {rest.info.sla?.slaString}
+          </p>
+          <p className="text-sm text-gray-500">
+            {rest.info.cuisines.join(", ")}
+          </p>
+          {/* <p className="text-sm text-green-600">{rest.info.costForTwo}</p> */}
+          <p className="text-sm">
+            {rest.info.locality} - {rest.info.areaName}
+          </p>
         </Link>
       )}
     />

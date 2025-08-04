@@ -3,8 +3,6 @@ import Icon from "../Icons/Icon";
 import type { HorizontalScrollCarouselProps } from "./horizontalScrollCarousel.types";
 import Button from "../Button/Button";
 
-
-
 const HorizontalScrollCarousel = <T,>({
   title,
   items,
@@ -25,30 +23,34 @@ const HorizontalScrollCarousel = <T,>({
   if (loading) return <div>Loading...</div>;
 
   return (
-    <div className="relative p-4">
-      <h2 className="text-xl font-bold mb-4">{title}</h2>
+    <div className="relative px-4 pb-4">
+  <div className="flex items-center justify-between mb-4">
+    <h2 className="text-xl font-bold">{title}</h2>
 
+    <div className="flex items-center gap-2">
       <Button
         onClick={() => scroll("left")}
-        className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md p-2 rounded-full"
+        className="bg-white shadow-md p-2 rounded-full"
       >
         <Icon name="left" size={18} />
       </Button>
-
       <Button
         onClick={() => scroll("right")}
-        className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md p-2 rounded-full"
+        className="bg-white shadow-md p-2 rounded-full"
       >
         <Icon name="right" size={18} />
       </Button>
-
-      <div
-        ref={scrollRef}
-        className="flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth px-8"
-      >
-        {items.map(renderItem)}
-      </div>
     </div>
+  </div>
+
+  <div
+    ref={scrollRef}
+    className="flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth px-2"
+  >
+    {items.map(renderItem)}
+  </div>
+</div>
+
   );
 };
 

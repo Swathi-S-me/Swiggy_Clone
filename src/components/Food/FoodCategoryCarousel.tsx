@@ -57,7 +57,7 @@ const FoodCategoryCarousel: React.FC = () => {
           <img
             src={`https://media-assets.swiggy.com/${item.imageId}`}
             alt={item.accessibility.altText}
-            className="w-28 h-28 object-cover rounded-lg shadow-md hover:scale-105 transition-transform"
+            className="w-30 h-30 object-cover  hover:scale-105 transition-transform"
           />
         </Button>
       )}

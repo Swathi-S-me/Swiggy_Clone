@@ -1,6 +1,7 @@
 import { useParams } from "@tanstack/react-router";
 import type { MenuItem, RestaurantInfo } from "./restaurantMenuPage.types";
 import { useRestaurantMenu } from "../../../components/Queries/useRestaurantMenu";
+import Icon from "../../../components/Icons/Icon";
 
 const RestaurantMenuPage = () => {
   const { id } = useParams({ strict: false }) as { id: string };
@@ -14,7 +15,7 @@ const RestaurantMenuPage = () => {
       card.card?.card?.["@type"] ===
       "type.googleapis.com/swiggy.presentation.food.v2.Restaurant"
   )?.card?.card?.info;
-  console.log("restaurantInfo", restaurantInfo);
+  // console.log("restaurantInfo", restaurantInfo);
 
   const regularCards =
     data?.data?.cards?.find((card) => card.groupedCard)?.groupedCard
@@ -50,7 +51,7 @@ const RestaurantMenuPage = () => {
           <div className="flex flex-col sm:items-end text-sm text-gray-700">
             <div className="flex items-center gap-2">
               <span className="text-green-600 font-semibold">
-                {restaurantInfo.avgRatingString} ★
+                {restaurantInfo.avgRatingString} <Icon name="star" size={10}/>
               </span>
               <span>({restaurantInfo.totalRatingsString})</span>
             </div>
