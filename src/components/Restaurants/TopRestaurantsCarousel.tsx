@@ -25,7 +25,7 @@ const TopRestaurantsCarousel: React.FC = () => {
           />
 
           <h3 className="text-lg font-bold">{rest.info.name}</h3>
-          
+
           <p className="text-sm font-bold flex items-center gap-1">
             {rest.info.avgRating} <Icon name="star" size={10} />
             {rest.info.sla?.slaString}

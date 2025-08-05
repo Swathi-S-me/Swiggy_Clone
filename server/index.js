@@ -95,7 +95,7 @@ app.get("/api/collection", async (req, res) => {
 });
 
 
-// In your Express server (e.g. server.js)
+
 app.get("/api/restaurant-menu", async (req, res) => {
   const { restaurantId } = req.query;
 
@@ -115,8 +115,7 @@ app.get("/api/restaurant-menu", async (req, res) => {
   }
 });
 
-// Add this route below otp routes
-const users = []; // Temporary in-memory users
+const users = []; 
 
 app.get("/users", (req, res) => {
   const { phone } = req.query;
@@ -134,9 +133,6 @@ app.post("/users", (req, res) => {
   res.status(201).json(newUser);
 });
 
-
-
- 
 
 // verify otp
 app.post("/verify-otp", (req, res) => {

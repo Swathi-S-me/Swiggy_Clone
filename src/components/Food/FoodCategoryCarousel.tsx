@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import HorizontalScrollCarousel from "../Carousel/HorizontalScrollCarousel";
 import type { ImageInfo } from "./foodcategory.types";
-import { useNavigate } from "@tanstack/react-router"; 
+import { useNavigate } from "@tanstack/react-router";
 import Button from "../Button/Button";
 
 const FoodCategoryCarousel: React.FC = () => {
   const [categories, setCategories] = useState<ImageInfo[]>([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-
 
   useEffect(() => {
     fetch(
@@ -48,16 +47,15 @@ const FoodCategoryCarousel: React.FC = () => {
       items={categories}
       loading={loading}
       renderItem={(item: ImageInfo) => (
-       
         <Button
           key={item.id}
           onClick={() => handleClick(item)}
-          className="flex-shrink-0"
+          className="flex-shrink-0 "
         >
           <img
             src={`https://media-assets.swiggy.com/${item.imageId}`}
             alt={item.accessibility.altText}
-            className="w-40 h-40 object-cover  hover:scale-105 transition-transform"
+            className="w-40 h-40 object-cover   hover:scale-105 transition-transform"
           />
         </Button>
       )}

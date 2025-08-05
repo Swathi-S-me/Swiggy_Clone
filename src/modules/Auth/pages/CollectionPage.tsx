@@ -51,10 +51,10 @@ const masthead = data?.data?.cards?.find(
     ) : (
       <>
         {description && (
-          <div className="mb-6">
-            <h1 className="text-4xl font-bold mb-2">{description.title}</h1>
-            <p className="text-gray-600 font-bold">{description.description}</p>
-            <p className="text-4xl font-bold mb-2"> {`${description.count} to explore`}</p>
+          <div className="mb-6 -mt-10">
+            <h1 className="text-4xl font-bold mb-5">{description.title}</h1>
+            <p className="text-gray-600 font-bold mb-5">{description.description}</p>
+            <p className="text-4xl font-bold mb-2">Restaurants to explore</p>
           </div>
         )}
 

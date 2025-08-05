@@ -19,7 +19,7 @@ const navLinks: NavLink[] = [
 
 const Navbar: React.FC = () => {
   const location = useLocation();
-  const { user } = useAuth(); // 👈 gets user from context
+  const { user } = useAuth();
 
   const [isOpen, setIsOpen] = useState(false);
   const open = () => setIsOpen(true);

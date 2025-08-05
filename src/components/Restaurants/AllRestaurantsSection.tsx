@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAllRestaurants } from "../Queries/useAllRestaurants";
 import { Link } from "@tanstack/react-router";
 import Icon from "../Icons/Icon";
-import FilterModal from "../FilterModal";
+import FilterModal from "../FilterModal/FilterModal";
 
 const AllRestaurantsSection: React.FC = () => {
   const { data: restaurants = [], isLoading } = useAllRestaurants();
@@ -44,7 +44,7 @@ const AllRestaurantsSection: React.FC = () => {
         const isVegOptions = isVegFacet?.facetInfo || [];
         setVeg(isVegOptions);
 
-        // console.log("✅ Ratings Only:", ratingOptions);
+        // console.log("Ratings Only:", ratingOptions);
 
         // console.log("Rating Filters:", facets);
       });
@@ -55,12 +55,6 @@ const AllRestaurantsSection: React.FC = () => {
   return (
     <div className="p-4">
       <div className="p-4">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold">All Restaurants</h2>
-        </div>
-
-        {/* Your restaurants list goes here */}
-
         <FilterModal
           isOpen={isFilterOpen}
           onClose={() => setIsFilterOpen(false)}
@@ -83,20 +77,17 @@ const AllRestaurantsSection: React.FC = () => {
           Filter
         </button>
 
-        {/* <div className="flex flex-wrap gap-2 mb-6"> */}
         {filter.map((item: any) => (
           <button
             key={item.key}
-            className={`border border-gray-300 px-3 py-1 rounded-full text-sm hover:bg-gray-100 transition ${
-              item.selected ? "bg-black text-white" : ""
-            }`}
+            className="border border-gray-300 px-3 py-1 rounded-full text-sm hover:bg-gray-100 transition"
           >
             {item.title}
           </button>
         ))}
       </div>
 
-      <div className="flex flex-wrap gap-2 mb-4">
+      <div className="flex flex-wrap gap-2 mb-4 mt-2">
         {ratingFilters.map((filter) => (
           <button
             key={filter.id}

@@ -1,4 +1,4 @@
-// src/modules/Auth/pages/Signup.tsx
+
 import { useState } from "react";
 import Button from "../../../components/Button/Button";
 import OtpVerify from "./OtpVerify";
@@ -22,7 +22,7 @@ const Signup = () => {
       return;
     }
 
-    // ✅ Save user to backend (or mock it locally)
+    
     localStorage.setItem("userDraft", JSON.stringify(formData));
     setStep("otp");
   };
@@ -32,7 +32,7 @@ const Signup = () => {
       <OtpVerify
         phone={formData.phone}
         onSuccess={() => {
-          // Remove draft after login
+          
           localStorage.removeItem("userDraft");
         }}
       />

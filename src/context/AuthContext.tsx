@@ -1,17 +1,7 @@
-// src/context/AuthContext.tsx
+
 import { createContext, useContext, useState, useEffect } from "react";
+import type { AuthContextType, User } from "./authContext.types";
 
-type User = {
-  name: string;
-  phone: string;
-  email: string;
-  role: string;
-};
-
-type AuthContextType = {
-  user: User | null;
-  setUser: (user: User | null) => void;
-};
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
