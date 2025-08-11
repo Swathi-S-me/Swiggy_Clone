@@ -29,7 +29,7 @@ export interface RestaurantInfo {
   name: string;
   cuisines: string[];
   locality: string;
-  areaName: string;
+areaName: string;
   costForTwoMessage: string;
   avgRatingString: string;
   totalRatingsString: string;

@@ -8,15 +8,7 @@ const fetchAllRestaurants = async () => {
   const json = await res.json();
 
   const cards = json?.data?.cards || [];
-  // console.log("All Cards:", cards);
-
-  
-  // cards.forEach((card: any, i: number) => {
-  //   const type = card?.card?.card?.["@type"];
-  //   const id = card?.card?.card?.id;
-  //   // console.log(`Card[${i}]:`, { type, id });
-  // });
-
+ 
   
   const allRestaurantsCard = cards.find(
     (card: any) =>

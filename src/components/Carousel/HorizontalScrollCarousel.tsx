@@ -2,6 +2,7 @@ import { useRef } from "react";
 import Icon from "../Icons/Icon";
 import type { HorizontalScrollCarouselProps } from "./horizontalScrollCarousel.types";
 import Button from "../Button/Button";
+import Spinner from "../Spinner";
 
 const HorizontalScrollCarousel = <T,>({
   title,
@@ -20,14 +21,14 @@ const HorizontalScrollCarousel = <T,>({
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Spinner />;
 
   return (
     <div className="relative px-4 pb-4">
   <div className="flex items-center justify-between mb-4">
     <h2 className="text-xl font-bold">{title}</h2>
 
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-0">
       <Button
         onClick={() => scroll("left")}
         className="bg-white shadow-md p-2 rounded-full"

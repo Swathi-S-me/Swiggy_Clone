@@ -2,12 +2,13 @@ import { useParams } from "@tanstack/react-router";
 import type { MenuItem, RestaurantInfo } from "./restaurantMenuPage.types";
 import { useRestaurantMenu } from "../../../components/Queries/useRestaurantMenu";
 import Icon from "../../../components/Icons/Icon";
+import Spinner from "../../../components/Spinner";
 
 const RestaurantMenuPage = () => {
   const { id } = useParams({ strict: false }) as { id: string };
   const { data, isLoading, error } = useRestaurantMenu(id);
 
-  if (isLoading) return <div className="p-4">Loading menu...</div>;
+  if (isLoading) return <div className="p-4 text-center"><Spinner/>Loading menu...</div>;
   if (error) return <div className="p-4 text-red-600">Error loading menu</div>;
 
   const restaurantInfo: RestaurantInfo | undefined = data?.data?.cards?.find(

@@ -30,13 +30,15 @@ const TopRestaurantsCarousel: React.FC = () => {
             {rest.info.avgRating} <Icon name="star" size={10} />
             {rest.info.sla?.slaString}
           </p>
-          <p className="text-sm text-gray-500">
-            {rest.info.cuisines.join(", ")}
-          </p>
+          <p className=" text-sm text-gray-500">
+{rest.info.cuisines.join(", ").length > 20
+      ? rest.info.cuisines.join(", ").slice(0, 20) + "..."
+      : rest.info.cuisines.join(", ")}          </p>
           {/* <p className="text-sm text-green-600">{rest.info.costForTwo}</p> */}
           <p className="text-sm">
-            {rest.info.locality} - {rest.info.areaName}
-          </p>
+{`${rest.info.locality} - ${rest.info.areaName}`.length > 25
+      ? `${rest.info.locality} - ${rest.info.areaName}`.slice(0, 25) + "..."
+      : `${rest.info.locality} - ${rest.info.areaName}`}          </p>
         </Link>
       )}
     />
