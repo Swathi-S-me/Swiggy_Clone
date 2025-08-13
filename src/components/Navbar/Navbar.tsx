@@ -1,12 +1,13 @@
-import { Link, useLocation } from "@tanstack/react-router";
+import { Link ,useLocation} from "@tanstack/react-router";
 import Icon from "../Icons/Icon";
 import Drawer from "../Drawer/Drawer";
 import logo from "../../assets/swiggy_logo.webp";
-
 import type { NavLink } from "./navbar.types";
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import AuthFlow from "../../modules/Auth/pages/OtpLogin";
+import { userLocation } from "../../context/LocationContext";
+import LocationDrawer from "../LocationDrawer/LocationDrawer";
 
 const navLinks: NavLink[] = [
   { label: "Swiggy Corporate", path: "/", icon: "bag" },
@@ -17,13 +18,17 @@ const navLinks: NavLink[] = [
   { label: "Cart", path: "/cart", icon: "cart" },
 ];
 
-const Navbar: React.FC = () => {
+const Navbar = () => {
   const location = useLocation();
+  const {location:locations} = userLocation();
   const { user } = useAuth();
 
   const [isOpen, setIsOpen] = useState(false);
   const open = () => setIsOpen(true);
   const close = () => setIsOpen(false);
+
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
 
   return (
     <>
@@ -32,6 +37,16 @@ const Navbar: React.FC = () => {
           <Link to="/" className="text-xl font-bold flex items-center gap-2">
             <img src={logo} alt="swiggy" className="h-15 w-15" />
           </Link>
+
+           <div
+          className="cursor-pointer flex items-center gap-2"
+          onClick={() => setDrawerOpen(true)}
+        >
+          📍
+          <span className="font-semibold">
+            {locations?.address || "Select Location"}
+          </span>
+        </div>
 
           <div className="hidden md:flex items-center gap-6">
             {navLinks.map((link) => {
@@ -89,8 +104,8 @@ const Navbar: React.FC = () => {
           </div>
         </div>
       </nav>
-
-      {/* Show drawer only when not logged in */}
+<LocationDrawer isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />
+     
       {!user && (
         <Drawer isOpen={isOpen} onClose={close}>
           <AuthFlow onClose={close} />

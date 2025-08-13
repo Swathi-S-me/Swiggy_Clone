@@ -1,4 +1,4 @@
-// src/Queries/useRestaurantMenu.ts
+
 import { useQuery } from "@tanstack/react-query";
 import type { RestaurantMenuResponse } from "../../modules/Auth/pages/restaurantMenuPage.types";
 

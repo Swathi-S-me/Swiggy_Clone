@@ -1,13 +1,20 @@
-
 import React, { useEffect, useMemo, useState } from "react";
 import { useAllRestaurants } from "../Queries/useAllRestaurants";
 import { Link } from "@tanstack/react-router";
 import Icon from "../Icons/Icon";
-import {FilterModal} from "../FilterModal/FilterModal";
+import { FilterModal } from "../FilterModal/FilterModal";
 import Spinner from "../Spinner";
+import { userLocation } from "../../context/LocationContext";
 
 const AllRestaurantsSection: React.FC = () => {
-  const { data: restaurants = [], isLoading } = useAllRestaurants();
+  const { location } = userLocation();
+  const lat = location?.lat;
+  const lng = location?.lng;
+
+  const { data: restaurants = [], isLoading } = useAllRestaurants(
+    lat ?? 0,
+    lng ?? 0
+  );
   const [filter, setFilter] = useState<any[]>([]);
   const [ratingFilters, setRatingFilters] = useState<any[]>([]);
   const [veg, setVeg] = useState<any[]>([]);
@@ -22,7 +29,7 @@ const AllRestaurantsSection: React.FC = () => {
 
   useEffect(() => {
     fetch(
-      "/swiggy-api/dapi/restaurants/list/v5?lat=9.9252007&lng=78.1197754&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
+      `/swiggy-api/dapi/restaurants/list/v5?lat=${lat}&lng=${lng}&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -51,9 +58,7 @@ const AllRestaurantsSection: React.FC = () => {
   const uniqueCuisines = useMemo(() => {
     const cuisineSet = new Set<string>();
     restaurants.forEach((rest: any) => {
-      rest.info.cuisines?.forEach((cuisine: string) =>
-        cuisineSet.add(cuisine)
-      );
+      rest.info.cuisines?.forEach((cuisine: string) => cuisineSet.add(cuisine));
     });
     return Array.from(cuisineSet).map((cuisine) => ({
       id: cuisine,
@@ -66,20 +71,21 @@ const AllRestaurantsSection: React.FC = () => {
     { id: "0-200", label: "Rs.0 - Rs.200", value: "0-200" },
     { id: "200-400", label: "Rs.200 - Rs.400", value: "200-400" },
     { id: "400-600", label: "Rs.400 - Rs.600", value: "400-600" },
-    
   ];
 
   const toggleFilter = (key: keyof typeof appliedFilters, value: any) => {
     setAppliedFilters((prev) => {
-      const isSame = prev[key] === value || JSON.stringify(prev[key]) === JSON.stringify(value);
+      const isSame =
+        prev[key] === value ||
+        JSON.stringify(prev[key]) === JSON.stringify(value);
       return {
         ...prev,
-        [key]: isSame ? undefined : value, 
+        [key]: isSame ? undefined : value,
       };
     });
   };
 
-  if (isLoading) return <Spinner/>;
+  if (isLoading) return <Spinner />;
 
   return (
     <div className="p-4">
@@ -106,29 +112,28 @@ const AllRestaurantsSection: React.FC = () => {
         Restaurants with online food delivery in Madurai
       </h2>
 
- <div className="flex flex-wrap items-center gap-3 mb-4">
-  <button
-    onClick={() => setIsFilterOpen(true)}
-    className="border border-black px-3 py-1 rounded-full text-sm hover:bg-gray-100 transition"
-  >
-    Filter
-  </button>
+      <div className="flex flex-wrap items-center gap-3 mb-4">
+        <button
+          onClick={() => setIsFilterOpen(true)}
+          className="border border-black px-3 py-1 rounded-full text-sm hover:bg-gray-100 transition"
+        >
+          Filter
+        </button>
 
-  {costOptions.map((cost) => (
-    <button
-      key={cost.id}
-      onClick={() => toggleFilter("Cost for Two", cost.value)}
-      className={`border rounded-full px-3 py-1 text-sm transition ${
-        appliedFilters["Cost for Two"] === cost.value
-          ? "bg-gray-300"
-          : "hover:bg-gray-100"
-      }`}
-    >
-      {cost.label}
-    </button>
-  ))}
-</div>
-
+        {costOptions.map((cost) => (
+          <button
+            key={cost.id}
+            onClick={() => toggleFilter("Cost for Two", cost.value)}
+            className={`border rounded-full px-3 py-1 text-sm transition ${
+              appliedFilters["Cost for Two"] === cost.value
+                ? "bg-gray-300"
+                : "hover:bg-gray-100"
+            }`}
+          >
+            {cost.label}
+          </button>
+        ))}
+      </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {restaurants
@@ -140,7 +145,11 @@ const AllRestaurantsSection: React.FC = () => {
               "Cost for Two": Cost,
             } = appliedFilters;
 
-            if (Ratings && parseFloat(rest.info.avgRating) < parseFloat(Ratings)) return false;
+            if (
+              Ratings &&
+              parseFloat(rest.info.avgRating) < parseFloat(Ratings)
+            )
+              return false;
 
             if (VegFilter) {
               const isVeg = rest.info.veg || false;
@@ -187,23 +196,26 @@ const AllRestaurantsSection: React.FC = () => {
                 alt={rest.info.name}
                 className="w-full h-40 object-cover rounded-2xl mb-2"
               />
-              <h3 className="text-lg font-bold mb-2 text-gray-900">{rest.info.name.slice(0,23)+ "..."}</h3>
+              <h3 className="text-lg font-bold mb-2 text-gray-900">
+                {rest.info.name.slice(0, 23) + "..."}
+              </h3>
               <p className="text-sm font-bold flex items-center gap-1 text-gray-950">
                 {rest.info.avgRating} <Icon name="star" size={10} />
                 {rest.info.sla?.slaString}
               </p>
               <p className="text-sm text-gray-500">
-{rest.info.cuisines.join(", ").length > 20
-      ? rest.info.cuisines.join(", ").slice(0, 20) + "..."
-      : rest.info.cuisines.join(", ")}
+                {rest.info.cuisines.join(", ").length > 20
+                  ? rest.info.cuisines.join(", ").slice(0, 20) + "..."
+                  : rest.info.cuisines.join(", ")}
               </p>
               <p className="text-sm ">{rest.info.costForTwo}</p>
-              { (
+              {
                 <p className=" font-bold text-gray-800">
                   {rest?.info?.aggregatedDiscountInfoV3?.header || "15% OFF"} -{" "}
-                  {rest?.info?.aggregatedDiscountInfoV3?.subHeader || "ABOVE 299"}
+                  {rest?.info?.aggregatedDiscountInfoV3?.subHeader ||
+                    "ABOVE 299"}
                 </p>
-              )}
+              }
             </Link>
           ))}
       </div>
@@ -212,8 +224,3 @@ const AllRestaurantsSection: React.FC = () => {
 };
 
 export default AllRestaurantsSection;
-
-
-
-
-

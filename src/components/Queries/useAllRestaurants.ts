@@ -1,15 +1,14 @@
+
 import { useQuery } from "@tanstack/react-query";
 
-const API_URL =
-  "/swiggy-api/dapi/restaurants/list/v5?lat=9.9252007&lng=78.1197754&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING";
-
-const fetchAllRestaurants = async () => {
+const fetchAllRestaurants = async (lat: number, lng: number) => {
+  const API_URL = `/swiggy-api/dapi/restaurants/list/v5?lat=${lat}&lng=${lng}&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING`;
+  
   const res = await fetch(API_URL);
   const json = await res.json();
 
   const cards = json?.data?.cards || [];
- 
-  
+
   const allRestaurantsCard = cards.find(
     (card: any) =>
       card?.card?.card?.["@type"] ===
@@ -17,16 +16,12 @@ const fetchAllRestaurants = async () => {
       card?.card?.card?.gridElements?.infoWithStyle?.restaurants
   );
 
-  const restaurants =
-    allRestaurantsCard?.card?.card?.gridElements?.infoWithStyle?.restaurants || [];
-
-  // console.log("Matched Restaurants:", restaurants);
-
-  return restaurants;
+  return allRestaurantsCard?.card?.card?.gridElements?.infoWithStyle?.restaurants || [];
 };
 
-export const useAllRestaurants = () =>
+export const useAllRestaurants = (lat: number, lng: number) =>
   useQuery({
-    queryKey: ["allRestaurants"],
-    queryFn: fetchAllRestaurants,
+    queryKey: ["allRestaurants", lat, lng],
+    queryFn: () => fetchAllRestaurants(lat, lng), 
+    enabled: !!lat && !!lng, 
   });

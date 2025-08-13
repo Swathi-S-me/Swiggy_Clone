@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import type { ImageInfo } from "../components/Food/foodcategory.types";
-
+import { userLocation } from "../context/LocationContext";
 interface CategoryResponse {
   data: {
     cards: Array<{
@@ -16,9 +16,9 @@ interface CategoryResponse {
   };
 }
 
-const fetchFoodCategories = async (): Promise<ImageInfo[]> => {
+const fetchFoodCategories = async (lat: number, lng: number): Promise<ImageInfo[]> => {
   const res = await fetch(
-    "/swiggy-api/dapi/restaurants/list/v5?lat=9.9252007&lng=78.1197754&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
+      `/swiggy-api/dapi/restaurants/list/v5?lat=${lat}&lng=${lng}&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING`
   );
   
   if (!res.ok) throw new Error("Failed to fetch food categories");
@@ -36,8 +36,12 @@ const fetchFoodCategories = async (): Promise<ImageInfo[]> => {
 };
 
 export const useFoodCategories = () => {
-  return useQuery({
-    queryKey: ["foodCategories"],
-    queryFn: fetchFoodCategories,
+  const { location } = userLocation();
+  const lat = location?.lat ?? 0;
+  const lng = location?.lng ?? 0;
+   return useQuery<ImageInfo[], Error>({
+    queryKey: ["foodCategories", lat, lng],
+    queryFn: () => fetchFoodCategories(lat, lng),
+    enabled: !!location, 
   });
 };

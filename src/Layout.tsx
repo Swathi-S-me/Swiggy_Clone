@@ -4,10 +4,11 @@ import Footer from "./components/Footer/Footer";
 import { useHomepageData } from "./components/Queries/useHomepageData";
 
 const Layout: React.FC = () => {
-  const { data, isLoading } = useHomepageData();
+  
+  const { data, isLoading } = useHomepageData(0, 0);
 
   const cities = data?.data?.cards.find(
-    (card: any) =>
+    (card: any) => 
       card?.card?.card?.["@type"] ===
       "type.googleapis.com/swiggy.seo.widgets.v1.FooterContent"
   )?.card?.card?.cities || [];

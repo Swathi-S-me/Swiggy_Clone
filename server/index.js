@@ -18,8 +18,9 @@ const generateOtp = () => {
 
 app.get("/api/swiggy", async (req, res) => {
   try {
+     const { lat = "9.9252007", lng = "78.1197754" } = req.query;
     const swiggyURL =
-      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=9.9252007&lng=78.1197754&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING";
+      `https://www.swiggy.com/dapi/restaurants/list/v5?lat=${lat}&lng=${lng}&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING`;
 
     const response = await fetch(swiggyURL);
     const data = await response.json();
@@ -53,12 +54,12 @@ app.get("/api/collection", async (req, res) => {
     return res.status(400).json({ error: "Missing collection id" });
   }
 
-  const baseUrl = `https://www.swiggy.com/dapi/restaurants/list/v5?lat=9.9252&lng=78.1197&collection=${id}`;
+  const baseUrl = `https://www.swiggy.com/dapi/restaurants/list/v5?lat=${lat}&lng=${lng}&collection=${id}`;
   const finalUrl = `${baseUrl}${tags ? `&tags=${encodeURIComponent(tags)}` : ""}&type=rcv2`;
 
-  console.log("➡️ Requested Collection ID:", id);
-  console.log("➡️ Requested Tags:", tags);
-  console.log("➡️ Final Swiggy URL:", finalUrl);
+  // console.log("➡️ Requested Collection ID:", id);
+  // console.log("➡️ Requested Tags:", tags);
+  // console.log("➡️ Final Swiggy URL:", finalUrl);
 
   try {
     const response = await fetch(finalUrl, {
@@ -73,7 +74,7 @@ app.get("/api/collection", async (req, res) => {
 
     const contentType = response.headers.get("content-type");
 
-    // 🛡️ Check if the response is actually JSON
+    
     if (!contentType || !contentType.includes("application/json")) {
       const rawText = await response.text();
       console.error("❌ Swiggy returned non-JSON:", rawText.slice(0, 300));
@@ -84,7 +85,6 @@ app.get("/api/collection", async (req, res) => {
       });
     }
 
-    // ✅ JSON parse
     const data = await response.json();
     res.json(data);
 
@@ -97,14 +97,17 @@ app.get("/api/collection", async (req, res) => {
 
 
 app.get("/api/restaurant-menu", async (req, res) => {
-  const { restaurantId } = req.query;
+const { restaurantId, lat = "9.9252007", lng = "78.1197754" } = req.query;
+if (!restaurantId) {
+    return res.status(400).json({ error: "Missing restaurantId" });
+  }
 
-  const swiggyUrl = `https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=9.9252007&lng=78.1197754&restaurantId=${restaurantId}&catalog_qa=undefined&submitAction=ENTER`;
+  const swiggyUrl = `https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=${lat}&lng=${lng}&restaurantId=${restaurantId}&catalog_qa=undefined&submitAction=ENTER`;
 
   try {
     const response = await fetch(swiggyUrl, {
       headers: {
-        "User-Agent": "Mozilla/5.0", // Swiggy might reject unknown agents
+        "User-Agent": "Mozilla/5.0", 
       },
     });
     const data = await response.json();
@@ -147,7 +150,7 @@ app.post("/verify-otp", (req, res) => {
     return res.status(401).json({ success: false, message: "Invalid OTP" });
   }
 
-  otpStore.delete(phone); // remove OTP after verification
+  otpStore.delete(phone); 
   res.json({ success: true, message: "OTP verified" });
 });
 

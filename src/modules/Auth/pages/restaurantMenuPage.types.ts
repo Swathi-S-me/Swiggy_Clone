@@ -1,4 +1,4 @@
-// src/types/restaurantMenu.types.ts
+
 
 export interface RestaurantMenuResponse {
   data: {

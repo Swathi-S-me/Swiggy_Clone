@@ -1,10 +1,10 @@
 
 import { useQuery } from "@tanstack/react-query";
 import type { Restaurant } from "../Restaurants/restaurant.types";
-
-const fetchTopRestaurants = async (): Promise<Restaurant[]> => {
+import { userLocation } from "../../context/LocationContext";
+const fetchTopRestaurants = async (lat: number, lng: number): Promise<Restaurant[]> => {
   const res = await fetch(
-    "/swiggy-api/dapi/restaurants/list/v5?lat=9.9252007&lng=78.1197754&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
+    `/swiggy-api/dapi/restaurants/list/v5?lat=${lat}&lng=${lng}&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING`
   );
   const json = await res.json();
 
@@ -22,8 +22,15 @@ const fetchTopRestaurants = async (): Promise<Restaurant[]> => {
   );
 };
 
-export const useTopRestaurants = () =>
-  useQuery<Restaurant[], Error>({
-    queryKey: ["topRestaurants"],
-    queryFn: fetchTopRestaurants,
+export const useTopRestaurants = () =>{
+   const { location } = userLocation(); 
+  const lat = location?.lat ?? 0;
+  const lng = location?.lng ?? 0;
+
+  return useQuery<Restaurant[], Error>({
+    
+    queryKey: ["topRestaurants", lat, lng],
+    queryFn: () => fetchTopRestaurants(lat, lng),
+     enabled: !!location,
   });
+};
