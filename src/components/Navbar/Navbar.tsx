@@ -1,4 +1,4 @@
-import { Link ,useLocation} from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 import Icon from "../Icons/Icon";
 import Drawer from "../Drawer/Drawer";
 import logo from "../../assets/swiggy_logo.webp";
@@ -20,7 +20,7 @@ const navLinks: NavLink[] = [
 
 const Navbar = () => {
   const location = useLocation();
-  const {location:locations} = userLocation();
+  const { location: locations } = userLocation();
   const { user } = useAuth();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -28,7 +28,6 @@ const Navbar = () => {
   const close = () => setIsOpen(false);
 
   const [drawerOpen, setDrawerOpen] = useState(false);
-
 
   return (
     <>
@@ -38,15 +37,14 @@ const Navbar = () => {
             <img src={logo} alt="swiggy" className="h-15 w-15" />
           </Link>
 
-           <div
-          className="cursor-pointer flex items-center gap-2"
-          onClick={() => setDrawerOpen(true)}
-        >
-          📍
-          <span className="font-semibold">
-            {locations?.address || "Select Location"}
-          </span>
-        </div>
+          <div
+            className="cursor-pointer flex items-center gap-2 ml-5 max-w-[200px] overflow-hidden whitespace-nowrap text-ellipsis"
+            onClick={() => setDrawerOpen(true)}
+          >
+            <span className="font-bold text-l truncate">
+              {locations?.address || "Select Location"}
+            </span>
+          </div>
 
           <div className="hidden md:flex items-center gap-6">
             {navLinks.map((link) => {
@@ -104,8 +102,11 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
-<LocationDrawer isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />
-     
+      <LocationDrawer
+        isOpen={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+      />
+
       {!user && (
         <Drawer isOpen={isOpen} onClose={close}>
           <AuthFlow onClose={close} />

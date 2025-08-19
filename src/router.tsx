@@ -6,6 +6,7 @@ import Layout from "./Layout";
 import Home from "./modules/Auth/pages/Home";
 import CollectionPage from "./modules/Auth/pages/CollectionPage";
 import RestaurantMenuPage from "./modules/Auth/pages/RestaurantMenuPage";
+import SearchDrawer from "./modules/Auth/pages/Search";
 
 const rootRoute = createRootRoute({
   component: Layout,
@@ -27,11 +28,12 @@ const restaurantMenu = createRoute({
   component: RestaurantMenuPage,
 });
 
-// const searchRoute = createRoute({
-//   getParentRoute: () => rootRoute,
-//   path: "/search",
-//   component: Search,
-// });
+
+const searchRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/search",
+  component: SearchDrawer,
+});
 
 // const cartRoute = createRoute({
 //   getParentRoute: () => rootRoute,
@@ -40,7 +42,7 @@ const restaurantMenu = createRoute({
 // });
 
 export const routeTree = rootRoute.addChildren([
-  homeRoute,collectionRoute,restaurantMenu
+  homeRoute,collectionRoute,restaurantMenu,searchRoute
 ]);
 
 export const router = createRouter({ routeTree });

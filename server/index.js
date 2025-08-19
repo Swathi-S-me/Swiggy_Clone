@@ -48,7 +48,7 @@ app.post("/send-otp", (req, res) => {
 });
 
 app.get("/api/collection", async (req, res) => {
-  const { id, tags } = req.query;
+  const { id, tags , lat = "9.9252007", lng = "78.1197754"} = req.query;
 
   if (!id) {
     return res.status(400).json({ error: "Missing collection id" });
@@ -77,7 +77,7 @@ app.get("/api/collection", async (req, res) => {
     
     if (!contentType || !contentType.includes("application/json")) {
       const rawText = await response.text();
-      console.error("❌ Swiggy returned non-JSON:", rawText.slice(0, 300));
+      console.error(" Swiggy returned non-JSON:", rawText.slice(0, 300));
       return res.status(500).json({
         error: "Swiggy returned non-JSON content",
         hint: "Maybe rate-limited or blocked. Try again.",
@@ -89,7 +89,7 @@ app.get("/api/collection", async (req, res) => {
     res.json(data);
 
   } catch (error) {
-    console.error("❌ Error fetching Swiggy collection:", error.message);
+    console.error(" Error fetching Swiggy collection:", error.message);
     res.status(500).json({ error: "Failed to fetch collection data" });
   }
 });
@@ -153,6 +153,36 @@ app.post("/verify-otp", (req, res) => {
   otpStore.delete(phone); 
   res.json({ success: true, message: "OTP verified" });
 });
+
+
+app.get("/api/search", async (req, res) => {
+  try {
+    const { lat, lng, str } = req.query;
+
+    const swiggyUrl = `https://www.swiggy.com/dapi/restaurants/search/v3?lat=${lat}&lng=${lng}&str=${str}&trackingId=&submitAction=ENTER&queryUniqueId=${Date.now()}`;
+
+    const response = await fetch(swiggyUrl, {
+      headers: {
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36",
+        "Accept": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Swiggy API failed: ${response.status}`);
+    }
+
+    const data = await response.json();
+    res.json(data);
+  } catch (err) {
+    console.error("Error fetching Swiggy search:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
+
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
