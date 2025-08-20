@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import { AuthProvider } from "./context/AuthContext";
 import { LocationProvider } from "./context/LocationContext";
+import { CartProvider } from "./context/CartContext";
 
 const queryClient = new QueryClient();
 
@@ -15,7 +16,9 @@ function App() {
       <ToastProvider>
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
+            <CartProvider>
             <RouterProvider router={router} />
+            </CartProvider>
           </AuthProvider>
         </QueryClientProvider>
       </ToastProvider>

@@ -7,6 +7,9 @@ import Icon from "../Icons/Icon";
 const TopRestaurantsCarousel: React.FC = () => {
   const { data: restaurants = [], isLoading } = useTopRestaurants();
 
+
+
+  
   return (
     <HorizontalScrollCarousel
       title="Top restaurant chains in Madurai"
@@ -31,14 +34,17 @@ const TopRestaurantsCarousel: React.FC = () => {
             {rest.info.sla?.slaString}
           </p>
           <p className=" text-sm text-gray-500">
-{rest.info.cuisines.join(", ").length > 20
-      ? rest.info.cuisines.join(", ").slice(0, 20) + "..."
-      : rest.info.cuisines.join(", ")}          </p>
+            {rest.info.cuisines.join(", ").length > 20
+              ? rest.info.cuisines.join(", ").slice(0, 20) + "..."
+              : rest.info.cuisines.join(", ")}{" "}
+          </p>
           {/* <p className="text-sm text-green-600">{rest.info.costForTwo}</p> */}
           <p className="text-sm">
-{`${rest.info.locality} - ${rest.info.areaName}`.length > 25
-      ? `${rest.info.locality} - ${rest.info.areaName}`.slice(0, 25) + "..."
-      : `${rest.info.locality} - ${rest.info.areaName}`}          </p>
+            {`${rest.info.locality} - ${rest.info.areaName}`.length > 25
+              ? `${rest.info.locality} - ${rest.info.areaName}`.slice(0, 25) +
+                "..."
+              : `${rest.info.locality} - ${rest.info.areaName}`}{" "}
+          </p>
         </Link>
       )}
     />

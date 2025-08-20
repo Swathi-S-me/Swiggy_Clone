@@ -107,7 +107,6 @@ const AllRestaurantsSection: React.FC = () => {
           setIsFilterOpen(false);
         }}
       />
-
       <h2 className="text-xl font-bold mb-4">
         Restaurants with online food delivery in Madurai
       </h2>

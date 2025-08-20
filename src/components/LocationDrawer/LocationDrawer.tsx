@@ -50,60 +50,7 @@ export default function LocationDrawer({ isOpen, onClose }: Props) {
 
   if (!isOpen) return null;
 
-//   return (
-//     <div className="fixed top-0 left-0 w-80 h-full bg-white shadow-lg p-4 z-50 overflow-auto animate-slideIn">
-//       <div className="px-20 py-4 mt-8 ml-15 ">
-//         <button onClick={onClose} className="text-xl mb-4">
-//           <Icon name="close" size={18} />
-//         </button>
-//          <div className="border shadow-sm rounded-sm">
-     
-//         <input
-//           type="text"
-//           placeholder="Search for area, street..."
-//           value={search}
-//           onChange={(e) => setSearch(e.target.value)}
-//           className="w-full border p-2 mt-4"
-//         />
-//         </div>
 
-//         <button
-//           onClick={searchLocation}
-//           className="w-full bg-orange-500 text-white p-2 mt-2"
-//         >
-//           Search
-//         </button>
-
-//         <div className="mt-4">
-//           <button
-//             onClick={getCurrentLocation}
-//             className="mt-4 border rounded-sm p-4 flex items-center justify-between cursor-pointer hover:bg-gray-50"
-//           >
-//             Get current location
-//           </button>
-//         </div>
-
-//         {recent.length > 0 && (
-//           <div className="mt-6">
-//             <h4 className="text-xs font-semibold text-gray-500 mb-3">Recent Searches</h4>
-//             {recent.map((r, idx) => (
-//               <div
-//                 key={idx}
-//                 onClick={() => {
-//                   setLocation(r);
-//                   onClose();
-//                 }}
-//                 className="p-2 border-b cursor-pointer hover:bg-gray-100"
-//               >
-//                 {r.address}
-//               </div>
-//             ))}
-//           </div>
-//         )}
-//       </div>
-//     </div>
-//   );
-// }
 return (
   
   <>

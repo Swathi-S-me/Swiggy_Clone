@@ -1,7 +1,9 @@
 import { useState } from "react";
 import DishModal from "../../../components/DishModal/DishModal";
 import { useSearchSuggestions } from "../../../components/Queries/useSearchSuggestions";
-
+import { userLocation } from "../../../context/LocationContext";
+import { useCart } from "../../../context/CartContext";
+import { useNavigate } from "@tanstack/react-router";
 const IMAGE_BASE =
   "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_288,h_320,c_fit/";
 
@@ -11,8 +13,14 @@ const SearchPage = () => {
     "dishes"
   );
   const [selectedDish, setSelectedDish] = useState<any | null>(null);
+  const { cart, addToCart, increaseQty, decreaseQty } = useCart();
+  const navigate = useNavigate();
 
-  const { data, isLoading } = useSearchSuggestions(query);
+  const { location } = userLocation();
+  const lat = location?.lat ?? 0;
+  const lng = location?.lng ?? 0;
+
+  const { data, isLoading } = useSearchSuggestions(query, lat, lng);
 
   const groupedCard = data?.data?.cards?.find((c: any) => c.groupedCard);
 
@@ -120,7 +128,7 @@ const SearchPage = () => {
                   </button>
                 </div>
 
-                {dish.imageId ? (
+                {/* {dish.imageId ? (
                   <div className="relative">
                     <img
                       src={`${IMAGE_BASE}${dish.imageId}`}
@@ -131,7 +139,51 @@ const SearchPage = () => {
                       ADD
                     </button>
                   </div>
-                ) : (
+                ) : ( */}
+                {dish.imageId ? (
+  <div className="relative">
+    <img
+      src={`${IMAGE_BASE}${dish.imageId}`}
+      alt={dish.name || "dish"}
+      className="w-35 h-35 object-cover rounded-lg"
+    />
+
+    {cart.find((c) => c.id === dish.id) ? (
+      <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 flex items-center bg-white rounded shadow">
+        <button
+          onClick={() => decreaseQty(dish.id)}
+          className="px-3 py-1 text-lg font-bold text-green-600"
+        >
+          -
+        </button>
+        <span className="px-2">
+          {cart.find((c) => c.id === dish.id)?.quantity}
+        </span>
+        <button
+          onClick={() => increaseQty(dish.id)}
+          className="px-3 py-1 text-lg font-bold text-green-600"
+        >
+          +
+        </button>
+      </div>
+    ) : (
+      <button
+        onClick={() => {
+          addToCart({
+            id: dish.id,
+            name: dish.name,
+            price: dish.price / 100,
+            image: dish.imageId ? `${IMAGE_BASE}${dish.imageId}` : null,
+          });
+          navigate({ to: "/cart" });
+        }}
+        className="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-white text-green-600 font-semibold text-sm px-4 py-1 rounded shadow"
+      >
+        ADD
+      </button>
+    )}
+  </div>
+):(
                   <div className="w-28 h-28 flex items-center justify-center bg-gray-100 rounded">
                     <span className="text-gray-500 text-xs">No Image</span>
                   </div>
@@ -179,9 +231,7 @@ const SearchPage = () => {
                   ⭐ {r?.avgRating || "--"} • {r?.sla?.slaString} • ₹
                   {(r?.costForTwo || 0) / 100} FOR TWO
                 </p>
-                {/* <p className="text-sm text-gray-500 truncate">
-            {r?.cuisines?.join(", ")}
-          </p> */}
+
                 <p className="text-sm text-gray-500">
                   {r?.cuisines?.join(", ")?.slice(0, 40)}
                   {r?.cuisines?.join(", ")?.length > 40 && "..."}
