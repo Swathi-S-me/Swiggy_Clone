@@ -45,7 +45,7 @@ const CollectionPage = () => {
         <div className="mb-6 -mt-10">
           <h1 className="text-4xl font-bold mb-5">{masthead.title}</h1>
           <p className="text-gray-600 font-bold mb-5">{masthead.description}</p>
-          <p className="text-4xl font-bold mb-2">Restaurants to explore</p>
+          <p className="text-xl font-bold mb-2">{masthead.count}Restaurants to explore</p>
         </div>
       )}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -57,9 +57,15 @@ const CollectionPage = () => {
               className="w-full h-40 object-cover rounded-2xl"
             />
             <h2 className="text-lg font-bold mt-2">{restaurant.name}</h2>
-            <p className="text-sm text-gray-500">
+            <div className="flex gap-5">
+              <h2 className="text-md font-bold mt-2">{restaurant.avgRating}</h2>
+            <h2 className="text-md font-bold mt-2">{restaurant.sla?.slaString}</h2>
+            </div>
+            <p className="text-sm text-gray-500 truncate w-full">
               {restaurant.cuisines.join(", ")}
             </p>
+            <h2 className="text-sm text-gray-500">{restaurant.locality}</h2>
+
           </div>
         ))}
       </div>

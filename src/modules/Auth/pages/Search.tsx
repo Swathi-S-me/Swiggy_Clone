@@ -29,13 +29,13 @@ const SearchPage = () => {
       })) || [];
 
   const restaurantCards =
-    groupedCard?.groupedCard?.cardGroupMap?.RESTAURANT?.cards?.map(
-      (c: any) => c.card.card.info
-    ) || [];
+    groupedCard?.groupedCard?.cardGroupMap?.RESTAURANT?.cards
+      ?.map((c: any) => c?.card?.card?.info)
+      ?.filter((info: any) => info && info.id) || [];
 
   return (
-    <div className="flex flex-col items-center px-4">
-      <div className="w-full max-w-4xl mt-10 mb-6">
+    <div className="flex flex-col items-center px-4 mb-10">
+      <div className="w-full max-w-2xl mt-2 mb-6">
         <input
           type="text"
           value={query}
@@ -44,7 +44,7 @@ const SearchPage = () => {
             setActiveTab("dishes");
           }}
           placeholder="Search for restaurants or dishes"
-          className="w-full border  p-3 shadow-sm "
+          className="w-full border  p-3  "
         />
       </div>
 
@@ -97,15 +97,10 @@ const SearchPage = () => {
                 <div className="flex-1">
                   <p className="font-semibold text-lg">{dish.name}</p>
                   {dish.price && (
-                    <p className="text-sm font-medium text-gray-800">
-                      ₹{dish.price / 100}
+                    <p className="text-md font-semibold text-black">
+                      Rs.{dish.price / 100}
                     </p>
                   )}
-                  {/* {dish.description && (
-                    <p className="text-xs text-gray-500 line-clamp-2 mt-1">
-                      {dish.description}
-                    </p>
-                  )} */}
 
                   <button
                     className="mt-2 px-3 py-1 text-sm border rounded-full hover:bg-gray-50"
@@ -130,7 +125,7 @@ const SearchPage = () => {
                     <img
                       src={`${IMAGE_BASE}${dish.imageId}`}
                       alt={dish.name || "dish"}
-                      className="w-28 h-28 object-cover rounded-lg"
+                      className="w-35 h-35 object-cover rounded-lg"
                     />
                     <button className="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-white text-green-600 font-semibold text-sm px-4 py-1 rounded shadow">
                       ADD
@@ -148,23 +143,50 @@ const SearchPage = () => {
       )}
 
       {!isLoading && query && activeTab === "restaurants" && (
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 w-full max-w-5xl">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-5xl">
           {restaurantCards.map((r: any) => (
             <div
               key={r.id}
-              className="p-4 border rounded-lg shadow-sm bg-white"
+              className="flex items-center gap-4 p-4 rounded-lg shadow-sm bg-white hover:shadow-md transition"
             >
-              <p className="font-semibold">{r.name}</p>
-              <p>
-                ⭐ {r.avgRating} • {r.sla?.slaString}
-              </p>
-              {r.imageId && (
-                <img
-                  src={`${IMAGE_BASE}${r.imageId}`}
-                  alt={r.name}
-                  className="w-full h-32 object-cover rounded mt-2"
-                />
-              )}
+              <div className="relative w-28 h-28 flex-shrink-0">
+                {r?.cloudinaryImageId ? (
+                  <img
+                    src={`${IMAGE_BASE}${r.cloudinaryImageId}`}
+                    alt={r?.name}
+                    className="w-full h-full object-cover rounded-lg"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center bg-gray-100 rounded-lg text-gray-500 text-xs">
+                    No Image
+                  </div>
+                )}
+                {r?.adTrackingId && (
+                  <span className="absolute top-2 left-2 bg-black text-white text-xs px-2 py-0.5 rounded">
+                    Ad
+                  </span>
+                )}
+                {r?.aggregatedDiscountInfoV3?.header && (
+                  <span className="absolute bottom-2 left-2 bg-orange-500 text-white text-xs font-semibold px-2 py-1 rounded">
+                    ITEMS • {r.aggregatedDiscountInfoV3?.header}
+                  </span>
+                )}
+              </div>
+
+              <div className="flex-1">
+                <p className="font-semibold text-lg">{r?.name}</p>
+                <p className="text-sm text-gray-600 flex items-center gap-1">
+                  ⭐ {r?.avgRating || "--"} • {r?.sla?.slaString} • ₹
+                  {(r?.costForTwo || 0) / 100} FOR TWO
+                </p>
+                {/* <p className="text-sm text-gray-500 truncate">
+            {r?.cuisines?.join(", ")}
+          </p> */}
+                <p className="text-sm text-gray-500">
+                  {r?.cuisines?.join(", ")?.slice(0, 40)}
+                  {r?.cuisines?.join(", ")?.length > 40 && "..."}
+                </p>
+              </div>
             </div>
           ))}
         </div>

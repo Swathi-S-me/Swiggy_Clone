@@ -3,12 +3,20 @@ import type { MenuItem, RestaurantInfo } from "./restaurantMenuPage.types";
 import { useRestaurantMenu } from "../../../components/Queries/useRestaurantMenu";
 import Icon from "../../../components/Icons/Icon";
 import Spinner from "../../../components/Spinner";
+import MenuAccordion from "../../../components/Accordion/Accordion";
+
 
 const RestaurantMenuPage = () => {
   const { id } = useParams({ strict: false }) as { id: string };
   const { data, isLoading, error } = useRestaurantMenu(id);
 
-  if (isLoading) return <div className="p-4 text-center"><Spinner/>Loading menu...</div>;
+  if (isLoading)
+    return (
+      <div className="p-4 text-center">
+        <Spinner />
+        Loading menu...
+      </div>
+    );
   if (error) return <div className="p-4 text-red-600">Error loading menu</div>;
 
   const restaurantInfo: RestaurantInfo | undefined = data?.data?.cards?.find(
@@ -36,7 +44,7 @@ const RestaurantMenuPage = () => {
     }));
 
   return (
-    <div className="p-4 max-w-6xl mx-auto">
+    <div className="p-4 max-w-3xl mx-auto">
       {restaurantInfo && (
         <div className="bg-white shadow rounded-xl p-6 mb-6 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
           <div className="space-y-2">
@@ -70,7 +78,7 @@ const RestaurantMenuPage = () => {
         </div>
       )}
 
-      {categorizedItems.map((category) => (
+      {/* {categorizedItems.map((category) => (
         <div key={category.title} className="mb-10">
           <h3 className="text-xl font-bold mb-4">{category.title}</h3>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -98,7 +106,52 @@ const RestaurantMenuPage = () => {
             ))}
           </div>
         </div>
-      ))}
+      ))} */}
+
+      {/* {categorizedItems.map((category) => (
+        <div key={category.title} className="mb-10">
+          <h3 className="text-xl font-bold mb-4">{category.title}</h3>
+
+          <div className="flex flex-col gap-6">
+            {category.items.map((item) => (
+              <div
+                key={item.id}
+                className="flex justify-between border-b pb-4 gap-4"
+              >
+                <div className="flex-1">
+                  <h4 className="text-lg font-semibold">{item.name}</h4>
+                  <p className="text-sm font-medium">
+                    ₹{((item.price ?? item.defaultPrice ?? 0) / 100).toFixed(0)}
+                  </p>
+
+                  {item.description && (
+                    <p className="text-xs text-gray-500 mt-1">
+                      {item.description?.length > 60
+                        ? item.description.slice(0, 300) + "..."
+                        : item.description}
+                    </p>
+                  )}
+                </div>
+
+                {item.imageId && (
+                  <div className="w-28 relative">
+                    <img
+                      src={`https://media-assets.swiggy.com/swiggy/image/upload/${item.imageId}`}
+                      alt={item.name}
+                      className="w-full h-24 object-cover rounded-lg"
+                    />
+                    <button className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-white border border-gray-300 text-green-600 font-semibold px-4 py-1 rounded shadow">
+                      ADD
+                    </button>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      ))} */}
+
+      <MenuAccordion categorizedItems={categorizedItems}/>
     </div>
   );
 };
