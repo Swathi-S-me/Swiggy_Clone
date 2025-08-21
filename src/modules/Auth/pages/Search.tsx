@@ -2,19 +2,21 @@ import { useState } from "react";
 import DishModal from "../../../components/DishModal/DishModal";
 import { useSearchSuggestions } from "../../../components/Queries/useSearchSuggestions";
 import { userLocation } from "../../../context/LocationContext";
-import { useCart } from "../../../context/CartContext";
 import { useNavigate } from "@tanstack/react-router";
-const IMAGE_BASE =
-  "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_288,h_320,c_fit/";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, increaseQty, decreaseQty } from "../../../redux/cart/cartSlice";
+import { type RootState } from "../../../redux/store";
+import { IMAGE_BASE } from "../../../constant/URL";
+
 
 const SearchPage = () => {
   const [query, setQuery] = useState("");
-  const [activeTab, setActiveTab] = useState<"restaurants" | "dishes">(
-    "dishes"
-  );
+  const [activeTab, setActiveTab] = useState<"restaurants" | "dishes">("dishes");
   const [selectedDish, setSelectedDish] = useState<any | null>(null);
-  const { cart, addToCart, increaseQty, decreaseQty } = useCart();
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const cart = useSelector((state: RootState) => state.cart.cart);
 
   const { location } = userLocation();
   const lat = location?.lat ?? 0;
@@ -43,6 +45,7 @@ const SearchPage = () => {
 
   return (
     <div className="flex flex-col items-center px-4 mb-10">
+      {/* Search Input */}
       <div className="w-full max-w-2xl mt-2 mb-6">
         <input
           type="text"
@@ -52,10 +55,11 @@ const SearchPage = () => {
             setActiveTab("dishes");
           }}
           placeholder="Search for restaurants or dishes"
-          className="w-full border  p-3  "
+          className="w-full border p-3"
         />
       </div>
 
+      {/* Tabs */}
       {query && (
         <div className="flex gap-3 mb-6">
           <button
@@ -83,12 +87,13 @@ const SearchPage = () => {
 
       {isLoading && <p className="text-gray-500">Loading...</p>}
 
+      {/* Dishes */}
       {!isLoading && query && activeTab === "dishes" && (
-        <div className="grid grid-cols-2 md:grid-cols-2 gap-4 w-full max-w-4xl mb-8  p-5 bg-gray-200">
+        <div className="grid grid-cols-2 md:grid-cols-2 gap-4 w-full max-w-4xl mb-8 p-5 bg-gray-200">
           {dishCards.map(({ dish, restaurant }: any) => (
             <div
               key={dish.id}
-              className="relative p-10  rounded-2xl shadow-sm bg-white hover:shadow-md transition"
+              className="relative p-10 rounded-2xl shadow-sm bg-white hover:shadow-md transition"
             >
               <span className="absolute top-4 right-4 text-gray-400">➝</span>
 
@@ -128,62 +133,56 @@ const SearchPage = () => {
                   </button>
                 </div>
 
-                {/* {dish.imageId ? (
+                {dish.imageId ? (
                   <div className="relative">
                     <img
                       src={`${IMAGE_BASE}${dish.imageId}`}
                       alt={dish.name || "dish"}
                       className="w-35 h-35 object-cover rounded-lg"
                     />
-                    <button className="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-white text-green-600 font-semibold text-sm px-4 py-1 rounded shadow">
-                      ADD
-                    </button>
-                  </div>
-                ) : ( */}
-                {dish.imageId ? (
-  <div className="relative">
-    <img
-      src={`${IMAGE_BASE}${dish.imageId}`}
-      alt={dish.name || "dish"}
-      className="w-35 h-35 object-cover rounded-lg"
-    />
 
-    {cart.find((c) => c.id === dish.id) ? (
-      <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 flex items-center bg-white rounded shadow">
-        <button
-          onClick={() => decreaseQty(dish.id)}
-          className="px-3 py-1 text-lg font-bold text-green-600"
-        >
-          -
-        </button>
-        <span className="px-2">
-          {cart.find((c) => c.id === dish.id)?.quantity}
-        </span>
-        <button
-          onClick={() => increaseQty(dish.id)}
-          className="px-3 py-1 text-lg font-bold text-green-600"
-        >
-          +
-        </button>
-      </div>
-    ) : (
-      <button
-        onClick={() => {
-          addToCart({
-            id: dish.id,
-            name: dish.name,
-            price: dish.price / 100,
-            image: dish.imageId ? `${IMAGE_BASE}${dish.imageId}` : null,
-          });
-          navigate({ to: "/cart" });
-        }}
-        className="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-white text-green-600 font-semibold text-sm px-4 py-1 rounded shadow"
-      >
-        ADD
-      </button>
-    )}
-  </div>
-):(
+                    {/* Add / Update Cart */}
+                    {cart.find((c) => c.id === dish.id) ? (
+                      <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 flex items-center bg-white rounded shadow">
+                        <button
+                          onClick={() => dispatch(decreaseQty(dish.id))}
+                          className="px-3 py-1 text-lg font-bold text-green-600"
+                        >
+                          -
+                        </button>
+                        <span className="px-2">
+                          {cart.find((c) => c.id === dish.id)?.quantity}
+                        </span>
+                        <button
+                          onClick={() => dispatch(increaseQty(dish.id))}
+                          className="px-3 py-1 text-lg font-bold text-green-600"
+                        >
+                          +
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => {
+                          dispatch(
+                            addToCart({
+                              id: dish.id,
+                              name: dish.name,
+                              price: dish.price / 100,
+                              image: dish.imageId
+                                ? `${IMAGE_BASE}${dish.imageId}`
+                                : undefined,
+                                quantity:dish.quantity
+                            })
+                          );
+                          navigate({ to: "/cart" });
+                        }}
+                        className="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-white text-green-600 font-semibold text-sm px-4 py-1 rounded shadow"
+                      >
+                        ADD
+                      </button>
+                    )}
+                  </div>
+                ) : (
                   <div className="w-28 h-28 flex items-center justify-center bg-gray-100 rounded">
                     <span className="text-gray-500 text-xs">No Image</span>
                   </div>
@@ -194,6 +193,7 @@ const SearchPage = () => {
         </div>
       )}
 
+      {/* Restaurants */}
       {!isLoading && query && activeTab === "restaurants" && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-5xl">
           {restaurantCards.map((r: any) => (

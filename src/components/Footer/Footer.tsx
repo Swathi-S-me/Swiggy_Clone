@@ -1,30 +1,34 @@
-import React from "react";
-import type { FooterProps } from "./footer.types";
+
 import logo from "../../assets/swiggy_logo.webp";
 import Icon from "../Icons/Icon";
+import { useHomepageData } from "../Queries/useHomepageData";
+import type { City } from "./footer.types";
 
-const Footer: React.FC<FooterProps> = ({ cities }) => {
-  const visibleCities = cities.slice(0, 6);
-  const dropdownCities = cities.slice(6);
-  // console.log("Received cities:", cities);
+const Footer = () => {
+  const { data, isLoading } = useHomepageData(0, 0);
+const cities: City[] =
+  data?.data?.cards.find(
+    (card: any) =>
+      card?.card?.card?.["@type"] ===
+      "type.googleapis.com/swiggy.seo.widgets.v1.FooterContent"
+  )?.card?.card?.cities || [];
+
+const visibleCities: City[] = cities.slice(0, 6);
+const dropdownCities: City[] = cities.slice(6);
   return (
     <footer className="bg-gray-100 text-sm text-gray-800 py-10">
-      {/* App download */}
       <div className="text-center mb-6">
         <h2 className="font-bold text-lg mb-4">
           For better experience, download the Swiggy app now
         </h2>
       </div>
 
-      {/* Grid Layout */}
-      <div className="max-w-7xl mx-auto  px-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6 text-sm">
-        {/* Logo */}
+      <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6 text-sm">
         <div>
           <img src={logo} alt="Swiggy" className="w-16 mb-2 ml-7" />
           <p className="font-bold mb-2">2025 Swiggy Limited</p>
         </div>
 
-        {/* Company */}
         <div>
           <h4 className="font-bold mb-2">Company</h4>
           <ul className="space-y-1">
@@ -41,7 +45,6 @@ const Footer: React.FC<FooterProps> = ({ cities }) => {
           </ul>
         </div>
 
-        {/* Contact */}
         <div>
           <h4 className="font-bold mb-2">Contact us</h4>
           <ul className="space-y-1">
@@ -51,38 +54,30 @@ const Footer: React.FC<FooterProps> = ({ cities }) => {
           </ul>
         </div>
 
-        {/* Cities */}
-        <div>
-          <h4 className="font-bold mb-2">Available in:</h4>
-          <ul className="space-y-1">
-            {visibleCities.map((city, idx) => (
-              <li key={idx}>
-                {/* <a href={city.link} className="hover:underline">
-                  {city.text}
-                </a> */}
-                 <span>{city.text}</span>
-              </li>
-            ))}
-          </ul>
-          {dropdownCities.length > 0 && (
-            <select
-              className="mt-2 border border-gray-300 rounded px-2 py-1 w-full"
-              onChange={(e) => {
-                if (e.target.value) window.open(e.target.value, "_blank");
-              }}
-            >
-              <option>+ {dropdownCities.length} cities</option>
-              {dropdownCities.map((city, i) => (
-                // <option key={i} value={city.link}>
-                //   {city.text}
-                // </option>
-                <option key={i}>{city.text}</option>
-              ))}
-            </select>
-          )}
-        </div>
+<div>
+  <h4 className="font-bold mb-2">Available in:</h4>
+  <ul className="space-y-1">
+    {visibleCities.map((city: City, idx: number) => (isLoading ?
+     ( <li key={idx}>
+        <span>{city.text}</span>
+      </li>):<></>
+    ))}
+  </ul>
 
-        {/* Life at Swiggy */}
+  {dropdownCities.length > 0 && (
+    <select
+      disabled={isLoading} 
+      className="mt-2 p-1 border rounded text-sm  w-30"
+    >
+      <option>+ {dropdownCities.length} cities</option>
+      {dropdownCities.map((city: City, i: number) => (
+        <option key={i}>{city.text}</option>
+      ))}
+    </select>
+  )}
+</div>
+
+
         <div>
           <h4 className="font-bold mb-2">Life at Swiggy</h4>
           <ul className="space-y-1">
@@ -92,7 +87,6 @@ const Footer: React.FC<FooterProps> = ({ cities }) => {
           </ul>
         </div>
 
-        {/* Legal + Social */}
         <div>
           <h4 className="font-bold mb-2">Legal</h4>
           <ul className="space-y-1 mb-4">

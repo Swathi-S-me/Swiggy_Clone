@@ -108,7 +108,7 @@ const AllRestaurantsSection: React.FC = () => {
         }}
       />
       <h2 className="text-xl font-bold mb-4">
-        Restaurants with online food delivery in Madurai
+        {`Restaurants with online food delivery in ${location?.address.split(",").slice(0,1)}`}
       </h2>
 
       <div className="flex flex-wrap items-center gap-3 mb-4">

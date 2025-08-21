@@ -19,7 +19,7 @@ export type Restaurant = {
       subHeader: string;
     };
   };
-  cta: {
+  cta?: {
     link: string;
     type: string;
   };

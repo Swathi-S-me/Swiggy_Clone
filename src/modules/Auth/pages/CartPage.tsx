@@ -1,13 +1,18 @@
 
-import React from "react";
-import { useCart } from "../../../context/CartContext";
 
+
+
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { type RootState } from "../../../redux/store";
+import { increaseQty, decreaseQty, clearCart } from "../../../redux/cart/cartSlice";
 
 const CartPage: React.FC = () => {
-  const { cart, increaseQty, decreaseQty, clearCart } = useCart();
+  const cart = useSelector((state: RootState) => state.cart.cart);
+  const dispatch = useDispatch();
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-
+console.log(cart)
   return (
     <div className="max-w-3xl mx-auto p-6">
       <h2 className="text-2xl font-bold mb-6">Your Cart</h2>
@@ -37,14 +42,14 @@ const CartPage: React.FC = () => {
 
               <div className="flex items-center gap-2">
                 <button
-                  onClick={() => decreaseQty(item.id)}
+                  onClick={() => dispatch(decreaseQty(item.id))}
                   className="px-2 py-1 border rounded"
                 >
                   -
                 </button>
                 <span>{item.quantity}</span>
                 <button
-                  onClick={() => increaseQty(item.id)}
+                  onClick={() => dispatch(increaseQty(item.id))}
                   className="px-2 py-1 border rounded"
                 >
                   +
@@ -56,7 +61,7 @@ const CartPage: React.FC = () => {
           <div className="flex justify-between items-center mt-6">
             <p className="text-lg font-bold">Total: ₹{total}</p>
             <button
-              onClick={clearCart}
+              onClick={() => dispatch(clearCart())}
               className="bg-red-500 text-white px-4 py-2 rounded"
             >
               Clear Cart

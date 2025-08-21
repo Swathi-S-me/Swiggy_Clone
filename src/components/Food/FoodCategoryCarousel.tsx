@@ -33,8 +33,12 @@ const FoodCategoryCarousel: React.FC = () => {
       </div>
     );
   }
-
+ if (!isLoading && categories.length === 0) {
+    return null;
+  }
   return (
+        <div className="mb-10 border-b border-gray-200">
+
     <HorizontalScrollCarousel
       title="What's on your mind?"
       items={categories}
@@ -53,6 +57,7 @@ const FoodCategoryCarousel: React.FC = () => {
         </Button>
       )}
     />
+    </div>
   );
 };
 

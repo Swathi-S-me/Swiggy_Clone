@@ -6,8 +6,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import { AuthProvider } from "./context/AuthContext";
 import { LocationProvider } from "./context/LocationContext";
-import { CartProvider } from "./context/CartContext";
-
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
 const queryClient = new QueryClient();
 
 function App() {
@@ -16,9 +16,10 @@ function App() {
       <ToastProvider>
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
-            <CartProvider>
+           <Provider store={store} >
             <RouterProvider router={router} />
-            </CartProvider>
+            </Provider>
+            
           </AuthProvider>
         </QueryClientProvider>
       </ToastProvider>
