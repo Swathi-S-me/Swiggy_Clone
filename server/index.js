@@ -16,6 +16,33 @@ const generateOtp = () => {
   return Array.from({ length: 6 }, () => Math.floor(Math.random() * 10)).join("");
 };
 
+const helpApiMap = {
+  "partner-onboarding": "https://www.swiggy.com/dapi/support/v3/issues/partner-onboarding?",
+  "faq": "https://www.swiggy.com/dapi/support/v3/issues/faq?",
+  "legal": "https://www.swiggy.com/dapi/support/v3/issues/legal?",
+  "instamart": "https://www.swiggy.com/dapi/support/v3/issues/instamart_onboarding?",
+  "irctc": "https://www.swiggy.com/dapi/support/v3/issues/irctc_faq?",
+};
+
+app.get("/api/help/:key", async (req, res) => {
+  const key = req.params.key;
+  const url = helpApiMap[key];
+
+  if (!url) return res.status(404).json({ error: "Invalid help key" });
+
+  try {
+    const response = await fetch(url, {
+      headers: { "User-Agent": "Mozilla/5.0", Accept: "application/json" },
+    });
+    const data = await response.json();
+    res.json(data);
+  } catch (err) {
+    console.error("Help fetch failed", err);
+    res.status(500).json({ error: "Failed to fetch help data" });
+  }
+});
+
+
 app.get("/api/swiggy", async (req, res) => {
   try {
      const { lat = "9.9252007", lng = "78.1197754" } = req.query;

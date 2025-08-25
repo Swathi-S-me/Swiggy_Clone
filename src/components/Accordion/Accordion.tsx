@@ -4,8 +4,12 @@ import { useDispatch } from "react-redux";
 
 import { useNavigate } from "@tanstack/react-router";
 import { useSelector } from "react-redux";
-import {type  RootState } from "../../redux/store";
-import { addToCart, decreaseQty, increaseQty } from "../../redux/cart/cartSlice";
+import { type RootState } from "../../redux/store";
+import {
+  addToCart,
+  decreaseQty,
+  increaseQty,
+} from "../../redux/cart/cartSlice";
 import { IMAGE_BASE } from "../../constant/URL";
 
 const MenuAccordion = ({ categorizedItems }: Props) => {
@@ -16,7 +20,6 @@ const MenuAccordion = ({ categorizedItems }: Props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const cartItems = useSelector((state: RootState) => state.cart);
-
 
   const toggleCategory = (title: string) => {
     setOpenCategory(openCategory === title ? null : title);
@@ -34,8 +37,7 @@ const MenuAccordion = ({ categorizedItems }: Props) => {
         id: item.id,
         name: item.name,
         price: (item.price ?? item.defaultPrice ?? 0) / 100, // convert to ₹
-        image: item.imageId ? `${IMAGE_BASE}${item.imageId}`
-                                : undefined,
+        image: item.imageId ? `${IMAGE_BASE}${item.imageId}` : undefined,
         quantity: 1,
       })
     );
@@ -83,49 +85,46 @@ const MenuAccordion = ({ categorizedItems }: Props) => {
                     )}
                   </div>
 
-                  
-
                   {item.imageId && (
-  <div className="w-28 relative">
-    <img
-      src={`https://media-assets.swiggy.com/swiggy/image/upload/${item.imageId}`}
-      alt={item.name}
-      className="w-full h-24 object-cover rounded-lg"
-    />
+                    <div className="w-28 relative">
+                      <img
+                        src={`https://media-assets.swiggy.com/swiggy/image/upload/${item.imageId}`}
+                        alt={item.name}
+                        className="w-full h-24 object-cover rounded-lg"
+                      />
 
-    {/* check if item exists in cart */}
-    {cartItems.cart?.some((cartItem: any) => cartItem.id === item.id) ? (
-      <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 flex items-center bg-white rounded shadow">
-        <button
-          onClick={() => dispatch(decreaseQty(item.id))}
-          className="px-3 py-1 text-lg font-bold text-green-600"
-        >
-          -
-        </button>
-        <span className="px-2">
-          {
-            cartItems.cart.find((cartItem: any) => cartItem.id === item.id)
-              ?.quantity ?? 0
-          }
-        </span>
-        <button
-          onClick={() => dispatch(increaseQty(item.id))}
-          className="px-3 py-1 text-lg font-bold text-green-600"
-        >
-          +
-        </button>
-      </div>
-    ) : (
-      <button
-        onClick={() => handleAddToCart(item)}
-        className="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-white border border-gray-300 text-green-600 font-semibold px-4 py-1 rounded shadow"
-      >
-        ADD
-      </button>
-    )}
-  </div>
-)}
-
+                      {cartItems.cart?.some(
+                        (cartItem: any) => cartItem.id === item.id
+                      ) ? (
+                        <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 flex items-center bg-white rounded shadow">
+                          <button
+                            onClick={() => dispatch(decreaseQty(item.id))}
+                            className="px-3 py-1 text-lg font-bold text-green-600"
+                          >
+                            -
+                          </button>
+                          <span className="px-2">
+                            {cartItems.cart.find(
+                              (cartItem: any) => cartItem.id === item.id
+                            )?.quantity ?? 0}
+                          </span>
+                          <button
+                            onClick={() => dispatch(increaseQty(item.id))}
+                            className="px-3 py-1 text-lg font-bold text-green-600"
+                          >
+                            +
+                          </button>
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() => handleAddToCart(item)}
+                          className="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-white border border-gray-300 text-green-600 font-semibold px-4 py-1 rounded shadow"
+                        >
+                          ADD
+                        </button>
+                      )}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

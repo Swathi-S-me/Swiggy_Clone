@@ -7,6 +7,8 @@ import CollectionPage from "./modules/Auth/pages/CollectionPage";
 import RestaurantMenuPage from "./modules/Auth/pages/RestaurantMenuPage";
 import SearchDrawer from "./modules/Auth/pages/Search";
 import CartPage from "./modules/Auth/pages/CartPage";
+import HelpPage from "./modules/Auth/pages/HelpPage";
+import Offers from "./modules/Auth/pages/Offers";
 
 const rootRoute = createRootRoute({
   component: Layout,
@@ -40,9 +42,20 @@ const cartRoute = createRoute({
   path: "/cart",
   component: CartPage,
 });
+const HelpRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/help",
+  component: HelpPage,
+});
+
+const OffersRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/offers",
+  component: Offers,
+});
 
 export const routeTree = rootRoute.addChildren([
-  homeRoute,collectionRoute,restaurantMenu,searchRoute,cartRoute
+  homeRoute,collectionRoute,restaurantMenu,searchRoute,cartRoute,HelpRoute,OffersRoute
 ]);
 
 export const router = createRouter({ routeTree });
