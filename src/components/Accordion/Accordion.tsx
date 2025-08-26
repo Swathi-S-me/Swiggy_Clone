@@ -1,5 +1,4 @@
-import { useState } from "react";
-import type { Props } from "./accordion.types";
+import type { MenuProps } from "./accordion.types";
 import { useDispatch } from "react-redux";
 
 import { useNavigate } from "@tanstack/react-router";
@@ -11,8 +10,10 @@ import {
   increaseQty,
 } from "../../redux/cart/cartSlice";
 import { IMAGE_BASE } from "../../constant/URL";
+import { useState } from "react";
+import Button from "../Button/Button";
 
-const MenuAccordion = ({ categorizedItems }: Props) => {
+const MenuAccordion = ({ categorizedItems }: MenuProps) => {
   const [openCategory, setOpenCategory] = useState<string | null>(null);
   const [expandedItems, setExpandedItems] = useState<{
     [key: string]: boolean;
@@ -47,13 +48,13 @@ const MenuAccordion = ({ categorizedItems }: Props) => {
     <div className="max-w-3xl mx-auto">
       {categorizedItems.map((category) => (
         <div key={category.title} className="mb-6  rounded-lg shadow-sm ">
-          <button
+          <Button
             onClick={() => toggleCategory(category.title)}
             className="w-full flex justify-between items-center p-4 text-left font-bold text-lg bg-gray-100 hover:bg-gray-200 transition"
           >
             {category.title}
             <span>{openCategory === category.title ? "▲" : "▼"}</span>
-          </button>
+          </Button>
 
           {openCategory === category.title && (
             <div className="p-4 flex flex-col gap-6">
@@ -65,7 +66,7 @@ const MenuAccordion = ({ categorizedItems }: Props) => {
                   <div className="flex-1">
                     <h4 className="text-lg font-semibold">{item.name}</h4>
                     <p className="text-md text-black font-semibold">
-                      ₹
+                      Rs.
                       {((item.price ?? item.defaultPrice ?? 0) / 100).toFixed(
                         0
                       )}
@@ -97,31 +98,31 @@ const MenuAccordion = ({ categorizedItems }: Props) => {
                         (cartItem: any) => cartItem.id === item.id
                       ) ? (
                         <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 flex items-center bg-white rounded shadow">
-                          <button
+                          <Button
                             onClick={() => dispatch(decreaseQty(item.id))}
                             className="px-3 py-1 text-lg font-bold text-green-600"
                           >
                             -
-                          </button>
+                          </Button>
                           <span className="px-2">
                             {cartItems.cart.find(
                               (cartItem: any) => cartItem.id === item.id
                             )?.quantity ?? 0}
                           </span>
-                          <button
+                          <Button
                             onClick={() => dispatch(increaseQty(item.id))}
                             className="px-3 py-1 text-lg font-bold text-green-600"
                           >
                             +
-                          </button>
+                          </Button>
                         </div>
                       ) : (
-                        <button
+                        <Button
                           onClick={() => handleAddToCart(item)}
                           className="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-white border border-gray-300 text-green-600 font-semibold px-4 py-1 rounded shadow"
                         >
                           ADD
-                        </button>
+                        </Button>
                       )}
                     </div>
                   )}

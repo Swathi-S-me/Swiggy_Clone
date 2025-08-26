@@ -3,8 +3,10 @@ import { useAllRestaurants } from "../Queries/useAllRestaurants";
 import { Link } from "@tanstack/react-router";
 import Icon from "../Icons/Icon";
 import { FilterModal } from "../FilterModal/FilterModal";
-import Spinner from "../Spinner";
+
 import { userLocation } from "../../context/LocationContext";
+import Shimmer from "../Shimmer/Shimmer";
+import Button from "../Button/Button";
 
 const AllRestaurantsSection: React.FC = () => {
   const { location } = userLocation();
@@ -85,7 +87,7 @@ const AllRestaurantsSection: React.FC = () => {
     });
   };
 
-  if (isLoading) return <Spinner />;
+  if (isLoading) return <Shimmer className="w-40 h-40 flex-shrink-0 rounded-2xl" />;
 
   return (
     <div className="p-4">
@@ -112,12 +114,12 @@ const AllRestaurantsSection: React.FC = () => {
       </h2>
 
       <div className="flex flex-wrap items-center gap-3 mb-4">
-        <button
+        <Button
           onClick={() => setIsFilterOpen(true)}
           className="border border-black px-3 py-1 rounded-full text-sm hover:bg-gray-100 transition"
         >
           Filter
-        </button>
+        </Button>
 
         {costOptions.map((cost) => (
           <button

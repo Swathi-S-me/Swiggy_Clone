@@ -1,6 +1,7 @@
-import type { Props } from "./helpAccordion.types";
+import Button from "../Button/Button";
+import type { HelpProps } from "./helpAccordion.types";
 
-export default function AccordionItem({ issue, openId, setOpenId }: Props) {
+export default function AccordionItem({ issue, openId, setOpenId }: HelpProps) {
   const isOpen = openId === issue.id;
 
   return (
@@ -10,7 +11,7 @@ export default function AccordionItem({ issue, openId, setOpenId }: Props) {
         className="w-full flex justify-between items-center py-4 text-left font-medium text-gray-800"
       >
         {issue.title}
-        <span>{isOpen ? "−" : "+"}</span>
+        <span>{isOpen ? "-" : "+"}</span>
       </button>
 
       {isOpen && (
@@ -30,9 +31,9 @@ export default function AccordionItem({ issue, openId, setOpenId }: Props) {
 
           {issue.options?.map((opt, idx) => (
             <div key={idx}>
-              <button className="mt-2 px-4 py-2 bg-orange-500 text-white rounded-lg shadow hover:bg-orange-600">
+              <Button className="mt-2 px-4 py-2 bg-orange-500 text-white rounded-lg shadow hover:bg-orange-600">
                 {opt.title}
-              </button>
+              </Button>
               {opt.waitTimeDescription && (
                 <p className="text-sm text-gray-500">
                   {opt.waitTimeDescription}

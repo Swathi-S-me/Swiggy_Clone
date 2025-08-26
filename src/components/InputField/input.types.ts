@@ -5,4 +5,5 @@ export interface InputProps {
   onChange: (val: string) => void;
   className?: string;
   name?: string;
+  checked?: boolean; 
 }

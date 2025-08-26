@@ -1,12 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import Icon from "../Icons/Icon";
 import { truncate } from "../../utils/text";
-import type { Restaurant } from "../Restaurants/restaurant.types";
-
-interface RestaurantCardProps {
-  rest: Restaurant;
-  variant?: "grid" | "carousel";
-}
+import type { RestaurantCardProps } from "./restaurantCard.types";
 
 const IMAGE_BASE = "https://media-assets.swiggy.com/swiggy/image/upload/";
 

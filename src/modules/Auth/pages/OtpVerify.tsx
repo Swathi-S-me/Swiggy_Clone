@@ -3,7 +3,6 @@
 
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import OtpInput from "../components/OtpInput";
 import Button from "../../../components/Button/Button";
 import { verifyOtp } from "../auth.api";
 import { useNavigate } from "@tanstack/react-router";
@@ -11,6 +10,7 @@ import { useToast } from "../../../components/Toasts/useToast";
 import { useAuth } from "../../../context/AuthContext";
 import { useUser } from "../../../queries/useUser";
 import type { Props } from "./otpVerify.types";
+import Input from "../../../components/InputField/Input";
 
 const OtpVerify = ({ phone, onSuccess }: Props) => {
   const [otp, setOtp] = useState("");
@@ -49,7 +49,15 @@ const OtpVerify = ({ phone, onSuccess }: Props) => {
 
   return (
     <div className="space-y-4">
-      <OtpInput otp={otp} setOtp={setOtp} />
+      {/* <OtpInput otp={otp} setOtp={setOtp} /> */}
+      <Input
+  type="text"
+  placeholder="Enter OTP"
+  value={otp}
+  onChange={setOtp}
+  className="mt-4"
+/>
+
 
       <Button
         onClick={handleVerify}

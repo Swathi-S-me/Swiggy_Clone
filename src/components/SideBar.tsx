@@ -1,3 +1,4 @@
+import Button from "./Button/Button";
 import type { Sidebar } from "./HelpAccordion/helpAccordion.types";
 
 export default function Sidebar({ active, setActive }: Sidebar) {
@@ -12,7 +13,7 @@ export default function Sidebar({ active, setActive }: Sidebar) {
   return (
     <aside className="w-1/4 bg-gray-100 rounded-xl p-4">
       {sidebarItems.map((item) => (
-        <button
+        <Button
           key={item.key}
           onClick={() => setActive(item.key)}
           className={`block w-full text-left px-3 py-2 rounded-lg mb-2 font-medium ${
@@ -22,7 +23,7 @@ export default function Sidebar({ active, setActive }: Sidebar) {
           }`}
         >
           {item.label}
-        </button>
+        </Button>
       ))}
     </aside>
   );

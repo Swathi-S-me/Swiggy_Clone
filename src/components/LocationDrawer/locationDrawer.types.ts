@@ -1,4 +1,4 @@
-export interface Props {
+export interface LocationProps {
   isOpen: boolean;
   onClose: () => void;
 }

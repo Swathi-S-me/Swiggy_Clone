@@ -4,14 +4,22 @@ import { useSearchSuggestions } from "../../../components/Queries/useSearchSugge
 import { userLocation } from "../../../context/LocationContext";
 import { useNavigate } from "@tanstack/react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart, increaseQty, decreaseQty } from "../../../redux/cart/cartSlice";
+import {
+  addToCart,
+  increaseQty,
+  decreaseQty,
+} from "../../../redux/cart/cartSlice";
 import { type RootState } from "../../../redux/store";
 import { IMAGE_BASE } from "../../../constant/URL";
-
+import Input from "../../../components/InputField/Input";
+import Button from "../../../components/Button/Button";
+import Icon from "../../../components/Icons/Icon";
 
 const SearchPage = () => {
   const [query, setQuery] = useState("");
-  const [activeTab, setActiveTab] = useState<"restaurants" | "dishes">("dishes");
+  const [activeTab, setActiveTab] = useState<"restaurants" | "dishes">(
+    "dishes"
+  );
   const [selectedDish, setSelectedDish] = useState<any | null>(null);
 
   const navigate = useNavigate();
@@ -45,13 +53,12 @@ const SearchPage = () => {
 
   return (
     <div className="flex flex-col items-center px-4 mb-10">
-      {/* Search Input */}
       <div className="w-full max-w-2xl mt-2 mb-6">
-        <input
+        <Input
           type="text"
           value={query}
           onChange={(e) => {
-            setQuery(e.target.value);
+            setQuery(e);
             setActiveTab("dishes");
           }}
           placeholder="Search for restaurants or dishes"
@@ -59,10 +66,9 @@ const SearchPage = () => {
         />
       </div>
 
-      {/* Tabs */}
       {query && (
         <div className="flex gap-3 mb-6">
-          <button
+          <Button
             onClick={() => setActiveTab("restaurants")}
             className={`px-5 py-2 rounded-full border ${
               activeTab === "restaurants"
@@ -71,7 +77,7 @@ const SearchPage = () => {
             }`}
           >
             Restaurants
-          </button>
+          </Button>
           <button
             onClick={() => setActiveTab("dishes")}
             className={`px-5 py-2 rounded-full border ${
@@ -100,8 +106,8 @@ const SearchPage = () => {
               {restaurant && (
                 <div className="mb-3 text-sm text-gray-600">
                   <p className="font-medium">By {restaurant.name}</p>
-                  <p>
-                    ⭐ {restaurant.avgRating} • {restaurant.sla?.slaString}
+                  <p className="flex items-center gap-2">
+                    <Icon name="star" size={12}  /> {restaurant.avgRating} • {restaurant.sla?.slaString}
                   </p>
                 </div>
               )}
@@ -144,24 +150,24 @@ const SearchPage = () => {
                     {/* Add / Update Cart */}
                     {cart.find((c) => c.id === dish.id) ? (
                       <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 flex items-center bg-white rounded shadow">
-                        <button
+                        <Button
                           onClick={() => dispatch(decreaseQty(dish.id))}
                           className="px-3 py-1 text-lg font-bold text-green-600"
                         >
                           -
-                        </button>
+                        </Button>
                         <span className="px-2">
                           {cart.find((c) => c.id === dish.id)?.quantity}
                         </span>
-                        <button
+                        <Button
                           onClick={() => dispatch(increaseQty(dish.id))}
                           className="px-3 py-1 text-lg font-bold text-green-600"
                         >
                           +
-                        </button>
+                        </Button>
                       </div>
                     ) : (
-                      <button
+                      <Button
                         onClick={() => {
                           dispatch(
                             addToCart({
@@ -171,7 +177,7 @@ const SearchPage = () => {
                               image: dish.imageId
                                 ? `${IMAGE_BASE}${dish.imageId}`
                                 : undefined,
-                                quantity:dish.quantity
+                              quantity: dish.quantity,
                             })
                           );
                           navigate({ to: "/cart" });
@@ -179,7 +185,7 @@ const SearchPage = () => {
                         className="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-white text-green-600 font-semibold text-sm px-4 py-1 rounded shadow"
                       >
                         ADD
-                      </button>
+                      </Button>
                     )}
                   </div>
                 ) : (

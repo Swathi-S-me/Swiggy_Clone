@@ -1,5 +1,3 @@
-// src/types/menu.ts
-
 export interface MenuItem {
   id: string;
   name: string;
@@ -14,6 +12,6 @@ export interface MenuCategory {
   items: MenuItem[];
 }
 
-export interface Props {
+export interface MenuProps {
   categorizedItems: MenuCategory[];
 }

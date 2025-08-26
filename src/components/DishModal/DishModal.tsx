@@ -1,15 +1,17 @@
+import Button from "../Button/Button";
+import Icon from "../Icons/Icon";
 import type { Dish } from "./dishModal.types";
 
 const DishModal = ({ dish, onClose }: { dish: Dish; onClose: () => void }) => {
   return (
     <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
       <div className="bg-white rounded-2xl max-w-md w-full p-4 relative shadow-lg">
-        <button
-          className="absolute top-8 right-8 text-gray-600 text-lg bg-white rounded-2xl w-6 h-6 text-center"
+        <Button
+          className="absolute top-8 right-8 text-gray-600 text-lg bg-white rounded-xl w-4 h-4 flex items-center justify-center cursor-pointer"
           onClick={onClose}
         >
-          ✕
-        </button>
+          <Icon name="close" size={10}/>
+        </Button>
 
         {dish.image && (
           <img
@@ -26,9 +28,9 @@ const DishModal = ({ dish, onClose }: { dish: Dish; onClose: () => void }) => {
               <p className="text-lg font-semibold mt-1">₹{dish.price}</p>
             </div>
 
-            <button className="border bg-white text-green-600 px-4 py-2 rounded-lg font-semibold hover:bg-gray-200">
+            <Button className="cursor-pointer border bg-white text-green-600 px-4 py-2 rounded-lg font-semibold hover:bg-gray-200">
               ADD
-            </button>
+            </Button>
           </div>
 
           {dish.description && (

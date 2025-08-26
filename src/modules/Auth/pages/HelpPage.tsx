@@ -15,12 +15,25 @@ export default function HelpPage() {
   const activeItem = sidebarItems.find((i) => i.key === active)!;
 
 
-  return (
-    <div className="flex max-w-6xl mx-auto p-6 gap-6">
-      <Sidebar active={active} setActive={setActive} />
-      <main className="flex-1">
-        <HelpSection api={activeItem.api} />
-      </main>
+//   return (
+//     <div className="bg-blue-950">
+//     <div className="flex max-w-6xl mx-auto p-6 gap-6">
+//       <Sidebar active={active} setActive={setActive} />
+//       <main className="flex-1">
+//         <HelpSection api={activeItem.api} />
+//       </main>
+//     </div>
+//     </div>
+//   );
+// }
+return (
+    <div className="bg-blue-950 min-h-screen pt-0 mt-0">
+      <div className="flex max-w-6xl mx-auto p-6 gap-6">
+        <Sidebar active={active} setActive={setActive} />
+        <main className="flex-1">
+          <HelpSection api={activeItem.api} />
+        </main>
+      </div>
     </div>
   );
 }

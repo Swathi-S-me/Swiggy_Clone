@@ -1,10 +1,12 @@
 
 import { useState } from "react";
-import PhoneInput from "../components/PhoneInput";
+
 import OtpVerify from "./OtpVerify";
 import { sendOtp, checkUserExists, signupUser } from "../auth.api";
 import { useMutation } from "@tanstack/react-query";
 import logo from "../../../assets/swiggy_logo.webp";
+import Input from "../../../components/InputField/Input";
+import Button from "../../../components/Button/Button";
 
 type Mode = "login" | "signup";
 
@@ -69,29 +71,35 @@ const AuthFlow = ({ onClose }: { onClose: () => void }) => {
         <OtpVerify phone={phone} onSuccess={onClose} />
       ) : (
         <div className="space-y-4 mt-6">
-          <PhoneInput phone={phone} setPhone={setPhone} />
+          
+          <Input
+  type="tel"
+  placeholder="Enter phone number"
+  value={phone}
+  onChange={setPhone}
+/>
 
           {mode === "signup" && (
             <>
-              <input
+              <Input
                 type="text"
                 placeholder="Name"
                 value={name}
-                onChange={(e) => setName(e.target.value)}
+                onChange={setName}
                 className="w-full border p-3 rounded outline-none"
               />
-              <input
+              <Input
                 type="email"
                 placeholder="Email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={ setEmail}
                 className="w-full border p-3 rounded outline-none"
               />
               
             </>
           )}
 
-          <button
+          <Button
             onClick={mode === "login" ? handleLogin : handleSignup}
             disabled={otpLoading || signupLoading}
             className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded"
@@ -103,7 +111,7 @@ const AuthFlow = ({ onClose }: { onClose: () => void }) => {
               : signupLoading
               ? "Creating..."
               : "CONTINUE"}
-          </button>
+          </Button>
 
           <p className="text-xs text-gray-600">
             By {mode === "login" ? "clicking on Login" : "creating an account"},

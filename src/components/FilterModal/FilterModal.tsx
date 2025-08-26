@@ -1,7 +1,8 @@
-
 import { useState } from "react";
 import type { FilterModalProps, FilterOptions } from "./filterModal.types";
 import Icon from "../Icons/Icon";
+import Button from "../Button/Button";
+import Input from "../InputField/Input";
 
 export const FilterModal: React.FC<FilterModalProps> = ({
   isOpen,
@@ -13,7 +14,9 @@ export const FilterModal: React.FC<FilterModalProps> = ({
   onApply,
 }) => {
   const [activeFilter, setActiveFilter] = useState("Ratings");
-  const [selectedFilters, setSelectedFilters] = useState<FilterOptions>({ Cuisine: [] });
+  const [selectedFilters, setSelectedFilters] = useState<FilterOptions>({
+    Cuisine: [],
+  });
 
   const getOptions = () => {
     if (activeFilter === "Ratings") return ratingFilters;
@@ -51,7 +54,9 @@ export const FilterModal: React.FC<FilterModalProps> = ({
     return selectedFilters[activeFilter as keyof FilterOptions] === id;
   };
 
-  const isAnyFilterSelected = Object.values(selectedFilters).some((v) => v && (Array.isArray(v) ? v.length : true));
+  const isAnyFilterSelected = Object.values(selectedFilters).some(
+    (v) => v && (Array.isArray(v) ? v.length : true)
+  );
 
   if (!isOpen) return null;
 
@@ -74,7 +79,7 @@ export const FilterModal: React.FC<FilterModalProps> = ({
         </div>
 
         <div className="w-2/3 p-6 flex flex-col justify-between relative overflow-hidden">
-          <button
+          <Button
             onClick={() => {
               onApply(selectedFilters);
               onClose();
@@ -83,14 +88,17 @@ export const FilterModal: React.FC<FilterModalProps> = ({
             aria-label="Close filter modal"
           >
             <Icon name="close" size={12} />
-          </button>
+          </Button>
 
           <div className="overflow-y-auto pr-2 max-h-[calc(80vh-150px)]">
             <h3 className="text-lg font-semibold mb-4">{activeFilter} </h3>
             <div className="space-y-4">
               {getOptions().map((option) => (
-                <label key={option.id} className="flex items-center gap-3 cursor-pointer">
-                  <input
+                <label
+                  key={option.id}
+                  className="flex items-center gap-3 cursor-pointer"
+                >
+                  <Input
                     type="checkbox"
                     name={activeFilter}
                     value={option.id}
@@ -100,7 +108,9 @@ export const FilterModal: React.FC<FilterModalProps> = ({
                   />
                   <div
                     className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
-                      isSelected(option.id) ? "border-orange-500" : "border-gray-400"
+                      isSelected(option.id)
+                        ? "border-orange-500"
+                        : "border-gray-400"
                     }`}
                   >
                     {isSelected(option.id) && (
@@ -114,18 +124,22 @@ export const FilterModal: React.FC<FilterModalProps> = ({
           </div>
 
           <div className="flex justify-end gap-3 pt-6">
-            <button
+            <Button
               className={`px-4 py-2 border rounded ${
-                isAnyFilterSelected ? "border-gray-300 text-gray-700" : "border-gray-200 text-gray-400 cursor-not-allowed"
+                isAnyFilterSelected
+                  ? "border-gray-300 text-gray-700"
+                  : "border-gray-200 text-gray-400 cursor-not-allowed"
               }`}
               onClick={handleClear}
               disabled={!isAnyFilterSelected}
             >
               Clear Filters
-            </button>
-            <button
+            </Button>
+            <Button
               className={`px-4 py-2 rounded text-white ${
-                isAnyFilterSelected ? "bg-orange-500 hover:bg-orange-600" : "bg-orange-200 cursor-not-allowed"
+                isAnyFilterSelected
+                  ? "bg-orange-500 hover:bg-orange-600"
+                  : "bg-orange-200 cursor-not-allowed"
               }`}
               onClick={() => {
                 onApply(selectedFilters);
@@ -134,14 +148,10 @@ export const FilterModal: React.FC<FilterModalProps> = ({
               disabled={!isAnyFilterSelected}
             >
               Apply
-            </button>
+            </Button>
           </div>
         </div>
       </div>
     </div>
   );
 };
-
-
-
-

@@ -14,7 +14,7 @@ const RestaurantMenuPage = () => {
     return (
       <div className="p-4 text-center">
         <Spinner />
-        Loading menu...
+        
       </div>
     );
   if (error) return <div className="p-4 text-red-600">Error loading menu</div>;

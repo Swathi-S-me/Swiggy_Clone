@@ -1,12 +1,10 @@
-
-
-
 import React from "react";
 import HorizontalScrollCarousel from "../Carousel/HorizontalScrollCarousel";
 import type { ImageInfo } from "./foodcategory.types";
 import { useNavigate } from "@tanstack/react-router";
 import Button from "../Button/Button";
 import { useFoodCategories } from "../../queries/useFoodCategories";
+import Shimmer from "../Shimmer/Shimmer";
 
 const FoodCategoryCarousel: React.FC = () => {
   const navigate = useNavigate();
@@ -43,7 +41,9 @@ const FoodCategoryCarousel: React.FC = () => {
       title="What's on your mind?"
       items={categories}
       loading={isLoading}
-      renderItem={(item: ImageInfo) => (
+      renderItem={(item: ImageInfo) => isLoading ? (
+            <Shimmer className="w-40 h-40 rounded-lg" />
+          ) : (
         <Button
           key={item.id}
           onClick={() => handleClick(item)}
@@ -62,3 +62,5 @@ const FoodCategoryCarousel: React.FC = () => {
 };
 
 export default FoodCategoryCarousel;
+
+

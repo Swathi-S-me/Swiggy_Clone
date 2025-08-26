@@ -8,6 +8,7 @@ import { useAuth } from "../../context/AuthContext";
 import AuthFlow from "../../modules/Auth/pages/OtpLogin";
 import { userLocation } from "../../context/LocationContext";
 import LocationDrawer from "../LocationDrawer/LocationDrawer";
+import Button from "../Button/Button";
 
 const navLinks: NavLink[] = [
   { label: "Swiggy Corporate", path: "/", icon: "bag" },
@@ -41,7 +42,6 @@ const Navbar = () => {
             className="cursor-pointer flex items-center gap-2 max-w-[200px] overflow-hidden whitespace-nowrap text-ellipsis"
             onClick={() => setDrawerOpen(true)}
           >
-            
             <span className="font-bold text-l truncate">
               {locations?.address || "Select Location"}
             </span>
@@ -74,14 +74,14 @@ const Navbar = () => {
                     {user.name}
                   </span>
                 ) : (
-                  <button
+                  <Button
                     key={link.label}
                     onClick={open}
                     className="flex items-center gap-2 px-3 py-1 rounded-md transition hover:text-orange-500 text-gray-700"
                   >
                     {link.icon && <Icon name={link.icon} size={18} />}
                     {link.label}
-                  </button>
+                  </Button>
                 );
               }
 

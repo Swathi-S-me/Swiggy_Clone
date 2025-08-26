@@ -16,7 +16,7 @@ export interface HelpIssue {
   hyperLink?: string | null;
   options?: HelpOption[];
 }
-export interface Props {
+export interface HelpProps {
   issue: HelpIssue;
   openId: number | null;
   setOpenId: (id: number | null) => void;

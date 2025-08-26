@@ -16,7 +16,7 @@ const Drawer = ({ isOpen, onClose,children  }: DrawerProps) => {
       ></div>
       <div className="absolute right-0 top-0 w-full md:w-[400px] h-full bg-white shadow-lg p-4 overflow-y-auto">
        
-        <Button onClick={onClose} className="text-gray-600 hover:text-red-500 mb-4" ><Icon name="close" size={18}/></Button>
+        <Button onClick={onClose} className="text-gray-600 hover:text-red-500 mb-4 " ><Icon name="close" size={18}/></Button>
         
          {children} 
       </div>
