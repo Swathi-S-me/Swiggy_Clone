@@ -25,7 +25,7 @@ const DishModal = ({ dish, onClose }: { dish: Dish; onClose: () => void }) => {
           <div className="flex items-center justify-between mt-2">
             <div>
               <h2 className="text-xl font-bold">{dish.name}</h2>
-              <p className="text-lg font-semibold mt-1">₹{dish.price}</p>
+              <p className="text-lg font-semibold mt-1">Rs.{dish.price}</p>
             </div>
 
             <Button className="cursor-pointer border bg-white text-green-600 px-4 py-2 rounded-lg font-semibold hover:bg-gray-200">

@@ -37,7 +37,7 @@ const MenuAccordion = ({ categorizedItems }: MenuProps) => {
       addToCart({
         id: item.id,
         name: item.name,
-        price: (item.price ?? item.defaultPrice ?? 0) / 100, // convert to ₹
+        price: (item.price ?? item.defaultPrice ?? 0) / 100, 
         image: item.imageId ? `${IMAGE_BASE}${item.imageId}` : undefined,
         quantity: 1,
       })

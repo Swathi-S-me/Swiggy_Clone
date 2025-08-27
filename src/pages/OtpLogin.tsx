@@ -1,12 +1,11 @@
-
 import { useState } from "react";
 
 import OtpVerify from "./OtpVerify";
-import { sendOtp, checkUserExists, signupUser } from "../auth.api";
+import { sendOtp, checkUserExists, signupUser } from "../Auth/auth.api";
 import { useMutation } from "@tanstack/react-query";
-import logo from "../../../assets/swiggy_logo.webp";
-import Input from "../../../components/InputField/Input";
-import Button from "../../../components/Button/Button";
+import logo from "../assets/swiggy_logo.webp";
+import Input from "../components/InputField/Input";
+import Button from "../components/Button/Button";
 
 type Mode = "login" | "signup";
 
@@ -61,7 +60,7 @@ const AuthFlow = ({ onClose }: { onClose: () => void }) => {
           </button>
         </div>
         <img
-          src={logo} 
+          src={logo}
           alt="wrap"
           className="w-20 h-20 object-contain rounded-full"
         />
@@ -71,13 +70,12 @@ const AuthFlow = ({ onClose }: { onClose: () => void }) => {
         <OtpVerify phone={phone} onSuccess={onClose} />
       ) : (
         <div className="space-y-4 mt-6">
-          
           <Input
-  type="tel"
-  placeholder="Enter phone number"
-  value={phone}
-  onChange={setPhone}
-/>
+            type="tel"
+            placeholder="Enter phone number"
+            value={phone}
+            onChange={setPhone}
+          />
 
           {mode === "signup" && (
             <>
@@ -92,10 +90,9 @@ const AuthFlow = ({ onClose }: { onClose: () => void }) => {
                 type="email"
                 placeholder="Email"
                 value={email}
-                onChange={ setEmail}
+                onChange={setEmail}
                 className="w-full border p-3 rounded outline-none"
               />
-              
             </>
           )}
 

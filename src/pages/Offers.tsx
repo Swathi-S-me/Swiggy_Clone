@@ -1,4 +1,4 @@
-import offer from "../../../assets/offer.avif";
+import offer from "../assets/offer.avif"
 export default function Offers() {
   return (
     <div className="max-w-7xl mx-auto px-4 py-12 space-y-16">

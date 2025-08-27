@@ -1,5 +1,5 @@
-import ToastProvider from "./components/Toasts/ToastProvider";
 
+import { Toaster } from "react-hot-toast";
 import { RouterProvider } from "@tanstack/react-router";
 import { router } from "./router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -13,16 +13,16 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <LocationProvider>
-      <ToastProvider>
-        <QueryClientProvider client={queryClient}>
+       <QueryClientProvider client={queryClient}>
           <AuthProvider>
+             <Toaster position="top-right" reverseOrder={false} />
            <Provider store={store} >
             <RouterProvider router={router} />
             </Provider>
             
           </AuthProvider>
         </QueryClientProvider>
-      </ToastProvider>
+      
     </LocationProvider>
   );
 }

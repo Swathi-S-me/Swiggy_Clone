@@ -1,8 +1,8 @@
 import { useParams, useSearch } from "@tanstack/react-router";
-import { useCollection } from "../../../queries/useCollection";
-import Spinner from "../../../components/Spinner";
-import type { Restaurant } from "../../../components/Restaurants/restaurant.types";
-import RestaurantCard from "../../../components/RestaurantCard/RestaurantCard";
+import { useCollection } from "../queries/useCollection";
+import Spinner from "../components/Spinner";
+import type { Restaurant } from "../components/Restaurants/restaurant.types";
+import RestaurantCard from "../components/RestaurantCard/RestaurantCard";
 
 type MastheadCard = {
   "@type": "type.googleapis.com/swiggy.gandalf.widgets.v2.CollectionMasthead";

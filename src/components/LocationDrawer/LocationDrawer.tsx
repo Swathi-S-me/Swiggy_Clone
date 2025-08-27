@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { userLocation } from "../../context/LocationContext";
-import useLocalStorage from "../../modules/Auth/hooks/useLocalStorage";
+
 import type { LocationProps } from "../LocationDrawer/locationDrawer.types";
 import Icon from "../Icons/Icon";
 import Button from "../Button/Button";
 import Input from "../InputField/Input";
+import useLocalStorage from "../../hooks/useLocalStorage";
 
 export default function LocationDrawer({ isOpen, onClose }: LocationProps) {
   const { setLocation } = userLocation();

@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import Button from "../../../components/Button/Button";
+import Button from "../components/Button/Button";
 import OtpVerify from "./OtpVerify";
 
 const Signup = () => {

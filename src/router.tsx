@@ -2,13 +2,13 @@ import { createRootRoute, createRoute, createRouter } from "@tanstack/react-rout
 import Layout from "./Layout";
 
 
-import Home from "./modules/Auth/pages/Home";
-import CollectionPage from "./modules/Auth/pages/CollectionPage";
-import RestaurantMenuPage from "./modules/Auth/pages/RestaurantMenuPage";
-import SearchDrawer from "./modules/Auth/pages/Search";
-import CartPage from "./modules/Auth/pages/CartPage";
-import HelpPage from "./modules/Auth/pages/HelpPage";
-import Offers from "./modules/Auth/pages/Offers";
+import Home from "./pages/Home";
+import CollectionPage from "./pages/CollectionPage";
+import RestaurantMenuPage from "./pages/RestaurantMenuPage";
+import SearchDrawer from "./pages/Search";
+import CartPage from "./pages/CartPage";
+import HelpPage from "./pages/HelpPage";
+import Offers from "./pages/Offers";
 
 const rootRoute = createRootRoute({
   component: Layout,

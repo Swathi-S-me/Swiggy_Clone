@@ -1,24 +1,20 @@
-
-
-
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import Button from "../../../components/Button/Button";
-import { verifyOtp } from "../auth.api";
+import Button from "../components/Button/Button";
+import { verifyOtp } from "../Auth/auth.api";
 import { useNavigate } from "@tanstack/react-router";
-import { useToast } from "../../../components/Toasts/useToast";
-import { useAuth } from "../../../context/AuthContext";
-import { useUser } from "../../../queries/useUser";
+import toast from "react-hot-toast";
+import { useAuth } from "../context/AuthContext";
+import { useUser } from "../queries/useUser";
 import type { Props } from "./otpVerify.types";
-import Input from "../../../components/InputField/Input";
+import Input from "../components/InputField/Input";
 
 const OtpVerify = ({ phone, onSuccess }: Props) => {
   const [otp, setOtp] = useState("");
   const navigate = useNavigate();
-  const showToast = useToast();
+
   const { setUser } = useAuth();
 
- 
   const { data: userData } = useUser(phone);
 
   const verifyOtpMutation = useMutation({
@@ -33,7 +29,7 @@ const OtpVerify = ({ phone, onSuccess }: Props) => {
       if (userData) {
         setUser(userData);
         localStorage.setItem("currentUser", JSON.stringify(userData));
-        showToast("Login successful!", "success");
+         toast.success("Login Successfull");
         onSuccess();
         navigate({ to: "/" });
       }
@@ -49,15 +45,13 @@ const OtpVerify = ({ phone, onSuccess }: Props) => {
 
   return (
     <div className="space-y-4">
-      {/* <OtpInput otp={otp} setOtp={setOtp} /> */}
       <Input
-  type="text"
-  placeholder="Enter OTP"
-  value={otp}
-  onChange={setOtp}
-  className="mt-4"
-/>
-
+        type="text"
+        placeholder="Enter OTP"
+        value={otp}
+        onChange={setOtp}
+        className="mt-4"
+      />
 
       <Button
         onClick={handleVerify}

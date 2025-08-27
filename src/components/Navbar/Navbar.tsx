@@ -5,10 +5,12 @@ import logo from "../../assets/swiggy_logo.webp";
 import type { NavLink } from "./navbar.types";
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
-import AuthFlow from "../../modules/Auth/pages/OtpLogin";
+import AuthFlow from "../../pages/OtpLogin";
 import { userLocation } from "../../context/LocationContext";
 import LocationDrawer from "../LocationDrawer/LocationDrawer";
 import Button from "../Button/Button";
+import { useSelector } from "react-redux";
+import type { RootState } from "../../redux/store";
 
 const navLinks: NavLink[] = [
   { label: "Swiggy Corporate", path: "/", icon: "bag" },
@@ -30,10 +32,14 @@ const Navbar = () => {
 
   const [drawerOpen, setDrawerOpen] = useState(false);
 
+  const cart = useSelector((state: RootState) => state.cart.cart);
+  const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+
   return (
     <>
       <nav className="w-full bg-white shadow-xl shadow-gray-100 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto  flex justify-between items-center ">
+          {/* Logo */}
           <Link to="/" className="text-xl font-bold flex items-center gap-2">
             <img src={logo} alt="swiggy" className="h-auto w-20" />
           </Link>
@@ -85,6 +91,30 @@ const Navbar = () => {
                 );
               }
 
+              // Cart with badge
+              if (link.label === "Cart") {
+                return (
+                  <Link
+                    key={link.path}
+                    to={link.path}
+                    className={`relative flex items-center gap-2 px-3 py-1 rounded-md transition hover:text-orange-500 ${
+                      location.pathname === link.path
+                        ? "text-orange-600 font-semibold"
+                        : "text-gray-700"
+                    }`}
+                  >
+                    {cartCount > 0 ? (
+                      <span className="flex items-center justify-center w-6 h-6 bg-orange-500 text-white text-xs font-bold rounded-full">
+                        {cartCount}
+                      </span>
+                    ) : (
+                      link.icon && <Icon name={link.icon} size={18} />
+                    )}
+                    {link.label}
+                  </Link>
+                );
+              }
+
               return (
                 <Link
                   key={link.path}
@@ -103,6 +133,7 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
+
       <LocationDrawer
         isOpen={drawerOpen}
         onClose={() => setDrawerOpen(false)}

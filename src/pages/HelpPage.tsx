@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Sidebar from "../../../components/SideBar"
-import HelpSection from "../../../components/HelpSection";
+import Sidebar from "../components/SideBar"
+import HelpSection from "../components/HelpSection";
 
 
 export default function HelpPage() {
