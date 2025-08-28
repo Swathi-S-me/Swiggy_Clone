@@ -15,6 +15,7 @@ import {
 } from "react-icons/fa";
 import { IoHelpBuoyOutline } from "react-icons/io5";
 import { BiSolidOffer } from "react-icons/bi";
+import { TbTruckDelivery } from "react-icons/tb";
 import { MdKeyboardDoubleArrowLeft , MdKeyboardDoubleArrowRight} from "react-icons/md";
 import type { IconProps } from "./icons.types";
 
@@ -35,7 +36,8 @@ export const icons: Record<string, React.ComponentType<{ size?: number; classNam
   facebook:FaFacebook,
   twitter:FaTwitter,
   instagram:FaInstagram,
-  linkedin:FaLinkedin
+  linkedin:FaLinkedin,
+  delivery:TbTruckDelivery
 
 } as const;
 

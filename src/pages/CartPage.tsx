@@ -1,8 +1,7 @@
-
-import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { type RootState } from "../redux/store";
 import { increaseQty, decreaseQty } from "../redux/cart/cartSlice";
+import Checkout from "../components/Checkout";
 
 const CartPage: React.FC = () => {
   const cart = useSelector((state: RootState) => state.cart.cart);
@@ -102,12 +101,8 @@ const CartPage: React.FC = () => {
             </label>
           </div>
 
-          <button
-            className="w-full mt-5 bg-orange-500 text-white py-3 rounded-lg font-semibold"
-            onClick={() => alert("Proceed to payment")}
-          >
-            Proceed to Pay
-          </button>
+         
+          <Checkout/>
         </div>
       )}
     </div>

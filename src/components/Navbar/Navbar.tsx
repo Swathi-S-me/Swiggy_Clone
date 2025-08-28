@@ -11,6 +11,7 @@ import LocationDrawer from "../LocationDrawer/LocationDrawer";
 import Button from "../Button/Button";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../redux/store";
+import LogoutModal from "../Logout/Logout";
 
 const navLinks: NavLink[] = [
   { label: "Swiggy Corporate", path: "/", icon: "bag" },
@@ -24,13 +25,14 @@ const navLinks: NavLink[] = [
 const Navbar = () => {
   const location = useLocation();
   const { location: locations } = userLocation();
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
 
   const [isOpen, setIsOpen] = useState(false);
   const open = () => setIsOpen(true);
   const close = () => setIsOpen(false);
 
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [logoutOpen, setLogoutOpen] = useState(false);
 
   const cart = useSelector((state: RootState) => state.cart.cart);
   const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
@@ -39,7 +41,6 @@ const Navbar = () => {
     <>
       <nav className="w-full bg-white shadow-xl shadow-gray-100 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto  flex justify-between items-center ">
-          {/* Logo */}
           <Link to="/" className="text-xl font-bold flex items-center gap-2">
             <img src={logo} alt="swiggy" className="h-auto w-20" />
           </Link>
@@ -72,13 +73,26 @@ const Navbar = () => {
 
               if (link.action === "login") {
                 return user ? (
-                  <span
-                    key="user-name"
-                    className="flex items-center gap-2 px-3 py-1 rounded-md text-green-600 font-semibold"
+                  <div
+                    key="user-logged-in"
+                    className="flex items-center gap-3 px-3 py-1 rounded-md"
                   >
-                    <Icon name="user" size={18} />
-                    {user.name}
-                  </span>
+                    <span
+                      key="user-name"
+                      className="flex items-center gap-2 px-3 py-1 rounded-md text-green-600 font-semibold"
+                    >
+                      <Icon name="user" size={18} />
+                      {user.name}
+                    </span>
+                    <LogoutModal
+                      isOpen={logoutOpen}
+                      onClose={() => setLogoutOpen(false)}
+                      onLogout={() => {
+                        logout();
+                        setLogoutOpen(false);
+                      }}
+                    />
+                  </div>
                 ) : (
                   <Button
                     key={link.label}
@@ -91,7 +105,6 @@ const Navbar = () => {
                 );
               }
 
-              // Cart with badge
               if (link.label === "Cart") {
                 return (
                   <Link

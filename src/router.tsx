@@ -9,6 +9,7 @@ import SearchDrawer from "./pages/Search";
 import CartPage from "./pages/CartPage";
 import HelpPage from "./pages/HelpPage";
 import Offers from "./pages/Offers";
+import SuccessPage from "./pages/SuccessPage";
 
 const rootRoute = createRootRoute({
   component: Layout,
@@ -42,6 +43,11 @@ const cartRoute = createRoute({
   path: "/cart",
   component: CartPage,
 });
+const successRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/success",
+  component: SuccessPage,
+});
 const HelpRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/help",
@@ -55,7 +61,7 @@ const OffersRoute = createRoute({
 });
 
 export const routeTree = rootRoute.addChildren([
-  homeRoute,collectionRoute,restaurantMenu,searchRoute,cartRoute,HelpRoute,OffersRoute
+  homeRoute,collectionRoute,restaurantMenu,searchRoute,cartRoute,HelpRoute,OffersRoute,successRoute
 ]);
 
 export const router = createRouter({ routeTree });

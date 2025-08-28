@@ -6,6 +6,7 @@ import type { AuthContextType, User } from "./authContext.types";
 const AuthContext = createContext<AuthContextType>({
   user: null,
   setUser: () => {},
+  logout: () => {},
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
@@ -17,9 +18,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setUser(JSON.parse(stored));
     }
   }, []);
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem("currentUser");
+  };
+
 
   return (
-    <AuthContext.Provider value={{ user, setUser }}>
+    <AuthContext.Provider value={{ user, setUser,logout  }}>
       {children}
     </AuthContext.Provider>
   );
