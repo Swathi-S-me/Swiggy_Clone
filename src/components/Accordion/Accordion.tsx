@@ -1,5 +1,6 @@
 import type { MenuProps } from "./accordion.types";
 import { useDispatch } from "react-redux";
+import toast from "react-hot-toast";
 
 import { useNavigate } from "@tanstack/react-router";
 import { useSelector } from "react-redux";
@@ -12,6 +13,7 @@ import {
 import { IMAGE_BASE } from "../../constant/URL";
 import { useState } from "react";
 import Button from "../Button/Button";
+
 
 const MenuAccordion = ({ categorizedItems }: MenuProps) => {
   const [openCategory, setOpenCategory] = useState<string | null>(null);
@@ -118,11 +120,19 @@ const MenuAccordion = ({ categorizedItems }: MenuProps) => {
                         </div>
                       ) : (
                         <Button
-                          onClick={() => handleAddToCart(item)}
+                          onClick={() => {handleAddToCart(item) 
+                          toast.success("Item added to cart")
+
+                            
+                          }}
+
                           className="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-white border border-gray-300 text-green-600 font-semibold px-4 py-1 rounded shadow"
+                          
                         >
                           ADD
                         </Button>
+
+
                       )}
                     </div>
                   )}

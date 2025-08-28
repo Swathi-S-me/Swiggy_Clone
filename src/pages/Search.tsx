@@ -10,6 +10,8 @@ import { IMAGE_BASE } from "../constant/URL";
 import Input from "../components/InputField/Input";
 import Button from "../components/Button/Button";
 import Icon from "../components/Icons/Icon";
+import toast from "react-hot-toast";
+import { Link } from "@tanstack/react-router";
 
 const SearchPage = () => {
   const [query, setQuery] = useState("");
@@ -60,7 +62,11 @@ const SearchPage = () => {
           placeholder="Search for restaurants or dishes"
           className="w-full border p-3 pr-10"
         />
-        <Icon name="search" size={18} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"/>
+        <Icon
+          name="search"
+          size={18}
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+        />
       </div>
 
       {query && (
@@ -181,6 +187,7 @@ const SearchPage = () => {
                                 quantity: dish.quantity,
                               })
                             );
+                            toast.success("Item added to cart");
                             navigate({ to: "/cart" });
                           }}
                           className="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-white text-green-600 font-semibold text-sm px-4 py-1 rounded shadow"
@@ -215,8 +222,10 @@ const SearchPage = () => {
         (restaurantCards.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-5xl">
             {restaurantCards.map((r: any) => (
-              <div
-                key={r.id}
+              <Link
+                 key={r.id}
+    to="/restaurant/$id"
+    params={{ id: r.id }}
                 className="flex items-center gap-4 p-4 rounded-lg shadow-sm bg-white hover:shadow-md transition"
               >
                 <div className="relative w-28 h-28 flex-shrink-0">
@@ -256,7 +265,7 @@ const SearchPage = () => {
                     {r?.cuisines?.join(", ")?.length > 40 && "..."}
                   </p>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         ) : (
@@ -265,9 +274,7 @@ const SearchPage = () => {
             <p className="text-lg font-medium">
               No restaurants found for the name "{query}"
             </p>
-            <p className="text-sm">
-              Try searching for another restaurant
-            </p>
+            <p className="text-sm">Try searching for another restaurant</p>
           </div>
         ))}
 
