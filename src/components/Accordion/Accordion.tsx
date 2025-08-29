@@ -13,6 +13,7 @@ import {
 import { IMAGE_BASE } from "../../constant/URL";
 import { useState } from "react";
 import Button from "../Button/Button";
+import { truncate } from "../../utils/text";
 
 
 const MenuAccordion = ({ categorizedItems }: MenuProps) => {
@@ -76,14 +77,13 @@ const MenuAccordion = ({ categorizedItems }: MenuProps) => {
 
                     {item.description && (
                       <p
-                        className="text-sm text-black mt-1 cursor-pointer"
+                        className="text-sm text-red-400 mt-1 cursor-pointer"
                         onClick={() => toggleDescription(item.id)}
                       >
-                        {expandedItems[item.id]
-                          ? item.description
-                          : item.description.length > 60
-                          ? item.description.slice(0, 150) + "..."
-                          : item.description}
+                         {expandedItems[item.id]
+    ? item.description
+    : truncate(item.description, 90)} {/* single source of truncation */}
+                          
                       </p>
                     )}
                   </div>

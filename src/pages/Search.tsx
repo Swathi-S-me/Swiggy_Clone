@@ -1,6 +1,6 @@
 import { useState } from "react";
 import DishModal from "../components/DishModal/DishModal";
-import { useSearchSuggestions } from "../components/Queries/useSearchSuggestions";
+import { useSearchSuggestions } from "../hooks/Queries/useSearchSuggestions";
 import { userLocation } from "../context/LocationContext";
 import { useNavigate } from "@tanstack/react-router";
 import { useDispatch, useSelector } from "react-redux";
@@ -223,9 +223,9 @@ const SearchPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-5xl">
             {restaurantCards.map((r: any) => (
               <Link
-                 key={r.id}
-    to="/restaurant/$id"
-    params={{ id: r.id }}
+                key={r.id}
+                to="/restaurant/$id"
+                params={{ id: r.id }}
                 className="flex items-center gap-4 p-4 rounded-lg shadow-sm bg-white hover:shadow-md transition"
               >
                 <div className="relative w-28 h-28 flex-shrink-0">

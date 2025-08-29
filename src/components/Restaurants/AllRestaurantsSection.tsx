@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useAllRestaurants } from "../Queries/useAllRestaurants";
+
 import { Link } from "@tanstack/react-router";
 import Icon from "../Icons/Icon";
 import { FilterModal } from "../FilterModal/FilterModal";
@@ -7,16 +7,14 @@ import { FilterModal } from "../FilterModal/FilterModal";
 import { userLocation } from "../../context/LocationContext";
 import Shimmer from "../Shimmer/Shimmer";
 import Button from "../Button/Button";
+import { useAllRestaurants } from "../../hooks/hooks";
 
 const AllRestaurantsSection: React.FC = () => {
   const { location } = userLocation();
   const lat = location?.lat;
   const lng = location?.lng;
 
-  const { data: restaurants = [], isLoading } = useAllRestaurants(
-    lat ?? 0,
-    lng ?? 0
-  );
+  const { data: restaurants = [], isLoading , error} = useAllRestaurants( );
   const [filter, setFilter] = useState<any[]>([]);
   const [ratingFilters, setRatingFilters] = useState<any[]>([]);
   const [veg, setVeg] = useState<any[]>([]);
@@ -88,6 +86,7 @@ const AllRestaurantsSection: React.FC = () => {
   };
 
   if (isLoading) return <Shimmer className="w-40 h-40 flex-shrink-0 rounded-2xl" />;
+  if (error) return <div>Error loading restaurants</div>;
 
   return (
     <div className="p-4">

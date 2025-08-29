@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useHelpQuery } from "./Queries/useHelpQuery";
+import { useHelpQuery } from "../hooks/Queries/useHelpQuery";
 import type { HelpIssue } from "./HelpAccordion/helpAccordion.types";
 import AccordionItem from "./HelpAccordion/HelpAccordion";
 

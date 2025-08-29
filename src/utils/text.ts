@@ -1,4 +1,8 @@
-export const truncate = (text: string, max: number) => {
+
+export const truncate = (text: string, max: number, ellipsis = "...") => {
   if (!text) return "";
-  return text.length > max ? text.slice(0, max) + "..." : text;
+  if (text.length <= max) return text;
+  const truncated = text.slice(0, max);
+  const lastSpace = truncated.lastIndexOf(" ");
+  return (lastSpace > 0 ? truncated.slice(0, lastSpace) : truncated) + ellipsis;
 };

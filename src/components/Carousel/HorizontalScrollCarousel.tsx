@@ -21,8 +21,22 @@ const HorizontalScrollCarousel = <T,>({
     }   
   };
 
-  if (loading)
-    return <Shimmer className="w-40 h-40 flex-shrink-0 rounded-2xl" />;
+if (loading) {
+  return (
+    <div className="flex gap-4 px-4 pb-4 overflow-x-auto scrollbar-hide">
+      {Array.from({ length: 5 }).map((_, idx) => (
+        <Shimmer
+          key={idx}
+          className="flex-shrink-0 rounded-2xl"
+          width={200} // match your card width
+          height={200} // match your card height
+        />
+      ))}
+    </div>
+  );
+}
+
+
 
   return (
     <div className="relative px-4 pb-4">

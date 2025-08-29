@@ -1,17 +1,19 @@
 
 import logo from "../../assets/swiggy_logo.webp";
+import { useHomepageData } from "../../hooks/hooks";
 import Icon from "../Icons/Icon";
-import { useHomepageData } from "../Queries/useHomepageData";
 import type { City } from "./footer.types";
 
 const Footer = () => {
-  const { data, isLoading } = useHomepageData(0, 0);
-const cities: City[] =
-  data?.data?.cards.find(
-    (card: any) =>
-      card?.card?.card?.["@type"] ===
-      "type.googleapis.com/swiggy.seo.widgets.v1.FooterContent"
-  )?.card?.card?.cities || [];
+  const { data, isLoading } = useHomepageData();
+const footerCard = data?.data?.cards.find(
+  (card: any) =>
+    card?.card?.card?.["@type"] ===
+    "type.googleapis.com/swiggy.seo.widgets.v1.FooterContent"
+)?.card?.card as { cities: City[] } | undefined;
+
+const cities: City[] = footerCard?.cities || [];
+
 
 const visibleCities: City[] = cities.slice(0, 6);
 const dropdownCities: City[] = cities.slice(6);

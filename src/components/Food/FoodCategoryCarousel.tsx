@@ -3,8 +3,8 @@ import HorizontalScrollCarousel from "../Carousel/HorizontalScrollCarousel";
 import type { ImageInfo } from "./foodcategory.types";
 import { useNavigate } from "@tanstack/react-router";
 import Button from "../Button/Button";
-import { useFoodCategories } from "../../queries/useFoodCategories";
 import Shimmer from "../Shimmer/Shimmer";
+import { useFoodCategories } from "../../hooks/hooks";
 
 const FoodCategoryCarousel: React.FC = () => {
   const navigate = useNavigate();

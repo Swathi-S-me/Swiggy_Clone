@@ -11,8 +11,7 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ rest, variant }) => {
   return (
     <Link
       to={`/restaurant/${info.id}`}
-      className={`bg-white p-4 rounded-lg hover:scale-[1.02] transition-transform
-        ${variant === "carousel" ? "min-w-[300px] flex-shrink-0" : ""}`}
+      className={`bg-white p-4 rounded-lg hover:scale-[1.02] transition-transform`}
     >
       <img
         src={`${IMAGE_BASE}${info.cloudinaryImageId}`}
@@ -20,7 +19,7 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ rest, variant }) => {
         className="w-full h-40 object-cover rounded-2xl mb-2"
       />
 
-      <h3 className="text-lg font-bold mb-2 text-gray-900">
+      <h3 className="text-lg font-bold mb-2 text-green-900">
         {truncate(info.name, 23)}
       </h3>
 
@@ -43,11 +42,7 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ rest, variant }) => {
         </>
       )}
 
-      {variant === "carousel" && (
-        <p className="text-sm">
-          {truncate(`${info.locality} - ${info.areaName}`, 25)}
-        </p>
-      )}
+ 
     </Link>
   );
 };
