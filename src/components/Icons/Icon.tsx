@@ -11,7 +11,9 @@ import {
    FaFacebook,
     FaInstagram,
     FaLinkedin,
-    FaTwitter
+    FaTwitter,
+    FaAngleDown ,
+    FaAngleUp 
 } from "react-icons/fa";
 import { IoHelpBuoyOutline } from "react-icons/io5";
 import { BiSolidOffer } from "react-icons/bi";
@@ -37,7 +39,9 @@ export const icons: Record<string, React.ComponentType<{ size?: number; classNam
   twitter:FaTwitter,
   instagram:FaInstagram,
   linkedin:FaLinkedin,
-  delivery:TbTruckDelivery
+  delivery:TbTruckDelivery,
+  down:FaAngleDown,
+  up:FaAngleUp 
 
 } as const;
 

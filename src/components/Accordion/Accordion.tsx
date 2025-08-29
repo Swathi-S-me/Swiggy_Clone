@@ -14,7 +14,7 @@ import { IMAGE_BASE } from "../../constant/URL";
 import { useState } from "react";
 import Button from "../Button/Button";
 import { truncate } from "../../utils/text";
-
+import Icon from "../Icons/Icon";
 
 const MenuAccordion = ({ categorizedItems }: MenuProps) => {
   const [openCategory, setOpenCategory] = useState<string | null>(null);
@@ -40,7 +40,7 @@ const MenuAccordion = ({ categorizedItems }: MenuProps) => {
       addToCart({
         id: item.id,
         name: item.name,
-        price: (item.price ?? item.defaultPrice ?? 0) / 100, 
+        price: (item.price ?? item.defaultPrice ?? 0) / 100,
         image: item.imageId ? `${IMAGE_BASE}${item.imageId}` : undefined,
         quantity: 1,
       })
@@ -56,7 +56,7 @@ const MenuAccordion = ({ categorizedItems }: MenuProps) => {
             className="w-full flex justify-between items-center p-4 text-left font-bold text-lg bg-gray-100 hover:bg-gray-200 transition"
           >
             {category.title}
-            <span>{openCategory === category.title ? "▲" : "▼"}</span>
+            <span>{openCategory === category.title ? <Icon name="up" size={15}/> : <Icon name="down" size={15}/>}</span>
           </Button>
 
           {openCategory === category.title && (
@@ -77,13 +77,13 @@ const MenuAccordion = ({ categorizedItems }: MenuProps) => {
 
                     {item.description && (
                       <p
-                        className="text-sm text-red-400 mt-1 cursor-pointer"
+                        className="text-sm text-black-400 mt-1 cursor-pointer"
                         onClick={() => toggleDescription(item.id)}
                       >
-                         {expandedItems[item.id]
-    ? item.description
-    : truncate(item.description, 90)} {/* single source of truncation */}
-                          
+                        {expandedItems[item.id]
+                          ? item.description
+                          : truncate(item.description, 90)}{" "}
+                       
                       </p>
                     )}
                   </div>
@@ -120,19 +120,14 @@ const MenuAccordion = ({ categorizedItems }: MenuProps) => {
                         </div>
                       ) : (
                         <Button
-                          onClick={() => {handleAddToCart(item) 
-                          toast.success("Item added to cart")
-
-                            
+                          onClick={() => {
+                            handleAddToCart(item);
+                            toast.success("Item added to cart");
                           }}
-
                           className="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-white border border-gray-300 text-green-600 font-semibold px-4 py-1 rounded shadow"
-                          
                         >
                           ADD
                         </Button>
-
-
                       )}
                     </div>
                   )}

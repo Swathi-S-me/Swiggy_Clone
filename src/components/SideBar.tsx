@@ -16,7 +16,7 @@ export default function Sidebar({ active, setActive }: Sidebar) {
         <Button
           key={item.key}
           onClick={() => setActive(item.key)}
-          className={`block w-full text-left px-3 py-2 rounded-lg mb-2 font-medium ${
+          className={`block w-full text-left px-3 py-2 rounded-lg mb-2 font-bold ${
             active === item.key
               ? "bg-white shadow text-orange-600"
               : "text-gray-700 hover:bg-gray-200"

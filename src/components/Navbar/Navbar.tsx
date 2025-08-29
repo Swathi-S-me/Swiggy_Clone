@@ -73,37 +73,71 @@ const Navbar = () => {
 
               if (link.action === "login") {
                 return user ? (
-                  <div
-                    key="user-logged-in"
-                    className="flex items-center gap-3 px-3 py-1 rounded-md"
-                  >
-                    <span
-                      key="user-name"
-                      className="flex items-center gap-2 px-3 py-1 rounded-md text-green-600 font-semibold"
-                    >
-                      <Icon name="user" size={18} />
-                      {user.name}
-                    </span>
-                    <LogoutModal
-                      isOpen={logoutOpen}
-                      onClose={() => setLogoutOpen(false)}
-                      onLogout={() => {
-                        logout();
-                        setLogoutOpen(false);
-                      }}
-                    />
-                  </div>
-                ) : (
-                  <Button
-                    key={link.label}
-                    onClick={open}
-                    className="flex items-center gap-2 px-3 py-1 rounded-md transition hover:text-orange-500 text-gray-700"
-                  >
-                    {link.icon && <Icon name={link.icon} size={18} />}
-                    {link.label}
-                  </Button>
-                );
-              }
+                //   <div
+                //     key="user-logged-in"
+                //     className="flex items-center gap-3 px-3 py-1 rounded-md"
+                //   >
+                //     <span
+                //       key="user-name"
+                //       className="flex items-center gap-2 px-3 py-1 rounded-md text-green-600 font-semibold"
+                //     >
+                //       <Icon name="user" size={18} />
+                //       {user.name}
+                //     </span>
+                //     <LogoutModal
+                //       isOpen={logoutOpen}
+                //       onClose={() => setLogoutOpen(false)}
+                //       onLogout={() => {
+                //         logout();
+                //         setLogoutOpen(false);
+                //       }}
+                //     />
+                //   </div>
+                // ) : (
+                //   <Button
+                //     key={link.label}
+                //     onClick={open}
+                //     className="flex items-center gap-2 px-3 py-1 rounded-md transition hover:text-orange-500 text-gray-700"
+                //   >
+                //     {link.icon && <Icon name={link.icon} size={18} />}
+                //     {link.label}
+                //   </Button>
+                // );
+              
+  <div
+    key="user-logged-in"
+    className="flex items-center gap-3 px-3 py-1 rounded-md"
+  >
+    <button
+      onClick={() => setLogoutOpen(true)} // ✅ open modal when username is clicked
+      className="flex items-center gap-2 px-3 py-1 rounded-md text-green-600 font-semibold hover:bg-gray-100"
+    >
+      <Icon name="user" size={18} />
+      {user.name}
+    </button>
+
+    <LogoutModal
+      isOpen={logoutOpen}
+      onClose={() => setLogoutOpen(false)}
+      onLogout={() => {
+        logout();
+        setLogoutOpen(false);
+      }}
+    />
+  </div>
+) : (
+  <Button
+    key={link.label}
+    onClick={open}
+    className="flex items-center gap-2 px-3 py-1 rounded-md transition hover:text-orange-500 text-gray-700"
+  >
+    {link.icon && <Icon name={link.icon} size={18} />}
+    {link.label}
+  </Button>
+)}
+
+              
+              
 
               if (link.label === "Cart") {
                 return (

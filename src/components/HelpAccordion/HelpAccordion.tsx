@@ -1,4 +1,5 @@
 import Button from "../Button/Button";
+import Icon from "../Icons/Icon";
 import type { HelpProps } from "./helpAccordion.types";
 
 export default function AccordionItem({ issue, openId, setOpenId }: HelpProps) {
@@ -11,7 +12,7 @@ export default function AccordionItem({ issue, openId, setOpenId }: HelpProps) {
         className="w-full flex justify-between items-center py-4 text-left font-medium text-gray-800"
       >
         {issue.title}
-        <span>{isOpen ? "-" : "+"}</span>
+        <span>{isOpen ? <Icon name="up" size={15}/>: <Icon name="down" size={15}/>}</span>
       </button>
 
       {isOpen && (
