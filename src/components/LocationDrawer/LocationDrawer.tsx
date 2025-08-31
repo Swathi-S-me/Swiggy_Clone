@@ -63,29 +63,29 @@ export default function LocationDrawer({ isOpen, onClose }: LocationProps) {
         <div className="relative p-6 ml-30 mr-10">
           <Button
             onClick={onClose}
-            className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+            className="absolute top-10 right-4 text-gray-500 hover:text-gray-700"
           >
             <Icon name="close" size={20} />
           </Button>
 
-          <h2 className="text-lg font-semibold mb-4">Choose your location</h2>
+          <h2 className="text-lg font-semibold mb-4 mt-5">Choose your location</h2>
 
-          <div className="border rounded-lg shadow-sm flex items-center px-3 py-2">
+          <div className="mt-3 w-full">
             <Input
               type="text"
               placeholder="Search for area, street..."
               value={search}
               onChange={setSearch}
-              className="w-full outline-none text-sm"
+              className="w-full outline-none text-sm border border-gray-600 rounded-lg px-3 py-2"
             />
-          </div>
 
-          <Button
-            onClick={searchLocation}
-            className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2 mt-3 rounded-lg font-medium"
-          >
-            Search
-          </Button>
+            <Button
+              onClick={searchLocation}
+              className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2 mt-3 rounded-lg font-medium"
+            >
+              Search
+            </Button>
+          </div>
 
           <div className="my-5 flex items-center">
             <hr className="flex-grow border-gray-300" />
@@ -95,7 +95,7 @@ export default function LocationDrawer({ isOpen, onClose }: LocationProps) {
 
           <Button
             onClick={getCurrentLocation}
-            className="w-full border border-gray-300 rounded-lg py-3 flex items-center justify-center gap-2 hover:bg-gray-50 font-medium"
+            className="w-full border border-gray-600 rounded-lg py-3 flex items-center justify-center gap-2 hover:bg-gray-50 font-medium"
           >
             <Icon name="location" size={16} />
             Get current location

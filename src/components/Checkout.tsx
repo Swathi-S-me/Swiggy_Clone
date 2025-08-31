@@ -2,14 +2,24 @@ import { loadStripe } from "@stripe/stripe-js";
 import Button from "./Button/Button";
 import { useSelector } from "react-redux";
 import type { RootState } from "../redux/store";
+import { useAuth } from "../context/AuthContext"; 
+import toast from "react-hot-toast";
+
 const key = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
 
 const stripePromise = loadStripe(key);
 
 export default function Checkout() {
-
+const { user } = useAuth();
   const cart = useSelector((state: RootState) => state.cart.cart);
+
+
   const handleCheckout = async () => {
+     if (!user) {
+      toast.error("Please login to continue checkout"); 
+      return;
+    }
+
     const res = await fetch("http://localhost:5000/create-checkout-session", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
