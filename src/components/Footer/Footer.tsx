@@ -1,6 +1,6 @@
 
 import logo from "../../assets/swiggy_logo.webp";
-import { useHomepageData } from "../../hooks/hooks";
+import { useHomepageData } from "../../Queries/hooks";
 import Icon from "../Icons/Icon";
 import type { City } from "./footer.types";
 

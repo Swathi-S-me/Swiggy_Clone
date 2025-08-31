@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import OtpVerify from "./OtpVerify";
-import { sendOtp, checkUserExists, signupUser } from "../Auth/auth.api";
+import { sendOtp, checkUserExists, signupUser } from "../Queries/auth.api"
 import { useMutation } from "@tanstack/react-query";
 import logo from "../assets/swiggy_logo.webp";
 import Input from "../components/InputField/Input";

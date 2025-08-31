@@ -3,7 +3,7 @@ import HorizontalScrollCarousel from "../Carousel/HorizontalScrollCarousel";
 import { Link } from "@tanstack/react-router";
 import Icon from "../Icons/Icon";
 import { userLocation } from "../../context/LocationContext";
-import { useTopRestaurants } from "../../hooks/hooks";
+import { useTopRestaurants } from "../../Queries/hooks";
 
 const TopRestaurantsCarousel: React.FC = () => {
   const { data: restaurants = [], isLoading } = useTopRestaurants();

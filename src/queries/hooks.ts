@@ -24,7 +24,6 @@ interface CategoryResponse {
   };
 }
 
-// Base API fetch function
 const fetchSwiggyData = async (lat: number, lng: number): Promise<CategoryResponse> => {
   const res = await fetch(
     `/swiggy-api/dapi/restaurants/list/v5?lat=${lat}&lng=${lng}&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING`
@@ -35,7 +34,6 @@ const fetchSwiggyData = async (lat: number, lng: number): Promise<CategoryRespon
   return res.json();
 };
 
-// Base hook that fetches all data
 export const useSwiggyData = () => {
   const { location } = userLocation();
   const lat = location?.lat ?? 0;
@@ -45,12 +43,12 @@ export const useSwiggyData = () => {
     queryKey: ["swiggyData", lat, lng],
     queryFn: () => fetchSwiggyData(lat, lng),
     enabled: !!location,
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    gcTime: 10 * 60 * 1000, // 10 minutes
+    staleTime: 5 * 60 * 1000, 
+    gcTime: 10 * 60 * 1000,
   });
 };
 
-// Food Categories Hook
+
 export const useFoodCategories = () => {
   const { data, isLoading, error, isError } = useSwiggyData();
   
@@ -69,7 +67,7 @@ export const useFoodCategories = () => {
   };
 };
 
-// Top Restaurants Hook
+
 export const useTopRestaurants = () => {
   const { data, isLoading, error, isError } = useSwiggyData();
   
@@ -88,7 +86,6 @@ export const useTopRestaurants = () => {
   };
 };
 
-// All Restaurants Hook
 export const useAllRestaurants = () => {
   const { data, isLoading, error, isError } = useSwiggyData();
   
@@ -108,7 +105,6 @@ export const useAllRestaurants = () => {
   };
 };
 
-// Homepage Data Hook
 export const useHomepageData = () => {
   const { data, isLoading, error, isError } = useSwiggyData();
   

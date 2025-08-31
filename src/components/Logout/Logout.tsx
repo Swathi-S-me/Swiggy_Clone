@@ -7,13 +7,12 @@ const LogoutModal: React.FC<LogoutModalProps> = ({ isOpen, onClose, onLogout }) 
   return (
     <div
       className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
-      onClick={onClose} // ✅ closes modal when clicking outside
+      onClick={onClose}
     >
       <div
-        onClick={(e) => e.stopPropagation()} // ✅ prevents closing when clicking inside
+        onClick={(e) => e.stopPropagation()} 
         className="bg-white p-6 rounded-2xl shadow-2xl w-[320px] text-center transform transition-all duration-300 scale-100 opacity-100"
       >
-        {/* Icon */}
         <div className="flex justify-center mb-4">
           <div className="w-12 h-12 flex items-center justify-center rounded-full bg-orange-100">
             <svg
@@ -33,13 +32,11 @@ const LogoutModal: React.FC<LogoutModalProps> = ({ isOpen, onClose, onLogout }) 
           </div>
         </div>
 
-        {/* Title & Text */}
         <h2 className="text-xl font-semibold text-gray-800">Logout</h2>
         <p className="text-gray-500 mt-2 mb-6">
           Are you sure you want to logout from your account?
         </p>
 
-        {/* Actions */}
         <div className="flex justify-center gap-3">
           <Button
             onClick={onClose}

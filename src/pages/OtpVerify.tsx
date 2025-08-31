@@ -1,15 +1,17 @@
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import Button from "../components/Button/Button";
-import { verifyOtp } from "../Auth/auth.api";
+
 import { useNavigate } from "@tanstack/react-router";
 import toast from "react-hot-toast";
 import { useAuth } from "../context/AuthContext";
-import { useUser } from "../queries/useUser";
-import type { Props } from "./otpVerify.types";
-import Input from "../components/InputField/Input";
 
-const OtpVerify = ({ phone, onSuccess }: Props) => {
+import type { OtpVerifyProps } from "./otpVerify.types";
+import Input from "../components/InputField/Input";
+import { useUser } from "../Queries/useUser";
+import { verifyOtp } from "../Queries/auth.api";
+
+const OtpVerify = ({ phone, onSuccess }: OtpVerifyProps) => {
   const [otp, setOtp] = useState("");
   const navigate = useNavigate();
 

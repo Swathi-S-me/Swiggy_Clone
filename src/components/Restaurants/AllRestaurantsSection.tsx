@@ -7,7 +7,7 @@ import { FilterModal } from "../FilterModal/FilterModal";
 import { userLocation } from "../../context/LocationContext";
 import Shimmer from "../Shimmer/Shimmer";
 import Button from "../Button/Button";
-import { useAllRestaurants } from "../../hooks/hooks";
+import { useAllRestaurants } from "../../Queries/hooks";
 
 const AllRestaurantsSection: React.FC = () => {
   const { location } = userLocation();

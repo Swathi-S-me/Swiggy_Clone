@@ -1,4 +1,4 @@
-export type Props = {
+export type OtpVerifyProps = {
   phone: string;
   onSuccess: () => void;
 };

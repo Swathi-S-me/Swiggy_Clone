@@ -33,12 +33,7 @@ const SuccessPage: React.FC = () => {
           >
             Back to Home
           </Link>
-          {/* <Link
-            to="/orders"
-            className="text-orange-500 font-medium hover:underline"
-          >
-            View My Orders
-          </Link> */}
+         
         </div>
       </div>
     </div>

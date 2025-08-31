@@ -5,7 +5,7 @@ import type { LocationProps } from "../LocationDrawer/locationDrawer.types";
 import Icon from "../Icons/Icon";
 import Button from "../Button/Button";
 import Input from "../InputField/Input";
-import useLocalStorage from "../../hooks/useLocalStorage";
+import useLocalStorage from "../../Queries/useLocalStorage";
 
 export default function LocationDrawer({ isOpen, onClose }: LocationProps) {
   const { setLocation } = userLocation();

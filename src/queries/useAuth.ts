@@ -14,7 +14,6 @@ export const useVerifyOtp = () => {
     mutationFn: ({ phone, otp }: { phone: string; otp: string }) => 
       verifyOtp(phone, otp),
     onSuccess: (_, variables) => {
-      // Invalidate user query to refresh user data
       queryClient.invalidateQueries({ queryKey: ["user", variables.phone] });
     },
   });
@@ -34,7 +33,6 @@ export const useSignupUser = () => {
   return useMutation({
     mutationFn: signupUser,
     onSuccess: (data, variables) => {
-      // Update the user query cache with the new user data
       queryClient.setQueryData(["user", variables.phone], data);
     },
   });

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import DishModal from "../components/DishModal/DishModal";
-import { useSearchSuggestions } from "../hooks/Queries/useSearchSuggestions";
+import { useSearchSuggestions } from "../Queries/useSearchSuggestions";
 import { userLocation } from "../context/LocationContext";
 import { useNavigate } from "@tanstack/react-router";
 import { useDispatch, useSelector } from "react-redux";

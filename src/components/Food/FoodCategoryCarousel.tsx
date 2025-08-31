@@ -4,7 +4,7 @@ import type { ImageInfo } from "./foodcategory.types";
 import { useNavigate } from "@tanstack/react-router";
 import Button from "../Button/Button";
 import Shimmer from "../Shimmer/Shimmer";
-import { useFoodCategories } from "../../hooks/hooks";
+import { useFoodCategories } from "../../Queries/hooks";
 
 const FoodCategoryCarousel: React.FC = () => {
   const navigate = useNavigate();

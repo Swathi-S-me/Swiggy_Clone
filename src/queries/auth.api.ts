@@ -1,4 +1,5 @@
-import type { OtpResponse } from "../Auth/auth.types";
+import type { OtpResponse } from "./auth.types";
+
 
 export const sendOtp = async (phone: string): Promise<OtpResponse> => {
   const res = await fetch("http://localhost:5000/send-otp", {

@@ -1,9 +1,10 @@
 import { useParams } from "@tanstack/react-router";
 import type { MenuItem, RestaurantInfo } from "./restaurantMenuPage.types";
-import { useRestaurantMenu } from "../hooks/Queries/useRestaurantMenu";
+
 import Icon from "../components/Icons/Icon";
 import Spinner from "../components/Spinner";
 import MenuAccordion from "../components/Accordion/Accordion";
+import { useRestaurantMenu } from "../Queries/useRestaurantMenu";
 
 
 const RestaurantMenuPage = () => {

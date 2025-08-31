@@ -28,8 +28,8 @@ if (loading) {
         <Shimmer
           key={idx}
           className="flex-shrink-0 rounded-2xl"
-          width={200} // match your card width
-          height={200} // match your card height
+          width={200} 
+          height={200} 
         />
       ))}
     </div>
