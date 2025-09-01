@@ -8,6 +8,7 @@ import { userLocation } from "../../context/LocationContext";
 import Shimmer from "../Shimmer/Shimmer";
 import Button from "../Button/Button";
 import { useAllRestaurants } from "../../Queries/hooks";
+import Card from "../Card/Card";
 
 const AllRestaurantsSection: React.FC = () => {
   const { location } = userLocation();
@@ -186,37 +187,39 @@ const AllRestaurantsSection: React.FC = () => {
             return 0;
           })
           .map((rest: any) => (
-            <Link
-              to={`/restaurant/${rest.info.id}`}
-              key={rest.info.id}
-              className="bg-white p-4 rounded-lg hover:scale-[1.02] transition-transform"
-            >
-              <img
-                src={`https://media-assets.swiggy.com/${rest.info.cloudinaryImageId}`}
-                alt={rest.info.name}
-                className="w-full h-40 object-cover rounded-2xl mb-2"
-              />
-              <h3 className="text-lg font-bold mb-2 text-gray-900">
-                {rest.info.name.slice(0, 23) + "..."}
-              </h3>
-              <p className="text-sm font-bold flex items-center gap-1 text-gray-950">
-                {rest.info.avgRating} <Icon name="star" size={10} />
-                {rest.info.sla?.slaString}
-              </p>
-              <p className="text-sm text-gray-500">
-                {rest.info.cuisines.join(", ").length > 20
-                  ? rest.info.cuisines.join(", ").slice(0, 20) + "..."
-                  : rest.info.cuisines.join(", ")}
-              </p>
-              <p className="text-sm ">{rest.info.costForTwo}</p>
-              {
-                <p className=" font-bold text-gray-800">
-                  {rest?.info?.aggregatedDiscountInfoV3?.header || "15% OFF"} -{" "}
-                  {rest?.info?.aggregatedDiscountInfoV3?.subHeader ||
-                    "ABOVE 299"}
-                </p>
-              }
-            </Link>
+            // <Link
+            //   to={`/restaurant/${rest.info.id}`}
+            //   key={rest.info.id}
+            //   className="bg-white p-4 rounded-lg hover:scale-[1.02] transition-transform"
+            // >
+            //   <img
+            //     src={`https://media-assets.swiggy.com/${rest.info.cloudinaryImageId}`}
+            //     alt={rest.info.name}
+            //     className="w-full h-40 object-cover rounded-2xl mb-2"
+            //   />
+            //   <h3 className="text-lg font-bold mb-2 text-gray-900">
+            //     {rest.info.name.slice(0, 23) + "..."}
+            //   </h3>
+            //   <p className="text-sm font-bold flex items-center gap-1 text-gray-950">
+            //     {rest.info.avgRating} <Icon name="star" size={10} />
+            //     {rest.info.sla?.slaString}
+            //   </p>
+            //   <p className="text-sm text-gray-500">
+            //     {rest.info.cuisines.join(", ").length > 20
+            //       ? rest.info.cuisines.join(", ").slice(0, 20) + "..."
+            //       : rest.info.cuisines.join(", ")}
+            //   </p>
+            //   <p className="text-sm ">{rest.info.costForTwo}</p>
+            //   {
+            //     <p className=" font-bold text-gray-800">
+            //       {rest?.info?.aggregatedDiscountInfoV3?.header || "15% OFF"} -{" "}
+            //       {rest?.info?.aggregatedDiscountInfoV3?.subHeader ||
+            //         "ABOVE 299"}
+            //     </p>
+            //   }
+            // </Link>
+ <Card key={rest.info.id} rest={rest} variant="grid" />
+
           ))}
       </div>
     </div>

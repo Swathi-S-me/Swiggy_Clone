@@ -2,8 +2,8 @@ import { useParams, useSearch } from "@tanstack/react-router";
 
 import Spinner from "../components/Spinner";
 import type { Restaurant } from "../components/Restaurants/restaurant.types";
-import RestaurantCard from "../components/RestaurantCard/RestaurantCard";
 import { useCollection } from "../Queries/useCollection";
+import Card from "../components/Card/Card";
 
 type MastheadCard = {
   "@type": "type.googleapis.com/swiggy.gandalf.widgets.v2.CollectionMasthead";
@@ -71,7 +71,7 @@ const CollectionPage = () => {
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {restaurants.map((rest) => (
-          <RestaurantCard key={rest.info.id} rest={rest} variant="grid" />
+          <Card key={rest.info.id} rest={rest} variant="grid" />
         ))}
       </div>
     </div>

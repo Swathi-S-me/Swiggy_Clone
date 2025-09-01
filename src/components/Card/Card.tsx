@@ -1,37 +1,43 @@
+import React from "react";
 import { Link } from "@tanstack/react-router";
 import Icon from "../Icons/Icon";
-import { truncate } from "../../utils/text";
-import type { RestaurantCardProps } from "./restaurantCard.types";
+import type { CardProps } from "./card.types";
 
-const IMAGE_BASE = "https://media-assets.swiggy.com/swiggy/image/upload/";
 
-const RestaurantCard: React.FC<RestaurantCardProps> = ({ rest, variant }) => {
+
+
+const Card: React.FC<CardProps> = ({ rest, variant = "grid" }) => {
   const { info } = rest;
 
   return (
     <Link
       to={`/restaurant/${info.id}`}
-      className={`bg-white p-4 rounded-lg hover:scale-[1.02] transition-transform`}
+      className={`bg-white p-4 rounded-lg hover:scale-[1.02] transition-transform
+        ${variant === "carousel" ? "min-w-[300px] flex-shrink-0" : ""}
+      `}
     >
       <img
-        src={`${IMAGE_BASE}${info.cloudinaryImageId}`}
+        src={`https://media-assets.swiggy.com/swiggy/image/upload/${info.cloudinaryImageId}`}
         alt={info.name}
         className="w-full h-40 object-cover rounded-2xl mb-2"
       />
 
-      <h3 className="text-lg font-bold mb-2 text-green-900">
-        {truncate(info.name, 23)}
+      <h3 className="text-lg font-bold mb-1 text-gray-900 truncate">
+        {info.name}
       </h3>
 
       <p className="text-sm font-bold flex items-center gap-1 text-gray-950">
         {info.avgRating} <Icon name="star" size={10} />
-        {info.sla.slaString}
+        {info.sla?.slaString}
       </p>
 
-      <p className="text-sm text-gray-500">
-        {truncate(info.cuisines.join(", "), 20)}
+      <p className="text-sm text-gray-500 truncate">
+        {info.cuisines?.join(", ")}
       </p>
 
+      {info.costForTwo && (
+        <p className="text-sm text-gray-700">{info.costForTwo}</p>
+      )}
       {variant === "grid" && (
         <>
           <p className="text-sm">{info.costForTwo}</p>
@@ -41,10 +47,9 @@ const RestaurantCard: React.FC<RestaurantCardProps> = ({ rest, variant }) => {
           </p>
         </>
       )}
-
- 
+    
     </Link>
   );
 };
 
-export default RestaurantCard;
+export default Card;
