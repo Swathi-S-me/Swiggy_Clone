@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 
-import { Link } from "@tanstack/react-router";
-import Icon from "../Icons/Icon";
+
 import { FilterModal } from "../FilterModal/FilterModal";
 
 import { userLocation } from "../../context/LocationContext";

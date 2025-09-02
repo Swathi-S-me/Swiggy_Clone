@@ -88,10 +88,7 @@ app.get("/api/collection", async (req, res) => {
   const baseUrl = `https://www.swiggy.com/dapi/restaurants/list/v5?lat=${lat}&lng=${lng}&collection=${id}`;
   const finalUrl = `${baseUrl}${tags ? `&tags=${encodeURIComponent(tags)}` : ""}&type=rcv2`;
 
-  // console.log("➡️ Requested Collection ID:", id);
-  // console.log("➡️ Requested Tags:", tags);
-  // console.log("➡️ Final Swiggy URL:", finalUrl);
-
+  
   try {
     const response = await fetch(finalUrl, {
       headers: {
@@ -213,18 +210,51 @@ app.get("/api/search", async (req, res) => {
 });
 
 
+
+
 app.post("/create-checkout-session", async (req, res) => {
   try {
     const { cart } = req.body;
 
-    const line_items = cart.map(item => ({
-      price_data: {
-        currency: "inr",
-        product_data: { name: item.name },
-        unit_amount: item.price * 100,
+   
+    const itemTotal = cart.reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0
+    );
+    const deliveryFee = 38;
+    const gst = itemTotal * 0.18;
+    const grandTotal = itemTotal + deliveryFee + gst;
+
+    const line_items = [
+      ...cart.map((item) => ({
+        price_data: {
+          currency: "inr",
+          product_data: { name: item.name },
+          unit_amount: item.price * 100,
+        },
+        quantity: item.quantity,
+      })),
+
+      
+      {
+        price_data: {
+          currency: "inr",
+          product_data: { name: "Delivery Fee" },
+          unit_amount: deliveryFee * 100,
+        },
+        quantity: 1,
       },
-      quantity: item.quantity,
-    }));
+
+     
+      {
+        price_data: {
+          currency: "inr",
+          product_data: { name: "GST & Other Charges" },
+          unit_amount: Math.round(gst * 100),
+        },
+        quantity: 1,
+      },
+    ];
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -234,11 +264,12 @@ app.post("/create-checkout-session", async (req, res) => {
       cancel_url: "http://localhost:5173/cart",
     });
 
-    res.json({ id: session.id });
+    res.json({ id: session.id, grandTotal });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
+
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
