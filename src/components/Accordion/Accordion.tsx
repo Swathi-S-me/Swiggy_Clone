@@ -1,8 +1,8 @@
-import type { MenuProps } from "./accordion.types";
+import type { MenuItem, MenuProps } from "./accordion.types";
 import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 
-import { useNavigate } from "@tanstack/react-router";
+
 import { useSelector } from "react-redux";
 import { type RootState } from "../../redux/store";
 import {
@@ -22,8 +22,8 @@ const MenuAccordion = ({ categorizedItems }: MenuProps) => {
     [key: string]: boolean;
   }>({});
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const cartItems = useSelector((state: RootState) => state.cart);
+  
+  const cartItems = useSelector((state: RootState) => state.cart.cart);
 
   const toggleCategory = (title: string) => {
     setOpenCategory(openCategory === title ? null : title);
@@ -35,7 +35,11 @@ const MenuAccordion = ({ categorizedItems }: MenuProps) => {
       [id]: !prev[id],
     }));
   };
-  const handleAddToCart = (item: any) => {
+
+
+
+
+  const handleAddToCart = (item: MenuItem) => {
     dispatch(
       addToCart({
         id: item.id,
@@ -45,7 +49,7 @@ const MenuAccordion = ({ categorizedItems }: MenuProps) => {
         quantity: 1,
       })
     );
-    navigate({ to: "/cart" });
+    // navigate({ to: "/cart" });
   };
   return (
     <div className="max-w-3xl mx-auto">
@@ -96,8 +100,8 @@ const MenuAccordion = ({ categorizedItems }: MenuProps) => {
                         className="w-full h-24 object-cover rounded-lg"
                       />
 
-                      {cartItems.cart?.some(
-                        (cartItem: any) => cartItem.id === item.id
+                      {cartItems.some(
+                        (cartItem) => cartItem.id === item.id
                       ) ? (
                         <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 flex items-center bg-white rounded shadow">
                           <Button
@@ -107,8 +111,8 @@ const MenuAccordion = ({ categorizedItems }: MenuProps) => {
                             -
                           </Button>
                           <span className="px-2">
-                            {cartItems.cart.find(
-                              (cartItem: any) => cartItem.id === item.id
+                            {cartItems.find(
+                              (cartItem) => cartItem.id === item.id
                             )?.quantity ?? 0}
                           </span>
                           <Button

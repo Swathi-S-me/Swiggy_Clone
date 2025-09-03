@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/cart/cartSlice";
 import { toast } from "react-hot-toast";
 
+
 const DishModal = ({ dish, onClose }: { dish: Dish; onClose: () => void }) => {
   const dispatch = useDispatch();
 

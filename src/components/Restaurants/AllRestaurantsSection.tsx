@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
 
-
 import { FilterModal } from "../FilterModal/FilterModal";
 
 import { userLocation } from "../../context/LocationContext";
@@ -14,7 +13,7 @@ const AllRestaurantsSection: React.FC = () => {
   const lat = location?.lat;
   const lng = location?.lng;
 
-  const { data: restaurants = [], isLoading , error} = useAllRestaurants( );
+  const { data: restaurants = [], isLoading, error } = useAllRestaurants();
   const [filter, setFilter] = useState<any[]>([]);
   const [ratingFilters, setRatingFilters] = useState<any[]>([]);
   const [veg, setVeg] = useState<any[]>([]);
@@ -85,7 +84,8 @@ const AllRestaurantsSection: React.FC = () => {
     });
   };
 
-  if (isLoading) return <Shimmer className="w-40 h-40 flex-shrink-0 rounded-2xl" />;
+  if (isLoading)
+    return <Shimmer className="w-40 h-40 flex-shrink-0 rounded-2xl" />;
   if (error) return <div>Error loading restaurants</div>;
 
   return (
@@ -109,7 +109,9 @@ const AllRestaurantsSection: React.FC = () => {
         }}
       />
       <h2 className="text-xl font-bold mb-4">
-        {`Restaurants with online food delivery in ${location?.address.split(",").slice(0,1)}`}
+        {`Restaurants with online food delivery in ${location?.address
+          .split(",")
+          .slice(0, 1)}`}
       </h2>
 
       <div className="flex flex-wrap items-center gap-3 mb-4">
@@ -217,8 +219,7 @@ const AllRestaurantsSection: React.FC = () => {
             //     </p>
             //   }
             // </Link>
- <Card key={rest.info.id} rest={rest} variant="grid" />
-
+            <Card key={rest.info.id} rest={rest} variant="grid" />
           ))}
       </div>
     </div>
