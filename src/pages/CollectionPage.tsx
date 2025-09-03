@@ -5,30 +5,32 @@ import type { Restaurant } from "../components/Restaurants/restaurant.types";
 import { useCollection } from "../Queries/useCollection";
 import Card from "../components/Card/Card";
 
-type MastheadCard = {
+export type MastheadCard = {
   "@type": "type.googleapis.com/swiggy.gandalf.widgets.v2.CollectionMasthead";
   title: string;
   description: string;
   count: string;
 };
 
-type RestaurantCardType = {
+export type RestaurantCardType = {
   "@type": "type.googleapis.com/swiggy.presentation.food.v2.Restaurant";
   info: Restaurant["info"];
 };
 
-type CardType = { card?: { card?: MastheadCard | RestaurantCardType } };
+export type CardType = { card?: { card?: MastheadCard | RestaurantCardType| unknown } };
 
-
-function isMastheadCard(card: any): card is { card: { card: MastheadCard } } {
-  return card?.card?.card?.["@type"] ===
+export interface CollectionData {
+  data: { cards: CardType[] };
+}
+function isMastheadCard(card: CardType): card is { card: { card: MastheadCard } } {
+  return (card?.card?.card as MastheadCard)?.["@type"] ===
     "type.googleapis.com/swiggy.gandalf.widgets.v2.CollectionMasthead";
 }
 
 function isRestaurantCard(
-  card: any
+  card: CardType
 ): card is { card: { card: RestaurantCardType } } {
-  return card?.card?.card?.["@type"] ===
+  return (card?.card?.card as RestaurantCardType)?.["@type"] ===
     "type.googleapis.com/swiggy.presentation.food.v2.Restaurant";
 }
 

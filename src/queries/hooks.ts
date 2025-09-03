@@ -53,7 +53,7 @@ export const useFoodCategories = () => {
   const { data, isLoading, error, isError } = useSwiggyData();
   
   const foodCategories: ImageInfo[] = data?.data?.cards?.find(
-    (card: any) =>
+    (card: CategoryResponse["data"]["cards"][number]) =>
       card.card?.card?.["@type"] ===
       "type.googleapis.com/swiggy.gandalf.widgets.v2.GridWidget" &&
       card.card?.card?.imageGridCards
@@ -72,7 +72,7 @@ export const useTopRestaurants = () => {
   const { data, isLoading, error, isError } = useSwiggyData();
   
   const topRestaurants: Restaurant[] = data?.data?.cards?.find(
-    (card: any) =>
+     (card: CategoryResponse["data"]["cards"][number]) =>
       card.card?.card?.["@type"] ===
       "type.googleapis.com/swiggy.gandalf.widgets.v2.GridWidget" &&
       card?.card?.card?.id === "top_brands_for_you"
@@ -90,7 +90,7 @@ export const useAllRestaurants = () => {
   const { data, isLoading, error, isError } = useSwiggyData();
   
   const allRestaurants: Restaurant[] = data?.data?.cards?.find(
-    (card: any) =>
+    (card: CategoryResponse["data"]["cards"][number])=>
       card?.card?.card?.["@type"] ===
       "type.googleapis.com/swiggy.gandalf.widgets.v2.GridWidget" &&
       card?.card?.card?.gridElements?.infoWithStyle?.restaurants &&

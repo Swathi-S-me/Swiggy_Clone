@@ -2,7 +2,7 @@ import { useState } from "react";
 import DishModal from "../components/DishModal/DishModal";
 import { useSearchSuggestions } from "../Queries/useSearchSuggestions";
 import { userLocation } from "../context/LocationContext";
-import { useNavigate } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, increaseQty, decreaseQty } from "../redux/cart/cartSlice";
 import { type RootState } from "../redux/store";
@@ -11,16 +11,74 @@ import Input from "../components/InputField/Input";
 import Button from "../components/Button/Button";
 import Icon from "../components/Icons/Icon";
 import toast from "react-hot-toast";
-import { Link } from "@tanstack/react-router";
+import Shimmer from "../components/Shimmer/Shimmer";
+import type { Dish } from "../components/DishModal/dishModal.types";
+
+interface DishInfo {
+  id: string;
+  name: string;
+  price?: number;
+  defaultPrice?: number;
+  description?: string;
+  imageId?: string;
+  nutrition?: string;
+}
+
+interface RestaurantInfo {
+  id: string;
+  name: string;
+  avgRating?: number;
+  sla?: { slaString: string };
+  cloudinaryImageId?: string;
+  costForTwo?: number;
+  cuisines?: string[];
+  adTrackingId?: string;
+  aggregatedDiscountInfoV3?: {
+    header?: string;
+  };
+}
+
+interface DishCardApi {
+  card: {
+    card: {
+      "@type": string;
+      info: DishInfo;
+      restaurant?: { info: RestaurantInfo };
+    };
+  };
+}
+
+interface RestaurantCardApi {
+  card: {
+    card: {
+      info: RestaurantInfo;
+    };
+  };
+}
+
+interface GroupedCardApi {
+  groupedCard: {
+    cardGroupMap: {
+      DISH?: { cards: DishCardApi[] };
+      RESTAURANT?: { cards: RestaurantCardApi[] };
+    };
+  };
+}
+
+interface DishCard {
+  dish: DishInfo;
+  restaurant?: RestaurantInfo;
+}
+type CardApi = GroupedCardApi | DishCardApi | RestaurantCardApi;
+interface RestaurantCard extends RestaurantInfo {}
 
 const SearchPage = () => {
   const [query, setQuery] = useState("");
   const [activeTab, setActiveTab] = useState<"restaurants" | "dishes">(
     "dishes"
   );
-  const [selectedDish, setSelectedDish] = useState<any | null>(null);
+  const [selectedDish, setSelectedDish] = useState< Dish| null>(null);
 
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const cart = useSelector((state: RootState) => state.cart.cart);
 
@@ -30,33 +88,35 @@ const SearchPage = () => {
 
   const { data, isLoading } = useSearchSuggestions(query, lat, lng);
 
-  const groupedCard = data?.data?.cards?.find((c: any) => c.groupedCard);
+  const groupedCard: GroupedCardApi | undefined = data?.data?.cards?.find(
+    (c: CardApi): c is GroupedCardApi => "groupedCard" in c
+  );
 
-  const dishCards =
+  const dishCards: DishCard[] =
     groupedCard?.groupedCard?.cardGroupMap?.DISH?.cards
       ?.filter(
-        (c: any) =>
+        (c): c is DishCardApi =>
           c?.card?.card?.["@type"] ===
           "type.googleapis.com/swiggy.presentation.food.v2.Dish"
       )
-      ?.map((c: any) => ({
+      ?.map((c) => ({
         dish: c.card.card.info,
         restaurant: c.card.card.restaurant?.info,
       })) || [];
 
-  const restaurantCards =
+  const restaurantCards: RestaurantCard[] =
     groupedCard?.groupedCard?.cardGroupMap?.RESTAURANT?.cards
-      ?.map((c: any) => c?.card?.card?.info)
-      ?.filter((info: any) => info && info.id) || [];
+      ?.map((c) => c?.card?.card?.info)
+      ?.filter((info): info is RestaurantInfo => !!info?.id) || [];
 
   return (
     <div className="flex flex-col items-center px-4 mb-10">
-      <div className="w-full max-w-2xl mt-2 mb-6 relative ">
+      <div className="w-full max-w-2xl mt-2 mb-6 relative">
         <Input
           type="text"
           value={query}
-          onChange={(e) => {
-            setQuery(e);
+          onChange={(val) => {
+            setQuery(val);
             setActiveTab("dishes");
           }}
           placeholder="Search for restaurants or dishes"
@@ -81,7 +141,7 @@ const SearchPage = () => {
           >
             Restaurants
           </Button>
-          <button
+          <Button
             onClick={() => setActiveTab("dishes")}
             className={`px-5 py-2 rounded-full border ${
               activeTab === "dishes"
@@ -90,121 +150,123 @@ const SearchPage = () => {
             }`}
           >
             Dishes
-          </button>
+          </Button>
         </div>
       )}
 
-      {isLoading && <p className="text-gray-500">Loading...</p>}
+      {isLoading && <Shimmer />}
 
-      {/* Dishes */}
       {!isLoading &&
         query &&
         activeTab === "dishes" &&
         (dishCards.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-2 gap-4 w-full max-w-4xl mb-8 p-5 bg-gray-200">
-            {dishCards.map(({ dish, restaurant }: any) => (
-              <div
-                key={dish.id}
-                className="relative p-10 rounded-2xl shadow-sm bg-white hover:shadow-md transition"
-              >
-                <span className="absolute top-4 right-4 text-gray-400">➝</span>
+            {dishCards.map(({ dish, restaurant }) => {
+              const inCart = cart.find((c) => c.id === dish.id);
+              const price = (dish.price ?? dish.defaultPrice ?? 0) / 100;
 
-                {restaurant && (
-                  <div className="mb-3 text-sm text-gray-600">
-                    <p className="font-medium">By {restaurant.name}</p>
-                    <p className="flex items-center gap-2">
-                      <Icon name="star" size={12} /> {restaurant.avgRating} •{" "}
-                      {restaurant.sla?.slaString}
-                    </p>
-                  </div>
-                )}
+              return (
+                <div
+                  key={dish.id}
+                  className="relative p-10 rounded-2xl shadow-sm bg-white hover:shadow-md transition"
+                >
+                  <span className="absolute top-4 right-4 text-gray-400">
+                    ➝
+                  </span>
 
-                <div className="flex items-center gap-3">
-                  <div className="flex-1">
-                    <p className="font-semibold text-lg">{dish.name}</p>
-                    {dish.price && (
-                      <p className="text-md font-semibold text-black">
-                        Rs.{dish.price / 100}
+                  {restaurant && (
+                    <div className="mb-3 text-sm text-gray-600">
+                      <p className="font-medium">By {restaurant.name}</p>
+                      <p className="flex items-center gap-2">
+                        <Icon name="star" size={12} /> {restaurant.avgRating} •{" "}
+                        {restaurant.sla?.slaString}
                       </p>
-                    )}
-
-                    <button
-                      className="mt-2 px-3 py-1 text-sm border rounded-full hover:bg-gray-50"
-                      onClick={() =>
-                        setSelectedDish({
-                           id: dish.id,
-                          name: dish.name,
-                          price: dish.price/100,
-                          description: dish.description,
-                          image: dish.imageId
-                            ? `${IMAGE_BASE}${dish.imageId}`
-                            : null,
-                          nutrition: dish.nutrition,
-                        })
-                      }
-                    >
-                      More Details →
-                    </button>
-                  </div>
-
-                  {dish.imageId ? (
-                    <div className="relative">
-                      <img
-                        src={`${IMAGE_BASE}${dish.imageId}`}
-                        alt={dish.name || "dish"}
-                        className="w-35 h-35 object-cover rounded-lg"
-                      />
-
-                      {/* Add / Update Cart */}
-                      {cart.find((c) => c.id === dish.id) ? (
-                        <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 flex items-center bg-white rounded shadow">
-                          <Button
-                            onClick={() => dispatch(decreaseQty(dish.id))}
-                            className="px-3 py-1 text-lg font-bold text-green-600"
-                          >
-                            -
-                          </Button>
-                          <span className="px-2">
-                            {cart.find((c) => c.id === dish.id)?.quantity}
-                          </span>
-                          <Button
-                            onClick={() => dispatch(increaseQty(dish.id))}
-                            className="px-3 py-1 text-lg font-bold text-green-600"
-                          >
-                            +
-                          </Button>
-                        </div>
-                      ) : (
-                        <Button
-                          onClick={() => {
-                            dispatch(
-                              addToCart({
-                                id: dish.id,
-                                name: dish.name,
-                                price: dish.price / 100,
-                                image: dish.imageId
-                                  ? `${IMAGE_BASE}${dish.imageId}`
-                                  : undefined,
-                                quantity: 1,
-                              })
-                            );
-                            toast.success("Item added to cart");
-                            // navigate({ to: "/cart" });
-                          }}
-                          className="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-white text-green-600 font-semibold text-sm px-4 py-1 rounded shadow"
-                        >
-                          ADD
-                        </Button>
-                      )}
-                    </div>
-                  ) : (
-                    <div className="w-28 h-28 flex items-center justify-center bg-gray-100 rounded">
-                      <span className="text-gray-500 text-xs">No Image</span>
                     </div>
                   )}
+
+                  <div className="flex items-center gap-3">
+                    <div className="flex-1">
+                      <p className="font-semibold text-lg">{dish.name}</p>
+                      {price > 0 && (
+                        <p className="text-md font-semibold text-black">
+                          Rs.{price}
+                        </p>
+                      )}
+
+                      <button
+                        className="mt-2 px-3 py-1 text-sm border rounded-full hover:bg-gray-50"
+                        onClick={() =>
+                          setSelectedDish({
+                            id: dish.id,
+                            name: dish.name,
+                            price,
+                            description: dish.description??"",
+                            image: dish.imageId
+                              ? `${IMAGE_BASE}${dish.imageId}`
+                              : null,
+                            nutrition: dish.nutrition,
+                          })
+                        }
+                      >
+                        More Details →
+                      </button>
+                    </div>
+
+                    {dish.imageId ? (
+                      <div className="relative">
+                        <img
+                          src={`${IMAGE_BASE}${dish.imageId}`}
+                          alt={dish.name || "dish"}
+                          className="w-35 h-35 object-cover rounded-lg"
+                        />
+
+                        {inCart ? (
+                          <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 flex items-center bg-white rounded shadow">
+                            <Button
+                              onClick={() => dispatch(decreaseQty(dish.id))}
+                              className="px-3 py-1 text-lg font-bold text-green-600"
+                            >
+                              -
+                            </Button>
+                            <span className="px-2">{inCart.quantity}</span>
+                            <Button
+                              onClick={() => dispatch(increaseQty(dish.id))}
+                              className="px-3 py-1 text-lg font-bold text-green-600"
+                            >
+                              +
+                            </Button>
+                          </div>
+                        ) : (
+                          <Button
+                            onClick={() => {
+                              dispatch(
+                                addToCart({
+                                  id: dish.id,
+                                  name: dish.name,
+                                  price,
+                                  image: dish.imageId
+                                    ? `${IMAGE_BASE}${dish.imageId}`
+                                    : undefined,
+                                  quantity: 1,
+                                })
+                              );
+                              toast.success("Item added to cart");
+                            }}
+                            className="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-white text-green-600 font-semibold text-sm px-4 py-1 rounded shadow"
+                          >
+                            ADD
+                          </Button>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="w-28 h-28 flex items-center justify-center bg-gray-100 rounded">
+                        <span className="text-gray-500 text-xs">No Image</span>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         ) : (
           <div className="w-full max-w-4xl flex flex-col items-center justify-center py-10 text-gray-500">
@@ -216,58 +278,61 @@ const SearchPage = () => {
           </div>
         ))}
 
-      {/* Restaurants */}
       {!isLoading &&
         query &&
         activeTab === "restaurants" &&
         (restaurantCards.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-5xl">
-            {restaurantCards.map((r: any) => (
-              <Link
-                key={r.id}
-                to="/restaurant/$id"
-                params={{ id: r.id }}
-                className="flex items-center gap-4 p-4 rounded-lg shadow-sm bg-white hover:shadow-md transition"
-              >
-                <div className="relative w-28 h-28 flex-shrink-0">
-                  {r?.cloudinaryImageId ? (
-                    <img
-                      src={`${IMAGE_BASE}${r.cloudinaryImageId}`}
-                      alt={r?.name}
-                      className="w-full h-full object-cover rounded-lg"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-gray-100 rounded-lg text-gray-500 text-xs">
-                      No Image
-                    </div>
-                  )}
-                  {r?.adTrackingId && (
-                    <span className="absolute top-2 left-2 bg-black text-white text-xs px-2 py-0.5 rounded">
-                      Ad
-                    </span>
-                  )}
-                  {r?.aggregatedDiscountInfoV3?.header && (
-                    <span className="absolute bottom-2 left-2 bg-orange-500 text-white text-xs font-semibold px-2 py-1 rounded">
-                      ITEMS • {r.aggregatedDiscountInfoV3?.header}
-                    </span>
-                  )}
-                </div>
+            {restaurantCards.map((r) => {
+              const cuisines = r?.cuisines?.join(", ") || "";
+              return (
+                <Link
+                  key={r.id}
+                  to="/restaurant/$id"
+                  params={{ id: r.id }}
+                  className="flex items-center gap-4 p-4 rounded-lg shadow-sm bg-white hover:shadow-md transition"
+                >
+                  <div className="relative w-28 h-28 flex-shrink-0">
+                    {r?.cloudinaryImageId ? (
+                      <img
+                        src={`${IMAGE_BASE}${r.cloudinaryImageId}`}
+                        alt={r?.name}
+                        className="w-full h-full object-cover rounded-lg"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-gray-100 rounded-lg text-gray-500 text-xs">
+                        No Image
+                      </div>
+                    )}
+                    {r?.adTrackingId && (
+                      <span className="absolute top-2 left-2 bg-black text-white text-xs px-2 py-0.5 rounded">
+                        Ad
+                      </span>
+                    )}
+                    {r?.aggregatedDiscountInfoV3?.header && (
+                      <span className="absolute bottom-2 left-2 bg-orange-500 text-white text-xs font-semibold px-2 py-1 rounded">
+                        ITEMS • {r.aggregatedDiscountInfoV3?.header}
+                      </span>
+                    )}
+                  </div>
 
-                <div className="flex-1">
-                  <p className="font-semibold text-lg">{r?.name}</p>
-                  <p className="text-sm text-gray-600 flex items-center gap-1">
-                    <Icon name="star" size={12} /> {r?.avgRating || "--"} •{" "}
-                    {r?.sla?.slaString} • Rs.
-                    {(r?.costForTwo || 0) / 100} FOR TWO
-                  </p>
+                  <div className="flex-1">
+                    <p className="font-semibold text-lg">{r?.name}</p>
+                    <p className="text-sm text-gray-600 flex items-center gap-1">
+                      <Icon name="star" size={12} /> {r?.avgRating || "--"} •{" "}
+                      {r?.sla?.slaString} • Rs.
+                      {(r?.costForTwo || 0) / 100} FOR TWO
+                    </p>
 
-                  <p className="text-sm text-gray-500">
-                    {r?.cuisines?.join(", ")?.slice(0, 40)}
-                    {r?.cuisines?.join(", ")?.length > 40 && "..."}
-                  </p>
-                </div>
-              </Link>
-            ))}
+                    <p className="text-sm text-gray-500">
+                      {cuisines.length > 40
+                        ? cuisines.slice(0, 40) + "..."
+                        : cuisines}
+                    </p>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         ) : (
           <div className="w-full max-w-4xl flex flex-col items-center justify-center py-10 text-gray-500">

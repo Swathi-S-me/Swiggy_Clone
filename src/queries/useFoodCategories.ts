@@ -1,18 +1,20 @@
 import { useQuery } from "@tanstack/react-query";
 import type { ImageInfo } from "../components/Food/foodcategory.types";
 import { userLocation } from "../context/LocationContext";
-interface CategoryResponse {
-  data: {
-    cards: Array<{
-      card: {
-        card: {
-          "@type": string;
-          imageGridCards?: {
-            info: ImageInfo[];
-          };
-        };
+interface CategoryCard {
+  card: {
+    card: {
+      "@type": string;
+      imageGridCards?: {
+        info: ImageInfo[];
       };
-    }>;
+    };
+  };
+}
+
+interface FoodCategoryResponse {
+  data: {
+    cards: CategoryCard[];
   };
 }
 
@@ -23,11 +25,11 @@ const fetchFoodCategories = async (lat: number, lng: number): Promise<ImageInfo[
   
   if (!res.ok) throw new Error("Failed to fetch food categories");
   
-  const data: CategoryResponse = await res.json();
+  const data: FoodCategoryResponse = await res.json();
   const cards = data?.data?.cards || [];
   
   const gridWidget = cards.find(
-    (card: any) =>
+    (card) =>
       card.card?.card?.["@type"] ===
       "type.googleapis.com/swiggy.gandalf.widgets.v2.GridWidget"
   );

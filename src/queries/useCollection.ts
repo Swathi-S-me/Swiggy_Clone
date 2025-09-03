@@ -1,14 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
+import type { CollectionData } from "../pages/CollectionPage";
 
-interface CollectionData {
-  data: {
-    cards: Array<{
-      card: {
-        card: any;
-      };
-    }>;
-  };
-}
+
 
 const fetchCollection = async (id: string, tags?: string): Promise<CollectionData> => {
   const collectionUrl = `http://localhost:5000/api/collection?id=${id}${
