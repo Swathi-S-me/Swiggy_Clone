@@ -13,8 +13,7 @@ export interface ImageInfo {
     altTextCta?: string;
   };
   entityId?: string;
-  frequencyCapping?: any;
-  externalMarketing?: any;
+ 
   description?: string;
 }
 

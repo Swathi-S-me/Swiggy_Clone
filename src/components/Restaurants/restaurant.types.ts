@@ -8,19 +8,42 @@ export type Restaurant = {
     areaName: string;
     costForTwo: string;
     cuisines: string[];
-    avgRating: number;
+    avgRating: string;
+    veg?: boolean;
     sla: {
       deliveryTime: number;
       slaString: string;
-      lastMileTravelString: string;
+      
     };
     aggregatedDiscountInfoV3?: {
       header: string;
       subHeader: string;
     };
   };
-  cta?: {
-    link: string;
-    type: string;
-  };
+  
 };
+export interface SortOption {
+  key: string;
+  title: string;
+}
+
+export interface FacetInfo {
+  id: string;
+  label: string;
+  value: string;
+}
+
+export interface Facet {
+  label: string;
+  facetInfo: FacetInfo[];
+}
+
+export interface FilterSortCard {
+  card?: {
+    card?: {
+      ["@type"]?: string;
+      sortConfigs?: SortOption[];
+      facetList?: Facet[];
+    };
+  };
+}

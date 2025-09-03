@@ -132,8 +132,9 @@ const SearchPage = () => {
                       className="mt-2 px-3 py-1 text-sm border rounded-full hover:bg-gray-50"
                       onClick={() =>
                         setSelectedDish({
+                           id: dish.id,
                           name: dish.name,
-                          price: dish.price / 100,
+                          price: dish.price/100,
                           description: dish.description,
                           image: dish.imageId
                             ? `${IMAGE_BASE}${dish.imageId}`
@@ -184,11 +185,11 @@ const SearchPage = () => {
                                 image: dish.imageId
                                   ? `${IMAGE_BASE}${dish.imageId}`
                                   : undefined,
-                                quantity: dish.quantity,
+                                quantity: 1,
                               })
                             );
                             toast.success("Item added to cart");
-                            navigate({ to: "/cart" });
+                            // navigate({ to: "/cart" });
                           }}
                           className="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-white text-green-600 font-semibold text-sm px-4 py-1 rounded shadow"
                         >

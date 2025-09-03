@@ -6,11 +6,16 @@ import Icon from "../Icons/Icon";
 import Button from "../Button/Button";
 import Input from "../InputField/Input";
 import useLocalStorage from "../../Queries/useLocalStorage";
+interface RecentLocation {
+  lat: number;
+  lng: number;
+  address: string;
+}
 
 export default function LocationDrawer({ isOpen, onClose }: LocationProps) {
   const { setLocation } = userLocation();
   const [search, setSearch] = useState("");
-  const [recent, setRecent] = useLocalStorage<any[]>("recent-locations", []);
+  const [recent, setRecent] = useLocalStorage<RecentLocation[]>("recent-locations", []);
 
   const getCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition(

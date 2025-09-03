@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 
 import { FilterModal } from "../FilterModal/FilterModal";
-
+import type { Restaurant, SortOption, Facet, FacetInfo, FilterSortCard } from "./restaurant.types"
 import { userLocation } from "../../context/LocationContext";
 import Shimmer from "../Shimmer/Shimmer";
 import Button from "../Button/Button";
@@ -14,9 +14,9 @@ const AllRestaurantsSection: React.FC = () => {
   const lng = location?.lng;
 
   const { data: restaurants = [], isLoading, error } = useAllRestaurants();
-  const [filter, setFilter] = useState<any[]>([]);
-  const [ratingFilters, setRatingFilters] = useState<any[]>([]);
-  const [veg, setVeg] = useState<any[]>([]);
+  const [filter, setFilter] = useState<SortOption[]>([]);
+  const [ratingFilters, setRatingFilters] = useState<FacetInfo[]>([]);
+  const [veg, setVeg] = useState<FacetInfo[]>([]);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [appliedFilters, setAppliedFilters] = useState<{
     Ratings?: string;
@@ -32,23 +32,23 @@ const AllRestaurantsSection: React.FC = () => {
     )
       .then((res) => res.json())
       .then((data) => {
-        const cards = data?.data?.cards || [];
+        const cards: FilterSortCard[] = data?.data?.cards || [];
         const filtersort = cards.find(
-          (card: any) =>
+          (card) =>
             card.card?.card?.["@type"] ===
             "type.googleapis.com/swiggy.gandalf.widgets.v2.InlineViewFilterSortWidget"
         );
         const info = filtersort?.card?.card?.sortConfigs || [];
         setFilter(info);
-        const facets = filtersort?.card?.card?.facetList || [];
+        const facets: Facet[] = filtersort?.card?.card?.facetList || [];
 
         const ratingFacet = facets.find(
-          (facet: any) => facet.label === "Ratings"
+          (facet) => facet.label === "Ratings"
         );
         setRatingFilters(ratingFacet?.facetInfo || []);
 
         const isVegFacet = facets.find(
-          (facet: any) => facet.label === "Veg/Non-Veg"
+          (facet) => facet.label === "Veg/Non-Veg"
         );
         setVeg(isVegFacet?.facetInfo || []);
       });
@@ -56,7 +56,7 @@ const AllRestaurantsSection: React.FC = () => {
 
   const uniqueCuisines = useMemo(() => {
     const cuisineSet = new Set<string>();
-    restaurants.forEach((rest: any) => {
+    restaurants.forEach((rest: Restaurant) => {
       rest.info.cuisines?.forEach((cuisine: string) => cuisineSet.add(cuisine));
     });
     return Array.from(cuisineSet).map((cuisine) => ({
@@ -72,7 +72,8 @@ const AllRestaurantsSection: React.FC = () => {
     { id: "400-600", label: "Rs.400 - Rs.600", value: "400-600" },
   ];
 
-  const toggleFilter = (key: keyof typeof appliedFilters, value: any) => {
+  const toggleFilter = <K extends keyof typeof appliedFilters>(key: K,
+  value: typeof appliedFilters[K]) => {
     setAppliedFilters((prev) => {
       const isSame =
         prev[key] === value ||
@@ -94,11 +95,12 @@ const AllRestaurantsSection: React.FC = () => {
         isOpen={isFilterOpen}
         onClose={() => setIsFilterOpen(false)}
         ratingFilters={ratingFilters}
-        sortOptions={filter.map(({ key, title }: any) => ({
-          id: key,
-          label: title,
-          value: key,
-        }))}
+        sortOptions={filter.map((opt) => ({
+  id: opt.key,
+  label: opt.title,
+  value: opt.key,
+}))}
+
         cuisineOptions={uniqueCuisines}
         costOptions={costOptions}
         vegOptions={veg}
@@ -139,7 +141,7 @@ const AllRestaurantsSection: React.FC = () => {
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {restaurants
-          .filter((rest: any) => {
+          .filter((rest: Restaurant) => {
             const {
               Ratings,
               "Veg/Non-Veg": VegFilter,
@@ -177,17 +179,17 @@ const AllRestaurantsSection: React.FC = () => {
 
             return true;
           })
-          .sort((a: any, b: any) => {
+          .sort((a: Restaurant, b: Restaurant) => {
             const sortBy = appliedFilters["Sort by"];
             if (sortBy === "RATING") {
-              return b.info.avgRating - a.info.avgRating;
+              return Number(b.info.avgRating) - Number(a.info.avgRating);
             }
             if (sortBy === "DELIVERY_TIME") {
               return a.info.sla.deliveryTime - b.info.sla.deliveryTime;
             }
             return 0;
           })
-          .map((rest: any) => (
+          .map((rest: Restaurant) => (
             // <Link
             //   to={`/restaurant/${rest.info.id}`}
             //   key={rest.info.id}
