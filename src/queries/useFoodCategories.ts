@@ -1,22 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import type { ImageInfo } from "../components/Food/foodcategory.types";
 import { userLocation } from "../context/LocationContext";
-interface CategoryCard {
-  card: {
-    card: {
-      "@type": string;
-      imageGridCards?: {
-        info: ImageInfo[];
-      };
-    };
-  };
-}
-
-interface FoodCategoryResponse {
-  data: {
-    cards: CategoryCard[];
-  };
-}
+import type { FoodCategoryResponse } from "./hooks.types";
 
 const fetchFoodCategories = async (lat: number, lng: number): Promise<ImageInfo[]> => {
   const res = await fetch(

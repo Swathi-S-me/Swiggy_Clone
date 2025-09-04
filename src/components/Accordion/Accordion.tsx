@@ -2,7 +2,6 @@ import type { MenuItem, MenuProps } from "./accordion.types";
 import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 
-
 import { useSelector } from "react-redux";
 import { type RootState } from "../../redux/store";
 import {
@@ -22,7 +21,7 @@ const MenuAccordion = ({ categorizedItems }: MenuProps) => {
     [key: string]: boolean;
   }>({});
   const dispatch = useDispatch();
-  
+
   const cartItems = useSelector((state: RootState) => state.cart.cart);
 
   const toggleCategory = (title: string) => {
@@ -35,9 +34,6 @@ const MenuAccordion = ({ categorizedItems }: MenuProps) => {
       [id]: !prev[id],
     }));
   };
-
-
-
 
   const handleAddToCart = (item: MenuItem) => {
     dispatch(
@@ -60,7 +56,13 @@ const MenuAccordion = ({ categorizedItems }: MenuProps) => {
             className="w-full flex justify-between items-center p-4 text-left font-bold text-lg bg-gray-100 hover:bg-gray-200 transition"
           >
             {category.title}
-            <span>{openCategory === category.title ? <Icon name="up" size={15}/> : <Icon name="down" size={15}/>}</span>
+            <span>
+              {openCategory === category.title ? (
+                <Icon name="up" size={15} />
+              ) : (
+                <Icon name="down" size={15} />
+              )}
+            </span>
           </Button>
 
           {openCategory === category.title && (
@@ -87,7 +89,6 @@ const MenuAccordion = ({ categorizedItems }: MenuProps) => {
                         {expandedItems[item.id]
                           ? item.description
                           : truncate(item.description, 90)}{" "}
-                       
                       </p>
                     )}
                   </div>
@@ -100,9 +101,7 @@ const MenuAccordion = ({ categorizedItems }: MenuProps) => {
                         className="w-full h-24 object-cover rounded-lg"
                       />
 
-                      {cartItems.some(
-                        (cartItem) => cartItem.id === item.id
-                      ) ? (
+                      {cartItems.some((cartItem) => cartItem.id === item.id) ? (
                         <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 flex items-center bg-white rounded shadow">
                           <Button
                             onClick={() => dispatch(decreaseQty(item.id))}

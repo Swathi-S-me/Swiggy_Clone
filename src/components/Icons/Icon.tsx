@@ -20,7 +20,7 @@ import { BiSolidOffer } from "react-icons/bi";
 import { TbTruckDelivery } from "react-icons/tb";
 import { MdKeyboardDoubleArrowLeft , MdKeyboardDoubleArrowRight} from "react-icons/md";
 import type { IconProps } from "./icons.types";
-
+import { IoMdLogOut } from "react-icons/io";
 export const icons: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
   cart: FaShoppingCart,
   user: FaUser,
@@ -41,8 +41,8 @@ export const icons: Record<string, React.ComponentType<{ size?: number; classNam
   linkedin:FaLinkedin,
   delivery:TbTruckDelivery,
   down:FaAngleDown,
-  up:FaAngleUp 
-
+  up:FaAngleUp ,
+  logout:IoMdLogOut
 } as const;
 
 export const Icon: React.FC<IconProps> = ({ name, size = 20, className = "" }) => {

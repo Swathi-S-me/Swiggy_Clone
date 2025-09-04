@@ -3,8 +3,6 @@ import type { RestaurantInfoCardProps } from "./restaurantMenuCard.types";
 import Icon from "../Icons/Icon";
 
 
-
-
 const RestaurantInfoCard: React.FC<RestaurantInfoCardProps> = ({ restaurantInfo }) => {
   return (
     <div className="bg-white shadow rounded-xl p-6 mb-6 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">

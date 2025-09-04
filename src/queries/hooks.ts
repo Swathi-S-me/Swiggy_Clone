@@ -2,27 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 import type { ImageInfo } from "../components/Food/foodcategory.types";
 import type { Restaurant } from "../components/Restaurants/restaurant.types";
 import { userLocation } from "../context/LocationContext";
+import type { CategoryResponse } from "./hooks.types";
 
-interface CategoryResponse {
-  data: {
-    cards: Array<{
-      card: {
-        card: {
-          "@type": string;
-          id?: string;
-          imageGridCards?: {
-            info: ImageInfo[];
-          };
-          gridElements?: {
-            infoWithStyle?: {
-              restaurants: Restaurant[];
-            };
-          };
-        };
-      };
-    }>;
-  };
-}
+
 
 const fetchSwiggyData = async (lat: number, lng: number): Promise<CategoryResponse> => {
   const res = await fetch(

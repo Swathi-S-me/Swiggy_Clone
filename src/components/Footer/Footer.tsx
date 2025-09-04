@@ -2,15 +2,8 @@
 import logo from "../../assets/swiggy_logo.webp";
 import { useHomepageData } from "../../Queries/hooks";
 import Icon from "../Icons/Icon";
-import type { City } from "./footer.types";
-interface FooterCard {
-  card: {
-    card: {
-      ["@type"]: string;
-      cities?: City[];
-    };
-  };
-}
+import type { City, FooterCard } from "./footer.types";
+
 const Footer = () => {
   const { data, isLoading } = useHomepageData();
 const footerCard = data?.data?.cards.find(

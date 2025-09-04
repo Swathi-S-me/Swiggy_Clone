@@ -1,7 +1,12 @@
 import React, { useEffect, useMemo, useState } from "react";
-
 import { FilterModal } from "../FilterModal/FilterModal";
-import type { Restaurant, SortOption, Facet, FacetInfo, FilterSortCard } from "./restaurant.types"
+import type {
+  Restaurant,
+  SortOption,
+  Facet,
+  FacetInfo,
+  FilterSortCard,
+} from "./restaurant.types";
 import { userLocation } from "../../context/LocationContext";
 import Shimmer from "../Shimmer/Shimmer";
 import Button from "../Button/Button";
@@ -42,9 +47,7 @@ const AllRestaurantsSection: React.FC = () => {
         setFilter(info);
         const facets: Facet[] = filtersort?.card?.card?.facetList || [];
 
-        const ratingFacet = facets.find(
-          (facet) => facet.label === "Ratings"
-        );
+        const ratingFacet = facets.find((facet) => facet.label === "Ratings");
         setRatingFilters(ratingFacet?.facetInfo || []);
 
         const isVegFacet = facets.find(
@@ -72,8 +75,10 @@ const AllRestaurantsSection: React.FC = () => {
     { id: "400-600", label: "Rs.400 - Rs.600", value: "400-600" },
   ];
 
-  const toggleFilter = <K extends keyof typeof appliedFilters>(key: K,
-  value: typeof appliedFilters[K]) => {
+  const toggleFilter = <K extends keyof typeof appliedFilters>(
+    key: K,
+    value: (typeof appliedFilters)[K]
+  ) => {
     setAppliedFilters((prev) => {
       const isSame =
         prev[key] === value ||
@@ -96,11 +101,10 @@ const AllRestaurantsSection: React.FC = () => {
         onClose={() => setIsFilterOpen(false)}
         ratingFilters={ratingFilters}
         sortOptions={filter.map((opt) => ({
-  id: opt.key,
-  label: opt.title,
-  value: opt.key,
-}))}
-
+          id: opt.key,
+          label: opt.title,
+          value: opt.key,
+        }))}
         cuisineOptions={uniqueCuisines}
         costOptions={costOptions}
         vegOptions={veg}
@@ -190,37 +194,6 @@ const AllRestaurantsSection: React.FC = () => {
             return 0;
           })
           .map((rest: Restaurant) => (
-            // <Link
-            //   to={`/restaurant/${rest.info.id}`}
-            //   key={rest.info.id}
-            //   className="bg-white p-4 rounded-lg hover:scale-[1.02] transition-transform"
-            // >
-            //   <img
-            //     src={`https://media-assets.swiggy.com/${rest.info.cloudinaryImageId}`}
-            //     alt={rest.info.name}
-            //     className="w-full h-40 object-cover rounded-2xl mb-2"
-            //   />
-            //   <h3 className="text-lg font-bold mb-2 text-gray-900">
-            //     {rest.info.name.slice(0, 23) + "..."}
-            //   </h3>
-            //   <p className="text-sm font-bold flex items-center gap-1 text-gray-950">
-            //     {rest.info.avgRating} <Icon name="star" size={10} />
-            //     {rest.info.sla?.slaString}
-            //   </p>
-            //   <p className="text-sm text-gray-500">
-            //     {rest.info.cuisines.join(", ").length > 20
-            //       ? rest.info.cuisines.join(", ").slice(0, 20) + "..."
-            //       : rest.info.cuisines.join(", ")}
-            //   </p>
-            //   <p className="text-sm ">{rest.info.costForTwo}</p>
-            //   {
-            //     <p className=" font-bold text-gray-800">
-            //       {rest?.info?.aggregatedDiscountInfoV3?.header || "15% OFF"} -{" "}
-            //       {rest?.info?.aggregatedDiscountInfoV3?.subHeader ||
-            //         "ABOVE 299"}
-            //     </p>
-            //   }
-            // </Link>
             <Card key={rest.info.id} rest={rest} variant="grid" />
           ))}
       </div>

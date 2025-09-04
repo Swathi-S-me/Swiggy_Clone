@@ -3,9 +3,6 @@ import { Link } from "@tanstack/react-router";
 import Icon from "../Icons/Icon";
 import type { CardProps } from "./card.types";
 
-
-
-
 const Card: React.FC<CardProps> = ({ rest, variant = "grid" }) => {
   const { info } = rest;
 
@@ -31,26 +28,23 @@ const Card: React.FC<CardProps> = ({ rest, variant = "grid" }) => {
         {info.sla?.slaString}
       </p>
 
-     
-                    <p className="text-sm text-gray-500">
-                 {info.cuisines.join(", ").length > 20
-                  ? info.cuisines.join(", ").slice(0, 25) + "..."
-                  : info.cuisines.join(", ")}
-              </p>
+      <p className="text-sm text-gray-500">
+        {info.cuisines.join(", ").length > 20
+          ? info.cuisines.join(", ").slice(0, 25) + "..."
+          : info.cuisines.join(", ")}
+      </p>
 
       {info.costForTwo && (
         <p className="text-sm text-gray-700">{info.costForTwo}</p>
       )}
       {variant === "grid" && (
         <>
-         
           <p className="font-bold text-gray-800">
             {info.aggregatedDiscountInfoV3?.header || "15% OFF"} -{" "}
             {info.aggregatedDiscountInfoV3?.subHeader || "ABOVE 299"}
           </p>
         </>
       )}
-    
     </Link>
   );
 };

@@ -18,25 +18,23 @@ const HorizontalScrollCarousel = <T,>({
         left: dir === "left" ? -300 : 300,
         behavior: "smooth",
       });
-    }   
+    }
   };
 
-if (loading) {
-  return (
-    <div className="flex gap-4 px-4 pb-4 overflow-x-auto scrollbar-hide">
-      {Array.from({ length: 5 }).map((_, idx) => (
-        <Shimmer
-          key={idx}
-          className="flex-shrink-0 rounded-2xl"
-          width={200} 
-          height={200} 
-        />
-      ))}
-    </div>
-  );
-}
-
-
+  if (loading) {
+    return (
+      <div className="flex gap-4 px-4 pb-4 overflow-x-auto scrollbar-hide">
+        {Array.from({ length: 5 }).map((_, idx) => (
+          <Shimmer
+            key={idx}
+            className="flex-shrink-0 rounded-2xl"
+            width={200}
+            height={200}
+          />
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div className="relative px-4 pb-4">

@@ -1,4 +1,4 @@
-import type { RestaurantInfo } from "../../pages/restaurantMenuPage.types";
+import type { RestaurantInfo } from "../../pages/RestaurantMenuPage/restaurantMenuPage.types";
 
 export interface RestaurantInfoCardProps {
   restaurantInfo: RestaurantInfo;

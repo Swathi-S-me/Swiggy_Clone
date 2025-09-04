@@ -1,7 +1,5 @@
 import type { ShimmerProps } from "./shimmer.types";
 
-
-
 const Shimmer: React.FC<ShimmerProps> = ({
   width,
   height,

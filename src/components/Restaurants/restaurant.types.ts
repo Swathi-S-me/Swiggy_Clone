@@ -5,7 +5,7 @@ export type Restaurant = {
     name: string;
     cloudinaryImageId: string;
     locality:string;
-    areaName: string;
+    
     costForTwo: string;
     cuisines: string[];
     avgRating: string;

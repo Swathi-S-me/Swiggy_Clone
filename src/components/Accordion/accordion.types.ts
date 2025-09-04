@@ -15,9 +15,7 @@ export interface CartItem {
   quantity: number;
 }
 
-export interface CartState {
-  cart: CartItem[];
-}
+
 
 export interface MenuCategory {
   title: string;

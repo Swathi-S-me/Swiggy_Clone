@@ -1,8 +1,24 @@
+export interface RestaurantInfo {
+  id: string;
+  name: string;
+  cuisines: string[];
+  locality: string;
+  areaName: string;
+  costForTwoMessage: string;
+  avgRatingString: string;
+  totalRatingsString: string;
+  sla: {
+    slaString: string;
+  };
+}
 
-
-export interface RestaurantMenuResponse {
-  data: {
-    cards: Card[];
+export interface RegularCard {
+  card: {
+    card: {
+      "@type": string;
+      title?: string;
+      itemCards?: ItemCard[];
+    };
   };
 }
 
@@ -23,37 +39,6 @@ export interface Card {
     };
   };
 }
-
-export interface RestaurantInfo {
-  id: string;
-  name: string;
-  cuisines: string[];
-  locality: string;
-areaName: string;
-  costForTwoMessage: string;
-  avgRatingString: string;
-  totalRatingsString: string;
-  sla: {
-    slaString: string;
-  };
-}
-
-export interface RegularCard {
-  card: {
-    card: {
-      "@type": string;
-      title?: string;
-      itemCards?: ItemCard[];
-    };
-  };
-}
-
-export interface ItemCard {
-  card: {
-    info: MenuItem;
-  };
-}
-
 export interface MenuItem {
   id: string;
   name: string;
@@ -61,4 +46,14 @@ export interface MenuItem {
   price?: number;
   defaultPrice?: number;
   imageId?: string;
+}
+export interface ItemCard {
+  card: {
+    info: MenuItem;
+  };
+}
+export interface RestaurantMenuResponse {
+  data: {
+    cards: Card[];
+  };
 }

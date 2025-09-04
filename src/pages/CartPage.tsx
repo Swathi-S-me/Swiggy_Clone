@@ -1,5 +1,3 @@
-
-
 import { useSelector, useDispatch } from "react-redux";
 import { type RootState } from "../redux/store";
 import { increaseQty, decreaseQty } from "../redux/cart/cartSlice";

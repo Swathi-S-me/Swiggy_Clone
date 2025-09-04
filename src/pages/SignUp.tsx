@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import Button from "../components/Button/Button";
-import OtpVerify from "./OtpVerify";
+import OtpVerify from "./OtpVerify/OtpVerify";
 
 const Signup = () => {
   const [step, setStep] = useState<"form" | "otp">("form");

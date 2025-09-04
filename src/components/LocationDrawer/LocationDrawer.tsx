@@ -1,16 +1,11 @@
 import { useState } from "react";
 import { userLocation } from "../../context/LocationContext";
-
-import type { LocationProps } from "../LocationDrawer/locationDrawer.types";
+import type { LocationProps, RecentLocation } from "../LocationDrawer/locationDrawer.types";
 import Icon from "../Icons/Icon";
 import Button from "../Button/Button";
 import Input from "../InputField/Input";
 import useLocalStorage from "../../Queries/useLocalStorage";
-interface RecentLocation {
-  lat: number;
-  lng: number;
-  address: string;
-}
+
 
 export default function LocationDrawer({ isOpen, onClose }: LocationProps) {
   const { setLocation } = userLocation();

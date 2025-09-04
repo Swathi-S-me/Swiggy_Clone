@@ -1,76 +1,21 @@
 import { useState } from "react";
-import DishModal from "../components/DishModal/DishModal";
-import { useSearchSuggestions } from "../Queries/useSearchSuggestions";
-import { userLocation } from "../context/LocationContext";
+import DishModal from "../../components/DishModal/DishModal";
+import { useSearchSuggestions } from "../../Queries/useSearchSuggestions";
+import { userLocation } from "../../context/LocationContext";
 import { Link } from "@tanstack/react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart, increaseQty, decreaseQty } from "../redux/cart/cartSlice";
-import { type RootState } from "../redux/store";
-import { IMAGE_BASE } from "../constant/URL";
-import Input from "../components/InputField/Input";
-import Button from "../components/Button/Button";
-import Icon from "../components/Icons/Icon";
+import { addToCart, increaseQty, decreaseQty } from "../../redux/cart/cartSlice";
+import { type RootState } from "../../redux/store";
+import { IMAGE_BASE } from "../../constant/URL";
+import Input from "../../components/InputField/Input";
+import Button from "../../components/Button/Button";
+import Icon from "../../components/Icons/Icon";
 import toast from "react-hot-toast";
-import Shimmer from "../components/Shimmer/Shimmer";
-import type { Dish } from "../components/DishModal/dishModal.types";
+import Shimmer from "../../components/Shimmer/Shimmer";
+import type { Dish } from "../../components/DishModal/dishModal.types";
+import type { CardApi, DishCard, DishCardApi, GroupedCardApi, RestaurantCard, RestaurantInfo } from "./search.types";
 
-interface DishInfo {
-  id: string;
-  name: string;
-  price?: number;
-  defaultPrice?: number;
-  description?: string;
-  imageId?: string;
-  nutrition?: string;
-}
 
-interface RestaurantInfo {
-  id: string;
-  name: string;
-  avgRating?: number;
-  sla?: { slaString: string };
-  cloudinaryImageId?: string;
-  costForTwo?: number;
-  cuisines?: string[];
-  adTrackingId?: string;
-  aggregatedDiscountInfoV3?: {
-    header?: string;
-  };
-}
-
-interface DishCardApi {
-  card: {
-    card: {
-      "@type": string;
-      info: DishInfo;
-      restaurant?: { info: RestaurantInfo };
-    };
-  };
-}
-
-interface RestaurantCardApi {
-  card: {
-    card: {
-      info: RestaurantInfo;
-    };
-  };
-}
-
-interface GroupedCardApi {
-  groupedCard: {
-    cardGroupMap: {
-      DISH?: { cards: DishCardApi[] };
-      RESTAURANT?: { cards: RestaurantCardApi[] };
-    };
-  };
-}
-
-interface DishCard {
-  dish: DishInfo;
-  restaurant?: RestaurantInfo;
-}
-type CardApi = GroupedCardApi | DishCardApi | RestaurantCardApi;
-interface RestaurantCard extends RestaurantInfo {}
 
 const SearchPage = () => {
   const [query, setQuery] = useState("");

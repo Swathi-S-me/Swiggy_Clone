@@ -1,6 +1,5 @@
 import { useState } from "react";
-
-import OtpVerify from "./OtpVerify";
+import OtpVerify from "./OtpVerify/OtpVerify";
 import { sendOtp, checkUserExists, signupUser } from "../Queries/auth.api"
 import { useMutation } from "@tanstack/react-query";
 import logo from "../assets/swiggy_logo.webp";

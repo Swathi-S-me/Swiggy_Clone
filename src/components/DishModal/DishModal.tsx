@@ -2,12 +2,7 @@ import Button from "../Button/Button";
 import Icon from "../Icons/Icon";
 import type { Dish } from "./dishModal.types";
 
-
-
 const DishModal = ({ dish, onClose }: { dish: Dish; onClose: () => void }) => {
- 
-
-
   return (
     <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
       <div className="bg-white rounded-2xl max-w-md w-full p-4 relative shadow-lg">
@@ -30,10 +25,10 @@ const DishModal = ({ dish, onClose }: { dish: Dish; onClose: () => void }) => {
           <div className="flex items-center justify-between mt-2">
             <div>
               <h2 className="text-xl font-bold">{dish.name}</h2>
-              <p className="text-lg font-semibold mt-1">Rs.{dish.price/100}</p>
+              <p className="text-lg font-semibold mt-1">
+                Rs.{dish.price / 100}
+              </p>
             </div>
-
-          
           </div>
 
           {dish.description && (

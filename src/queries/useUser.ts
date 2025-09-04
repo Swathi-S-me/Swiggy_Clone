@@ -1,12 +1,6 @@
 import { useQuery} from "@tanstack/react-query";
+import type { User } from "./hooks.types";
 
-interface User {
-  id: string;
-  phone: string;
-  name: string;
-  email: string;
-  role:string
-}
 
 const fetchUser = async (phone: string): Promise<User> => {
   const res = await fetch(`http://localhost:5000/users?phone=${phone}`);

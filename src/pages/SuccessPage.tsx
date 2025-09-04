@@ -4,7 +4,7 @@ import { clearCart } from "../redux/cart/cartSlice";
 import { Link } from "@tanstack/react-router";
 import Icon from "../components/Icons/Icon";
 
-const SuccessPage: React.FC = () => {
+const SuccessPage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -33,7 +33,6 @@ const SuccessPage: React.FC = () => {
           >
             Back to Home
           </Link>
-         
         </div>
       </div>
     </div>

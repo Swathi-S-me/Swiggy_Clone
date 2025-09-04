@@ -3,9 +3,9 @@ import Layout from "./Layout";
 
 
 import Home from "./pages/Home";
-import CollectionPage from "./pages/CollectionPage";
-import RestaurantMenuPage from "./pages/RestaurantMenuPage";
-import SearchDrawer from "./pages/Search";
+import CollectionPage from "./pages/CollectionPage/CollectionPage";
+import RestaurantMenuPage from "./pages/RestaurantMenuPage/RestaurantMenuPage";
+import SearchDrawer from "./pages/Search/Search";
 import CartPage from "./pages/CartPage";
 import HelpPage from "./pages/HelpPage";
 import Offers from "./pages/Offers";

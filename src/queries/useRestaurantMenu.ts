@@ -1,6 +1,6 @@
 
 import { useQuery } from "@tanstack/react-query";
-import type { RestaurantMenuResponse } from "../pages/restaurantMenuPage.types";
+import type { RestaurantMenuResponse } from "../pages/RestaurantMenuPage/restaurantMenuPage.types";
 
 
 const fetchRestaurantMenu = async (restaurantId: string): Promise<RestaurantMenuResponse> => {

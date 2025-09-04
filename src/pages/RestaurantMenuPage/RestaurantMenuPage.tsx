@@ -1,11 +1,10 @@
 import { useParams } from "@tanstack/react-router";
 import type { MenuItem, RestaurantInfo } from "./restaurantMenuPage.types";
 
-import Spinner from "../components/Spinner";
-import MenuAccordion from "../components/Accordion/Accordion";
-import { useRestaurantMenu } from "../Queries/useRestaurantMenu";
-import RestaurantInfoCard from "../components/RestaurantMenuCard/restaurantMenuCard";
-
+import Spinner from "../../components/Spinner";
+import MenuAccordion from "../../components/Accordion/Accordion";
+import { useRestaurantMenu } from "../../Queries/useRestaurantMenu";
+import RestaurantInfoCard from "../../components/RestaurantMenuCard/RestaurantMenuCard";
 
 const RestaurantMenuPage = () => {
   const { id } = useParams({ strict: false }) as { id: string };
@@ -15,7 +14,6 @@ const RestaurantMenuPage = () => {
     return (
       <div className="p-4 text-center">
         <Spinner />
-        
       </div>
     );
   if (error) return <div className="p-4 text-red-600">Error loading menu</div>;
@@ -46,10 +44,9 @@ const RestaurantMenuPage = () => {
 
   return (
     <div className="p-4 max-w-3xl mx-auto">
-     
-{restaurantInfo && <RestaurantInfoCard restaurantInfo={restaurantInfo} />}
+      {restaurantInfo && <RestaurantInfoCard restaurantInfo={restaurantInfo} />}
 
-      <MenuAccordion categorizedItems={categorizedItems}/>
+      <MenuAccordion categorizedItems={categorizedItems} />
     </div>
   );
 };
