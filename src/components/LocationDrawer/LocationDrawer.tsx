@@ -1,16 +1,45 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { userLocation } from "../../context/LocationContext";
-import type { LocationProps, RecentLocation } from "../LocationDrawer/locationDrawer.types";
+import type {
+  LocationProps,
+  RecentLocation,
+  Suggestion,
+} from "../LocationDrawer/locationDrawer.types";
 import Icon from "../Icons/Icon";
 import Button from "../Button/Button";
 import Input from "../InputField/Input";
 import useLocalStorage from "../../Queries/useLocalStorage";
 
-
 export default function LocationDrawer({ isOpen, onClose }: LocationProps) {
   const { setLocation } = userLocation();
   const [search, setSearch] = useState("");
-  const [recent, setRecent] = useLocalStorage<RecentLocation[]>("recent-locations", []);
+  const [recent, setRecent] = useLocalStorage<RecentLocation[]>(
+    "recent-locations",
+    []
+  );
+  const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
+
+  useEffect(() => {
+    const fetchSuggestions = async () => {
+      if (!search) {
+        setSuggestions([]);
+        return;
+      }
+      try {
+        const res = await fetch(
+          `http://localhost:5000/api/autocomplete?input=${search}`
+        );
+
+        const data = await res.json();
+        setSuggestions(data?.data || []);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    const timeout = setTimeout(fetchSuggestions, 400);
+    return () => clearTimeout(timeout);
+  }, [search]);
 
   const getCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition(
@@ -29,6 +58,27 @@ export default function LocationDrawer({ isOpen, onClose }: LocationProps) {
       },
       (err) => console.error(err)
     );
+  };
+
+  const handleSelectSuggestion = async (s: Suggestion) => {
+    try {
+      const res = await fetch(
+      `http://localhost:5000/api/place-details?place_id=${s.place_id}`
+    );
+
+      const data = await res.json();
+      const loc = {
+        lat: data?.data[0]?.geometry?.location?.lat,
+        lng: data?.data[0]?.geometry?.location?.lng,
+        address: s.description,
+      };
+
+      setLocation(loc);
+      setRecent([loc, ...recent.filter((r) => r.address !== loc.address)]);
+      onClose();
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const searchLocation = async () => {
@@ -68,9 +118,11 @@ export default function LocationDrawer({ isOpen, onClose }: LocationProps) {
             <Icon name="close" size={20} />
           </Button>
 
-          <h2 className="text-lg font-semibold mb-4 mt-5">Choose your location</h2>
+          <h2 className="text-lg font-semibold mb-4 mt-5">
+            Choose your location
+          </h2>
 
-          <div className="mt-3 w-full">
+          <div className="mt-3 w-full relative">
             <Input
               type="text"
               placeholder="Search for area, street..."
@@ -79,13 +131,27 @@ export default function LocationDrawer({ isOpen, onClose }: LocationProps) {
               className="w-full outline-none text-sm border border-gray-600 rounded-lg px-3 py-2"
             />
 
-            <Button
-              onClick={searchLocation}
-              className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2 mt-3 rounded-lg font-medium"
-            >
-              Search
-            </Button>
+            {suggestions.length > 0 && (
+              <div className="absolute bg-white border rounded-lg mt-1 w-full max-h-60 overflow-auto shadow-lg z-50">
+                {suggestions.map((s, idx) => (
+                  <div
+                    key={idx}
+                    onClick={() => handleSelectSuggestion(s)}
+                    className="p-2 cursor-pointer hover:bg-gray-100 text-sm"
+                  >
+                    {s.description}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
+
+          <Button
+            onClick={searchLocation}
+            className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2 mt-3 rounded-lg font-medium"
+          >
+            Search
+          </Button>
 
           <div className="my-5 flex items-center">
             <hr className="flex-grow border-gray-300" />

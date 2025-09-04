@@ -8,3 +8,11 @@ export interface RecentLocation {
   lng: number;
   address: string;
 }
+export type Suggestion = {
+  place_id: string;
+  description: string;
+  structured_formatting?: {
+    main_text: string;
+    secondary_text: string;
+  };
+};

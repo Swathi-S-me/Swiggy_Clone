@@ -271,8 +271,56 @@ app.post("/create-checkout-session", async (req, res) => {
 });
 
 
+app.get("/api/autocomplete", async (req, res) => {
+  const input = req.query.input;
+  if (!input) return res.status(400).json({ error: "Missing input query" });
 
+  try {
+    const response = await fetch(
+      `https://www.swiggy.com/dapi/misc/place-autocomplete?input=${encodeURIComponent(
+        input
+      )}`,
+      {
+        headers: {
+          "User-Agent":
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0 Safari/537.36",
+          Accept: "application/json, text/plain, */*",
+        },
+      }
+    );
 
+    const data = await response.json();
+    res.json(data);
+  } catch (err) {
+    console.error("Autocomplete error:", err);
+    res.status(500).json({ error: "Failed to fetch autocomplete" });
+  }
+});
+
+// 🔹 Place details endpoint
+app.get("/api/place-details", async (req, res) => {
+  const placeId = req.query.place_id;
+  if (!placeId) return res.status(400).json({ error: "Missing place_id" });
+
+  try {
+    const response = await fetch(
+      `https://www.swiggy.com/dapi/misc/address-recommend?place_id=${placeId}`,
+      {
+        headers: {
+          "User-Agent":
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0 Safari/537.36",
+          Accept: "application/json, text/plain, */*",
+        },
+      }
+    );
+
+    const data = await response.json();
+    res.json(data);
+  } catch (err) {
+    console.error("Place details error:", err);
+    res.status(500).json({ error: "Failed to fetch place details" });
+  }
+});
 
 
 
