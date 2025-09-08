@@ -1,11 +1,13 @@
 import { useSelector, useDispatch } from "react-redux";
 import { type RootState } from "../redux/store";
 import { increaseQty, decreaseQty } from "../redux/cart/cartSlice";
-import Checkout from "../components/Checkout";
+
 import Icon from "../components/Icons/Icon";
 import Button from "../components/Button/Button";
+import { lazy } from "react";
+const Checkout = lazy(() => import("../components/Checkout"));
 
-const CartPage: React.FC = () => {
+const CartPage = () => {
   const cart = useSelector((state: RootState) => state.cart.cart);
   const dispatch = useDispatch();
 
@@ -21,19 +23,15 @@ const CartPage: React.FC = () => {
     return (
       <div className="flex flex-col items-center justify-center py-20 px-4 text-center min-h-[70vh]">
         <div className="w-24 h-24 flex items-center justify-center rounded-full bg-orange-100 mb-6">
-          <Icon
-            name="cart"
-            size={20}
-            className="text-orange-500 w-12 h-12"
-          />
+          <Icon name="cart" size={20} className="text-orange-500 w-12 h-12" />
         </div>
 
         <h2 className="text-2xl font-semibold text-gray-800">
           Your cart is empty
         </h2>
         <p className="text-gray-500 mt-2 max-w-sm">
-          Looks like you haven’t added anything yet. Add delicious items
-          from the menu to get started.
+          Looks like you haven’t added anything yet. Add delicious items from
+          the menu to get started.
         </p>
 
         <Button

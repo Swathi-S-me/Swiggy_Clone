@@ -1,15 +1,19 @@
-import { createRootRoute, createRoute, createRouter } from "@tanstack/react-router";
+import {
+  createRootRoute,
+  createRoute,
+  createRouter,
+  lazyRouteComponent,
+} from "@tanstack/react-router";
 import Layout from "./Layout";
 
-
-import Home from "./pages/Home";
-import CollectionPage from "./pages/CollectionPage/CollectionPage";
-import RestaurantMenuPage from "./pages/RestaurantMenuPage/RestaurantMenuPage";
-import SearchDrawer from "./pages/Search/Search";
-import CartPage from "./pages/CartPage";
-import HelpPage from "./pages/HelpPage";
-import Offers from "./pages/Offers";
-import SuccessPage from "./pages/SuccessPage";
+const Home = lazyRouteComponent(() => import("./pages/Home"));
+const CollectionPage = lazyRouteComponent(() => import("./pages/CollectionPage/CollectionPage"));
+const RestaurantMenuPage = lazyRouteComponent(() => import("./pages/RestaurantMenuPage/RestaurantMenuPage"));
+const SearchDrawer = lazyRouteComponent(() => import("./pages/Search/Search"));
+const CartPage = lazyRouteComponent(() => import("./pages/CartPage"));
+const SuccessPage = lazyRouteComponent(() => import("./pages/SuccessPage"));
+const HelpPage = lazyRouteComponent(() => import("./pages/HelpPage"));
+const Offers = lazyRouteComponent(() => import("./pages/Offers"));
 
 const rootRoute = createRootRoute({
   component: Layout,
@@ -30,7 +34,6 @@ const restaurantMenu = createRoute({
   path: "/restaurant/$id",
   component: RestaurantMenuPage,
 });
-
 
 const searchRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -61,7 +64,14 @@ const OffersRoute = createRoute({
 });
 
 export const routeTree = rootRoute.addChildren([
-  homeRoute,collectionRoute,restaurantMenu,searchRoute,cartRoute,HelpRoute,OffersRoute,successRoute
+  homeRoute,
+  collectionRoute,
+  restaurantMenu,
+  searchRoute,
+  cartRoute,
+  HelpRoute,
+  OffersRoute,
+  successRoute,
 ]);
 
 export const router = createRouter({ routeTree });

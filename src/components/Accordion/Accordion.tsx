@@ -50,7 +50,7 @@ const MenuAccordion = ({ categorizedItems }: MenuProps) => {
   return (
     <div className="max-w-3xl mx-auto">
       {categorizedItems.map((category) => (
-        <div key={category.title} className="mb-6  rounded-lg shadow-sm ">
+        <div key={category.title} className="mb-6   ">
           <Button
             onClick={() => toggleCategory(category.title)}
             className="w-full flex justify-between items-center p-4 text-left font-bold text-lg bg-gray-100 hover:bg-gray-200 transition"
@@ -70,7 +70,7 @@ const MenuAccordion = ({ categorizedItems }: MenuProps) => {
               {category.items.map((item) => (
                 <div
                   key={item.id}
-                  className="flex justify-between border-b  pb-10 gap-4"
+                  className="flex justify-between pb-6 gap-4 border-b border-gray-200 last:border-b-0"
                 >
                   <div className="flex-1">
                     <h4 className="text-lg font-semibold">{item.name}</h4>
@@ -94,11 +94,11 @@ const MenuAccordion = ({ categorizedItems }: MenuProps) => {
                   </div>
 
                   {item.imageId && (
-                    <div className="w-28 relative">
+                    <div className="w-40 relative">
                       <img
                         src={`https://media-assets.swiggy.com/swiggy/image/upload/${item.imageId}`}
                         alt={item.name}
-                        className="w-full h-24 object-cover rounded-lg"
+                        className="w-full h-40 object-cover rounded-lg"
                       />
 
                       {cartItems.some((cartItem) => cartItem.id === item.id) ? (

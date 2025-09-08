@@ -19,8 +19,8 @@ const Card: React.FC<CardProps> = ({ rest, variant = "grid" }) => {
         className="w-full h-40 object-cover rounded-2xl mb-2"
       />
 
-      <h3 className="text-lg font-bold mb-1 text-gray-900 truncate">
-        {info.name}
+      <h3 className="text-lg font-bold mb-1 text-gray-900 ">
+        {info.name.length>20? info.name.slice(0,25)+"...":info.name}
       </h3>
 
       <p className="text-sm font-bold flex items-center gap-1 text-gray-950">
