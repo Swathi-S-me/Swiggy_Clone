@@ -53,7 +53,7 @@ const MenuAccordion = ({ categorizedItems }: MenuProps) => {
         <div key={category.title} className="mb-6   ">
           <Button
             onClick={() => toggleCategory(category.title)}
-            className="w-full flex justify-between items-center p-4 text-left font-bold text-lg bg-gray-100 hover:bg-gray-200 transition"
+            className="w-full cursor-pointer flex justify-between items-center p-4 text-left font-bold text-lg bg-gray-100 hover:bg-gray-200 transition"
           >
             {category.title}
             <span>
@@ -70,7 +70,7 @@ const MenuAccordion = ({ categorizedItems }: MenuProps) => {
               {category.items.map((item) => (
                 <div
                   key={item.id}
-                  className="flex justify-between pb-6 gap-4 border-b border-gray-200 last:border-b-0"
+                  className="flex cursor-pointer justify-between pb-6 gap-4 border-b border-gray-200 last:border-b-0"
                 >
                   <div className="flex-1">
                     <h4 className="text-lg font-semibold">{item.name}</h4>
@@ -105,7 +105,7 @@ const MenuAccordion = ({ categorizedItems }: MenuProps) => {
                         <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 flex items-center bg-white rounded shadow">
                           <Button
                             onClick={() => dispatch(decreaseQty(item.id))}
-                            className="px-3 py-1 text-lg font-bold text-green-600"
+                            className="cursor-pointer px-3 py-1 text-lg font-bold text-green-600"
                           >
                             -
                           </Button>
@@ -116,7 +116,7 @@ const MenuAccordion = ({ categorizedItems }: MenuProps) => {
                           </span>
                           <Button
                             onClick={() => dispatch(increaseQty(item.id))}
-                            className="px-3 py-1 text-lg font-bold text-green-600"
+                            className="cursor-pointer px-3 py-1 text-lg font-bold text-green-600"
                           >
                             +
                           </Button>
@@ -127,7 +127,7 @@ const MenuAccordion = ({ categorizedItems }: MenuProps) => {
                             handleAddToCart(item);
                             toast.success("Item added to cart");
                           }}
-                          className="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-white border border-gray-300 text-green-600 font-semibold px-4 py-1 rounded shadow"
+                          className="cursor-pointer absolute -bottom-1 left-1/2 -translate-x-1/2 bg-white border border-gray-300 text-green-600 font-semibold px-4 py-1 rounded shadow"
                         >
                           ADD
                         </Button>

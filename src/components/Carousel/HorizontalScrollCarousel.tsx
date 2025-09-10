@@ -44,7 +44,7 @@ const HorizontalScrollCarousel = <T,>({
         <div className="flex items-center gap-0">
           <Button
             onClick={() => scroll("left")}
-            className="bg-white shadow-md p-2 rounded-full"
+            className="bg-white shadow-md p-2 rounded-full cursor-pointer"
           >
             <Icon name="left" size={18} />
           </Button>

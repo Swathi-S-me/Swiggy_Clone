@@ -32,13 +32,13 @@ const LogoutModal: React.FC<LogoutModalProps> = ({
         <div className="flex justify-center gap-3">
           <Button
             onClick={onClose}
-            className="px-4 py-2 rounded-xl border border-gray-300 text-gray-600 hover:bg-gray-100 transition"
+            className="cursor-pointer px-4 py-2 rounded-xl border border-gray-300 text-gray-600 hover:bg-gray-100 transition"
           >
             Cancel
           </Button>
           <Button
             onClick={onLogout}
-            className="px-4 py-2 rounded-xl bg-orange-500 text-white hover:bg-orange-600 shadow-md transition"
+            className="cursor-pointer px-4 py-2 rounded-xl bg-orange-500 text-white hover:bg-orange-600 shadow-md transition"
           >
             Logout
           </Button>

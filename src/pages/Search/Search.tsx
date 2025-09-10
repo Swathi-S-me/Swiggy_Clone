@@ -78,7 +78,7 @@ const SearchPage = () => {
         <div className="flex gap-3 mb-6">
           <Button
             onClick={() => setActiveTab("restaurants")}
-            className={`px-5 py-2 rounded-full border ${
+            className={`cursor-pointer px-5 py-2 rounded-full border ${
               activeTab === "restaurants"
                 ? "bg-black text-white"
                 : "bg-gray-100 text-gray-600"
@@ -88,7 +88,7 @@ const SearchPage = () => {
           </Button>
           <Button
             onClick={() => setActiveTab("dishes")}
-            className={`px-5 py-2 rounded-full border ${
+            className={`cursor-pointer px-5 py-2 rounded-full border ${
               activeTab === "dishes"
                 ? "bg-black text-white"
                 : "bg-gray-100 text-gray-600"
@@ -115,9 +115,7 @@ const SearchPage = () => {
                   key={dish.id}
                   className="relative p-10 rounded-2xl shadow-sm bg-white hover:shadow-md transition"
                 >
-                  <span className="absolute top-4 right-4 text-gray-400">
-                    ➝
-                  </span>
+                 
 
                   {restaurant && (
                     <div className="mb-3 text-sm text-gray-600">
@@ -139,7 +137,7 @@ const SearchPage = () => {
                       )}
 
                       <button
-                        className="mt-2 px-3 py-1 text-sm border rounded-full hover:bg-gray-50"
+                        className="cursor-pointer mt-2 px-3 py-1 text-sm border rounded-full hover:bg-gray-50"
                         onClick={() =>
                           setSelectedDish({
                             id: dish.id,
@@ -153,7 +151,7 @@ const SearchPage = () => {
                           })
                         }
                       >
-                        More Details →
+                        More Details 
                       </button>
                     </div>
 
@@ -169,14 +167,14 @@ const SearchPage = () => {
                           <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 flex items-center bg-white rounded shadow">
                             <Button
                               onClick={() => dispatch(decreaseQty(dish.id))}
-                              className="px-3 py-1 text-lg font-bold text-green-600"
+                              className="cursor-pointer px-3 py-1 text-lg font-bold text-green-600"
                             >
                               -
                             </Button>
                             <span className="px-2">{inCart.quantity}</span>
                             <Button
                               onClick={() => dispatch(increaseQty(dish.id))}
-                              className="px-3 py-1 text-lg font-bold text-green-600"
+                              className="cursor-pointer px-3 py-1 text-lg font-bold text-green-600"
                             >
                               +
                             </Button>
@@ -197,7 +195,7 @@ const SearchPage = () => {
                               );
                               toast.success("Item added to cart");
                             }}
-                            className="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-white text-green-600 font-semibold text-sm px-4 py-1 rounded shadow"
+                            className="cursor-pointer absolute -bottom-1 left-1/2 -translate-x-1/2 bg-white text-green-600 font-semibold text-sm px-4 py-1 rounded shadow"
                           >
                             ADD
                           </Button>

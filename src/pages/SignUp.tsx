@@ -65,7 +65,7 @@ const Signup = () => {
       />
       <Button
         onClick={handleContinue}
-        className="bg-orange-500 text-white w-full py-2 rounded"
+        className="cursor-pointer bg-orange-500 text-white w-full py-2 rounded"
       >
         CONTINUE
       </Button>

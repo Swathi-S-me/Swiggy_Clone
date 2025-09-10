@@ -34,7 +34,7 @@ const { user } = useAuth();
   return (
     <Button
       onClick={handleCheckout}
-       className="w-full mt-5 bg-orange-500 text-white py-3 rounded-lg font-semibold"
+       className="cursor-pointer w-full mt-5 bg-orange-500 text-white py-3 rounded-lg font-semibold"
      >
       Proceed to pay
     </Button>

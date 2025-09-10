@@ -47,12 +47,12 @@ const FoodCategoryCarousel: React.FC = () => {
         <Button
           key={item.id}
           onClick={() => handleClick(item)}
-          className="flex-shrink-0"
+          className="flex-shrink-0 cursor-pointer"
         >
           <img
             src={`https://media-assets.swiggy.com/${item.imageId}`}
             alt={item.accessibility.altText}
-            className="w-40 h-40 object-cover hover:scale-105 transition-transform"
+            className="w-40 h-40 object-cover hover:scale-105 transition-transform cursor-pointer"
           />
         </Button>
       )}

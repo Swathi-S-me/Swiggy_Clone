@@ -65,7 +65,7 @@ export const FilterModal: React.FC<FilterModalProps> = ({
     <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center">
       <div className="bg-white w-full max-w-2xl h-[60vh] rounded-lg shadow-lg flex relative">
         <div className="w-1/3 border-r p-6 overflow-y-auto">
-          <h2 className="text-xl font-semibold mb-4">Filters</h2>
+          <h2 className=" cursor-pointer text-xl font-semibold mb-4">Filters</h2>
           {["Ratings", "Sort by", "Cuisine", "Cost for Two"].map((label) => (
             <div
               key={label}
@@ -82,7 +82,7 @@ export const FilterModal: React.FC<FilterModalProps> = ({
         <div className="w-2/3 p-6 flex flex-col relative">
           <Button
             onClick={onClose}
-            className="absolute top-4 right-4 text-2xl text-gray-600 hover:text-black"
+            className="cursor-pointer absolute top-4 right-4 text-2xl text-gray-600 hover:text-black"
             aria-label="Close filter modal"
           >
             <Icon name="close" size={12} />
@@ -124,7 +124,7 @@ export const FilterModal: React.FC<FilterModalProps> = ({
 
           <div className="flex justify-end gap-3 pt-6">
             <Button
-              className={`px-4 py-2 border rounded ${
+              className={`cursor-pointer px-4 py-2 border rounded ${
                 isAnyFilterSelected
                   ? "border-gray-300 text-gray-700"
                   : "border-gray-200 text-gray-400 cursor-not-allowed"
@@ -135,7 +135,7 @@ export const FilterModal: React.FC<FilterModalProps> = ({
               Clear Filters
             </Button>
             <Button
-              className={`px-4 py-2 rounded text-white ${
+              className={`cursor-pointer px-4 py-2 rounded text-white ${
                 isAnyFilterSelected
                   ? "bg-orange-500 hover:bg-orange-600"
                   : "bg-orange-200 cursor-not-allowed"

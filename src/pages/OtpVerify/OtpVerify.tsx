@@ -58,7 +58,7 @@ const OtpVerify = ({ phone, onSuccess }: OtpVerifyProps) => {
       <Button
         onClick={handleVerify}
         disabled={verifyOtpMutation.isPending}
-        className="flex flex-row bg-green-600 hover:bg-green-700 text-white px-2 py-2 rounded disabled:opacity-50"
+        className="cursor-pointer flex flex-row bg-green-600 hover:bg-green-700 text-white px-2 py-2 rounded disabled:opacity-50"
       >
         {verifyOtpMutation.isPending ? "Verifying..." : "Verify OTP"}
       </Button>

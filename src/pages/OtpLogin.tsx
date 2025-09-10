@@ -51,7 +51,7 @@ const AuthFlow = ({ onClose }: { onClose: () => void }) => {
           </h2>
           <button
             onClick={() => setMode(mode === "login" ? "signup" : "login")}
-            className="text-sm text-orange-600 font-bold"
+            className="cursor-pointer text-sm text-orange-600 font-bold"
           >
             {mode === "login"
               ? "or create an account"
@@ -98,7 +98,7 @@ const AuthFlow = ({ onClose }: { onClose: () => void }) => {
           <Button
             onClick={mode === "login" ? handleLogin : handleSignup}
             disabled={otpLoading || signupLoading}
-            className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded"
+            className="cursor-pointer w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded"
           >
             {mode === "login"
               ? otpLoading

@@ -123,7 +123,7 @@ const AllRestaurantsSection: React.FC = () => {
       <div className="flex flex-wrap items-center gap-3 mb-4">
         <Button
           onClick={() => setIsFilterOpen(true)}
-          className="border border-black px-3 py-1 rounded-full text-sm hover:bg-gray-100 transition"
+          className="cursor-pointer border border-black px-3 py-1 rounded-full text-sm hover:bg-gray-100 transition"
         >
           Filter
         </Button>
@@ -132,7 +132,7 @@ const AllRestaurantsSection: React.FC = () => {
           <button
             key={cost.id}
             onClick={() => toggleFilter("Cost for Two", cost.value)}
-            className={`border rounded-full px-3 py-1 text-sm transition ${
+            className={`cursor-pointer border rounded-full px-3 py-1 text-sm transition ${
               appliedFilters["Cost for Two"] === cost.value
                 ? "bg-gray-300"
                 : "hover:bg-gray-100"

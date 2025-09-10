@@ -106,14 +106,14 @@ export default function LocationDrawer({ isOpen, onClose }: LocationProps) {
   return (
     <>
       <div
-        className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+        className="cursor-pointer fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
         onClick={onClose}
       ></div>
       <div className="fixed top-0 left-0 w-150 h-full bg-white shadow-lg z-50 overflow-auto animate-slideIn">
         <div className="relative p-6 ml-30 mr-10">
           <Button
             onClick={onClose}
-            className="absolute top-10 right-4 text-gray-500 hover:text-gray-700"
+            className="cursor-pointer absolute top-10 right-4 text-gray-500 hover:text-gray-700"
           >
             <Icon name="close" size={20} />
           </Button>
@@ -148,7 +148,7 @@ export default function LocationDrawer({ isOpen, onClose }: LocationProps) {
 
           <Button
             onClick={searchLocation}
-            className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2 mt-3 rounded-lg font-medium"
+            className="cursor-pointer w-full bg-orange-500 hover:bg-orange-600 text-white py-2 mt-3 rounded-lg font-medium"
           >
             Search
           </Button>
@@ -161,7 +161,7 @@ export default function LocationDrawer({ isOpen, onClose }: LocationProps) {
 
           <Button
             onClick={getCurrentLocation}
-            className="w-full border border-gray-600 rounded-lg py-3 flex items-center justify-center gap-2 hover:bg-gray-50 font-medium"
+            className="cursor-pointer w-full border border-gray-600 rounded-lg py-3 flex items-center justify-center gap-2 hover:bg-gray-50 font-medium"
           >
             <Icon name="location" size={16} />
             Get current location

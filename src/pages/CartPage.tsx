@@ -36,7 +36,7 @@ const CartPage = () => {
 
         <Button
           onClick={() => (window.location.href = "/")}
-          className="mt-6 px-6 py-2 bg-orange-500 text-white rounded-xl shadow-md hover:bg-orange-600 transition"
+          className="cursor-pointer mt-6 px-6 py-2 bg-orange-500 text-white rounded-xl shadow-md hover:bg-orange-600 transition"
         >
           Browse Restaurants
         </Button>
@@ -70,14 +70,14 @@ const CartPage = () => {
               <div className="flex items-center border rounded-md overflow-hidden">
                 <button
                   onClick={() => dispatch(decreaseQty(item.id))}
-                  className="px-3 py-1 text-gray-700 hover:bg-gray-100"
+                  className="cursor-pointer px-3 py-1 text-gray-700 hover:bg-gray-100"
                 >
                   -
                 </button>
                 <span className="px-3 font-medium">{item.quantity}</span>
                 <button
                   onClick={() => dispatch(increaseQty(item.id))}
-                  className="px-3 py-1 text-gray-700 hover:bg-gray-100"
+                  className="cursor-pointer px-3 py-1 text-gray-700 hover:bg-gray-100"
                 >
                   +
                 </button>

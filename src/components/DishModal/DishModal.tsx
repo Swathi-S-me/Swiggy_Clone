@@ -26,7 +26,7 @@ const DishModal = ({ dish, onClose }: { dish: Dish; onClose: () => void }) => {
             <div>
               <h2 className="text-xl font-bold">{dish.name}</h2>
               <p className="text-lg font-semibold mt-1">
-                Rs.{dish.price / 100}
+                Rs.{dish.price}
               </p>
             </div>
           </div>
